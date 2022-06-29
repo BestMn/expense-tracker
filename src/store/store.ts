@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import reducer from "./reducers/categoriesReducer";
+import { reducer as categoriesReducer } from "./reducers/categoriesReducer";
+import { reducer as expensesReducer } from "./reducers/expensesReducer";
 
 const store = configureStore({
-    reducer,
+    reducer: { categoriesReducer, expensesReducer },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             immutableCheck: true,

@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "./ExpensePage.css";
 import { Link } from "react-router-dom";
+import CategoriesList from "../Components/CategoiesList/CategoriesList";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -30,7 +31,7 @@ function getItem(
     } as MenuItem;
 }
 
-const items: MenuItem[] = [
+const menuItems: MenuItem[] = [
     getItem(<Link to="/">Dashboard</Link>, "1", <PieChartOutlined />),
     getItem(<Link to="/expenses">Expenses</Link>, "2", <DesktopOutlined />),
     getItem("User", "sub1", <UserOutlined />, [
@@ -60,12 +61,13 @@ const ExpensesPage: React.FC = () => {
                     theme="dark"
                     defaultSelectedKeys={["2"]}
                     mode="inline"
-                    items={items}
+                    items={menuItems}
                 />
             </Sider>
             <Layout className="site-layout">
                 <Content style={{ margin: "0 16px" }}>
-                    <Row>
+                    <CategoriesList editable={true} />
+                    {/* <Row>
                         <Col span={2}>
                             <div className={"expense-item"}></div>
                         </Col>
@@ -78,7 +80,7 @@ const ExpensesPage: React.FC = () => {
                         <Col span={6}>col-6</Col>
                         <Col span={6}>col-6</Col>
                         <Col span={6}>col-6</Col>
-                    </Row>
+                    </Row> */}
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
                     Ant Design ©2018 Created by Ant UED
