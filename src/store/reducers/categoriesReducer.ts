@@ -12,7 +12,10 @@ interface ICategoryState {
 }
 
 const initialState: ICategoryState = {
-    categories: [{ id: 1, name: "Food", icon: "table", color: "red" }],
+    categories: [
+        { id: 1, name: "Food", icon: "table", color: "red" },
+        { id: 2, name: "Car", icon: "table", color: "blue" },
+    ],
 };
 
 const categoriesSlice = createSlice({
@@ -21,10 +24,10 @@ const categoriesSlice = createSlice({
     reducers: {
         createNewCategory(state) {
             state.categories.push({
-                id: 2,
-                name: "Food",
+                id: 3,
+                name: "Cat",
                 icon: "table",
-                color: "red",
+                color: "green",
             });
         },
     },

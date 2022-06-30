@@ -1,7 +1,8 @@
 import React from "react";
 import { EnvironmentOutlined } from "@ant-design/icons";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { useSelector, useDispatch } from "react-redux";
+import { createNewCategory } from "../../store/reducers/categoriesReducer";
+import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
 
 type Category = {
     id: number;
@@ -10,19 +11,21 @@ type Category = {
     color: string;
 };
 
-const CategoriesList = ({
-    editable,
-    categories,
-}: {
-    editable: boolean;
-    categories: Array<Category>;
-}) => {
-    console.log(categories);
+const CategoriesList = ({ editable }: { editable: boolean }) => {
+    const categories = useSelector(
+        (state: any) => state.categoriesReducer.categories
+    );
+
+    const dispatch = useDispatch();
 
     const edit = editable ? <span>edit</span> : null;
 
     const addCategory = editable ? (
-        <div className="expense-item" onClick={() => {}}></div>
+        // <div
+        //     className="expense-item"
+        //     onClick={() => dispatch(createNewCategory())}
+        // ></div>
+        <CreateCategoryForm />
     ) : null;
 
     const items = categories.map((item: any) => {
@@ -54,10 +57,4 @@ const CategoriesList = ({
     );
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        categories: state.categories,
-    };
-};
-
-export default connect(mapStateToProps)(CategoriesList);
+export default CategoriesList;
