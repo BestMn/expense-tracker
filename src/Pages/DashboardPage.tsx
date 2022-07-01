@@ -11,6 +11,8 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import { Link } from "react-router-dom";
 
+import DonutPlot from "../Components/DonutPlot/DonutPlot";
+
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -65,10 +67,10 @@ const DashboardPage: React.FC = () => {
             <Layout className="site-layout">
                 <Content style={{ margin: "0 16px" }}>
                     <Row>
-                        <Col span={6}>col-6</Col>
-                        <Col span={6}>col-6</Col>
-                        <Col span={6}>col-6</Col>
-                        <Col span={6}>col-6</Col>
+                        <Col span={12}>
+                            <DonutPlot />
+                        </Col>
+                        <Col span={12}>col-6</Col>
                     </Row>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
