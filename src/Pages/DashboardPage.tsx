@@ -9,9 +9,11 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, Col, Row } from "antd";
 import React, { useState } from "react";
 import "antd/dist/antd.css";
+import "./DashboardPage.css";
 import { Link } from "react-router-dom";
 
 import DonutPlotContainer from "../Components/DonutPlot/DonutPlotContainer";
+import ColumnsContainer from "../Components/Columns/ColumnsContainer";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -68,9 +70,15 @@ const DashboardPage: React.FC = () => {
                 <Content style={{ margin: "0 16px" }}>
                     <Row>
                         <Col span={12}>
-                            <DonutPlotContainer />
+                            <div className="dashboard-block">
+                                <DonutPlotContainer />
+                            </div>
                         </Col>
-                        <Col span={12}>col-6</Col>
+                        <Col span={12}>
+                            <div className="dashboard-block">
+                                <ColumnsContainer />
+                            </div>
+                        </Col>
                     </Row>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>

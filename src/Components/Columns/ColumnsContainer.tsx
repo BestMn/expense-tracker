@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import DonutPlot from "./DonutPlot";
+import Columns from "./Columns";
 
-const DonutPlotContainer = () => {
+const ColumnsPlotContainer = () => {
     const expenses = useSelector(
         (state: any) => state.expensesReducer.expenses
     );
@@ -13,10 +13,15 @@ const DonutPlotContainer = () => {
 
     const data = expenses.map((el) => {
         const color = categories.find((elem) => elem.id === el.categoryId);
-        return { color: color.color, value: el.value, type: el.id };
+        return {
+            color: color.color,
+            value: el.value,
+            type: el.id,
+            date: el.date.toISOString().slice(0, 10),
+        };
     });
 
-    return <DonutPlot data={data} />;
+    return <Columns data={data} />;
 };
 
-export default DonutPlotContainer;
+export default ColumnsPlotContainer;
