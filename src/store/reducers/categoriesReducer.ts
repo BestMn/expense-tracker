@@ -15,6 +15,8 @@ const initialState: ICategoryState = {
     categories: [
         { id: 1, name: "Food", icon: "table", color: "red" },
         { id: 2, name: "Car", icon: "table", color: "blue" },
+        { id: 3, name: "House", icon: "table", color: "green" },
+        { id: 4, name: "Other", icon: "table", color: "black" },
     ],
 };
 

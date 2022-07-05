@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import { Link } from "react-router-dom";
 
-import DonutPlot from "../Components/DonutPlot/DonutPlot";
+import DonutPlotContainer from "../Components/DonutPlot/DonutPlotContainer";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -68,7 +68,7 @@ const DashboardPage: React.FC = () => {
                 <Content style={{ margin: "0 16px" }}>
                     <Row>
                         <Col span={12}>
-                            <DonutPlot />
+                            <DonutPlotContainer />
                         </Col>
                         <Col span={12}>col-6</Col>
                     </Row>

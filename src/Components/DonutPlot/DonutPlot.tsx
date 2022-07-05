@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Pie, measureTextWidth } from "@ant-design/plots";
 
-const DonutPlot = () => {
+const DonutPlot = ({ data }) => {
     function renderStatistic(containerWidth, text, style) {
         const { width: textWidth, height: textHeight } = measureTextWidth(
             text,
@@ -32,50 +32,16 @@ const DonutPlot = () => {
         };">${text}</div>`;
     }
 
-    const expenses = useSelector(
-        (state: any) => state.expensesReducer.expenses
-    );
-
-    const data = expenses.map((el) => {
-        return { type: el.id, value: el.value };
-    });
-
-    // const data = [
-    //     {
-    //         type: "Seed",
-    //         value: 27,
-    //     },
-    //     {
-    //         type: "Meat",
-    //         value: 25,
-    //     },
-    //     {
-    //         type: "Wheat",
-    //         value: 18,
-    //     },
-    //     {
-    //         type: "Weed",
-    //         value: 15,
-    //     },
-    //     {
-    //         type: "Need",
-    //         value: 10,
-    //     },
-    //     {
-    //         type: "Lead",
-    //         value: 5,
-    //     },
-    // ];
     const config = {
+        legend: {
+            position: "right",
+        },
         appendPadding: 10,
         data,
+        colorField: "color",
         angleField: "value",
-        colorField: "type",
-        color: ({ type }) => {
-            if (type === "Lead") {
-                return "red";
-            }
-            return "yellow";
+        color: ({ color }) => {
+            return color;
         },
         radius: 1,
         innerRadius: 0.64,
@@ -83,6 +49,7 @@ const DonutPlot = () => {
             value: {
                 formatter: (v) => `${v} ¥`,
             },
+            type: "type",
         },
         label: {
             type: "inner",
