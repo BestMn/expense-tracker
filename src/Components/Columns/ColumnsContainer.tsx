@@ -18,7 +18,7 @@ const ColumnsPlotContainer = () => {
             color: color.color,
             value: el.value,
             type: el.id,
-            date: el.date.toISOString().slice(0, 10),
+            date: el.date,
         };
     });
 

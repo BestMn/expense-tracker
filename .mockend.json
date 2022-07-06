@@ -1,5 +1,41 @@
 {
-  "User": {
-    "title": { "string": {} }
-  }
+    "User": {
+        "name": { "string": "BestM" },
+        "categoies": {
+            "array": [
+                { "id": 1, "name": "Food", "icon": "table", "color": "red" },
+                { "id": 2, "name": "Car", "icon": "table", "color": "blue" },
+                { "id": 3, "name": "House", "icon": "table", "color": "green" },
+                { "id": 4, "name": "Other", "icon": "table", "color": "grey" }
+            ]
+        },
+        "expenses": {
+            "array": [
+                {
+                    "id": "epx-1",
+                    "date": "2022-06-19T23:15:30.000Z",
+                    "value": 300,
+                    "categoryId": 1
+                },
+                {
+                    "id": "epx-2",
+                    "date": "2022-06-25T23:15:30.000Z",
+                    "value": 150,
+                    "categoryId": 2
+                },
+                {
+                    "id": "epx-3",
+                    "date": "2022-07-03T23:15:30.000Z",
+                    "value": 100,
+                    "categoryId": 3
+                },
+                {
+                    "id": "epx-4",
+                    "date": "2022-07-06T23:15:30.000Z",
+                    "value": 80,
+                    "categoryId": 4
+                }
+            ]
+        }
+    }
 }
