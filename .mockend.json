@@ -1,20 +1,5 @@
 {
-    "Category": {
-        "id": "number",
-        "name": "string",
-        "icon": "string",
-        "color": "string"
-    },
-    "Expenses": {
-        "id": "number",
-        "date": "string",
-        "value": "number",
-        "categoryId": "number"
-    },
-    "User": {
-        "id": "number",
-        "name": "string",
-        "categoies": { "hasMany": "Category" },
-        "expenses": { "hasMany": "Expenses" }
-    }
+  "User": {
+    "title": { "string": {} }
+  }
 }
