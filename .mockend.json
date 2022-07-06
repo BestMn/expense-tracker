@@ -12,8 +12,8 @@
         "categoryId": "number"
     },
     "User": {
-        "id": { "number": {} },
-        "name": { "string": {} },
+        "id": "number",
+        "name": "string",
         "categoies": { "hasMany": "Category" },
         "expenses": { "hasMany": "Expenses" }
     }
