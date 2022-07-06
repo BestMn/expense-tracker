@@ -1,20 +1,8 @@
 {
-  "Post": {
-    "title": {"string": [
-      "Thor",
-      "Loki"
-    ]},
-    "comments": {
-      "hasMany": "Comment"
-    }
-  },
-  "Comment": {
-    "body": {"string": [
-      "Hello",
-      "1235"
-    ]},
-    "post": {
-      "belongsTo": "Post"
-    }
-  }
+    "Category": [
+        {"id": "number"},
+        {"name": "string"},
+        {"icon": "string"},
+        {"color": "string"}
+    ]
 }
