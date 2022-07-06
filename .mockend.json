@@ -1,5 +1,6 @@
 {
     "User": {
+        "id": { "number": 1},
         "name": { "string": "BestM" },
         "categoies": {
             "array": [
