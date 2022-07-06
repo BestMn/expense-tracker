@@ -9,7 +9,10 @@
     }
   },
   "Comment": {
-    "body": { "string": {} },
+    "body": {"string": [
+      "Hello",
+      "1235"
+    ]},
     "post": {
       "belongsTo": "Post"
     }
