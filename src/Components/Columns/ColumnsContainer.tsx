@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Segmented } from "antd";
 import Columns from "./Columns";
 
 const ColumnsPlotContainer = () => {
@@ -21,7 +22,18 @@ const ColumnsPlotContainer = () => {
         };
     });
 
-    return <Columns data={data} />;
+    return (
+        <React.Fragment>
+            <Segmented
+                options={["Weekly", "Monthly", "Quarterly", "Yearly"]}
+                defaultValue={"Weekly"}
+                onChange={(value) => {
+                    console.log(value);
+                }}
+            />
+            <Columns data={data} />
+        </React.Fragment>
+    );
 };
 
 export default ColumnsPlotContainer;
