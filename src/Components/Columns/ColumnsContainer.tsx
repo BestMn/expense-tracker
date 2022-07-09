@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Segmented } from "antd";
 import Columns from "./Columns";
+import moment from "moment";
 
 const ColumnsPlotContainer = () => {
     const expenses = useSelector(
         (state: any) => state.expensesReducer.expenses
     );
 
-    const categories = useSelector(
-        (state: any) => state.categoriesReducer.categories
-    );
+    const allDates = expenses.map((elem) => {
+        return elem.date;
+    });
+    const uniqueDates = Array.from(new Set(allDates));
 
-    const data = expenses.map((el) => {
-        const color = categories.find((elem) => elem.id === el.categoryId);
+    const preparedData = uniqueDates.map((elem) => {
+        let accum = 0;
+        expenses.reduce((prev, curr) => {
+            if (curr.date == elem) {
+                accum += curr.value;
+            }
+        }, accum);
         return {
-            color: color.color,
-            value: el.value,
-            type: el.id,
-            date: el.date,
+            date: elem,
+            value: accum,
         };
     });
 
@@ -31,7 +36,7 @@ const ColumnsPlotContainer = () => {
                     console.log(value);
                 }}
             />
-            <Columns data={data} />
+            <Columns data={preparedData} />
         </React.Fragment>
     );
 };

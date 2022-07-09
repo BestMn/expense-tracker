@@ -1,9 +1,10 @@
-const getUserData = async (userId) => {
-    const _baseDataUrl = "https://github.com/BestMn/expense-tracker/";
+const getUserData = async () => {
+    const _baseDataUrl = "http://localhost:3000/user";
 
     try {
-        const response = await fetch(`${_baseDataUrl}${userId}`);
-        return await response.json();
+        const response = await fetch(`${_baseDataUrl}`);
+        const newB = await response.json();
+        return newB;
     } catch (e) {
         console.log(e);
     }
