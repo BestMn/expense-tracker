@@ -1,34 +1,49 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import DonutPlot from "./DonutPlot";
+import { Spin } from "antd";
 
 const DonutPlotContainer = () => {
-    const userInfo = useSelector((state: any) => state.userReducer);
+    const [data, setData] = useState(null);
 
-    const expenses = useSelector(
-        (state: any) => state.expensesReducer.expenses
+    const { currency } = useSelector((state: any) => state.userReducer);
+
+    const {
+        expenses,
+        loading: expensesLoading,
+        error,
+    } = useSelector((state: any) => state.expensesReducer);
+
+    const { categories, loading: categoriesLoading } = useSelector(
+        (state: any) => state.categoriesReducer
     );
 
-    const categories = useSelector(
-        (state: any) => state.categoriesReducer.categories
-    );
+    useEffect(() => {
+        if (!expensesLoading && !categoriesLoading && !error) {
+            const todayExpenses = expenses.filter(
+                (elem) =>
+                    elem.date.slice(0, 10) == new Date().toJSON().slice(0, 10)
+            );
+            const donutData = todayExpenses.map((el) => {
+                const category = categories.find(
+                    (elem) => elem.id === el.categoryId
+                );
+                return {
+                    color: category.color,
+                    value: el.value,
+                    type: el.id,
+                    category: category.name,
+                };
+            });
+            setData(donutData);
+        }
+    }, [expenses, categories]);
 
-    const todayExpenses = expenses.filter(
-        (elem) => elem.date.slice(0, 10) == new Date().toJSON().slice(0, 10)
-    );
-
-    const data = todayExpenses.map((el) => {
-        const color = categories.find((elem) => elem.id === el.categoryId);
-        const category = categories.find((elem) => elem.id === el.categoryId);
-        return {
-            color: color.color,
-            value: el.value,
-            type: el.id,
-            category: category.name,
-        };
-    });
-
-    return <DonutPlot data={data} currency={userInfo.currency} />;
+    if (data) {
+        return <DonutPlot data={data} currency={currency} />;
+    } else {
+        return <Spin size="large" />;
+    }
 };
 
 export default DonutPlotContainer;

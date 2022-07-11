@@ -32,16 +32,9 @@ const DonutPlot = ({ data, currency }) => {
     }
 
     const config = {
-        legend: {
-            position: "right",
-            itemName: {
-                formatter: (text, item, index) => {
-                    return text;
-                },
-            },
-        },
         appendPadding: 10,
         data,
+        legend: false,
         colorField: "color",
         angleField: "value",
         color: ({ color }) => {
@@ -65,10 +58,11 @@ const DonutPlot = ({ data, currency }) => {
             offset: "-50%",
             style: {
                 textAlign: "center",
+                fontSize: 16,
             },
             autoRotate: false,
             content: (v) => {
-                return v.value;
+                return v.category;
             },
         },
         statistic: {
@@ -79,7 +73,7 @@ const DonutPlot = ({ data, currency }) => {
                     const d = Math.sqrt(
                         Math.pow(width / 2, 2) + Math.pow(height / 2, 2)
                     );
-                    const text = datum ? datum.type : "Daily expenses";
+                    const text = datum ? datum.category : "Daily expenses";
                     return renderStatistic(d, text, {
                         fontSize: 28,
                     });
@@ -93,11 +87,11 @@ const DonutPlot = ({ data, currency }) => {
                 customHtml: (container, view, datum, data) => {
                     const { width } = container.getBoundingClientRect();
                     const text = datum
-                        ? `${currency} ${datum.value}`
-                        : `${currency} ${data.reduce(
+                        ? `${datum.value} ${currency}`
+                        : `${data.reduce(
                               (r, d) => r + d.value,
                               0
-                          )}`;
+                          )} ${currency}`;
                     return renderStatistic(width, text, {
                         fontSize: 32,
                     });

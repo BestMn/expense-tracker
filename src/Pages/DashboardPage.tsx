@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 
 import DonutPlotContainer from "../Components/DonutPlot/DonutPlotContainer";
 import ColumnsContainer from "../Components/Columns/ColumnsContainer";
+import ExpensesListContainer from "../Components/ExpensesList/ExpensesListContainer";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -69,16 +70,39 @@ const DashboardPage: React.FC = () => {
             <Layout className="site-layout">
                 <Content style={{ margin: "0 16px" }}>
                     <Row>
-                        <Col span={12}>
+                        <Col
+                            span={12}
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-10"
+                            }
+                        >
                             <div className="dashboard-block">
                                 <DonutPlotContainer />
                             </div>
                         </Col>
-                        <Col span={12}>
+                        <Col
+                            span={12}
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-14"
+                            }
+                        >
                             <div className="dashboard-block">
                                 <ColumnsContainer />
                             </div>
                         </Col>
+                    </Row>
+                    <Row>
+                        <Col
+                            span={12}
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-14"
+                            }
+                        >
+                            <div className="dashboard-block">
+                                <ExpensesListContainer />
+                            </div>
+                        </Col>
+                        <Col span={12}></Col>
                     </Row>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
