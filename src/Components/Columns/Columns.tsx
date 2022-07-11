@@ -24,7 +24,7 @@ const Columns = ({ data }) => {
                 alias: "类别",
             },
             sales: {
-                alias: "销售额",
+                alias: "销额",
             },
         },
     };
