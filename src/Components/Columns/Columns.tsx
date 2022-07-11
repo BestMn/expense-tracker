@@ -21,7 +21,7 @@ const Columns = ({ data }) => {
         },
         meta: {
             type: {
-                alias: "类别",
+                alias: "别",
             },
             sales: {
                 alias: "销额",
