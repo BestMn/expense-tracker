@@ -11,7 +11,11 @@ const DonutPlotContainer = () => {
         (state: any) => state.categoriesReducer.categories
     );
 
-    const data = expenses.map((el) => {
+    const todayExpenses = expenses.filter(
+        (elem) => elem.date.slice(0, 10) == new Date().toJSON().slice(0, 10)
+    );
+
+    const data = todayExpenses.map((el) => {
         const color = categories.find((elem) => elem.id === el.categoryId);
         return { color: color.color, value: el.value, type: el.id };
     });

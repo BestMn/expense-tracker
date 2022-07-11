@@ -1,28 +1,26 @@
-import { React, createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useCallback } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import getUserData from "./services/getUserData";
+import { useDispatch } from "react-redux";
+import { getUserExpenses } from "./store/reducers/expensesReducer";
+import { getUserCategories } from "./store/reducers/categoriesReducer";
+import { AppDispatch } from "./store/store";
 import DashboardPage from "./Pages/DashboardPage";
 import ExpensesPage from "./Pages/ExpensesPage";
 
-const AppCtx = createContext(null);
-
 function App() {
-    const [userData, setUserData] = useState(null);
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
-        getUserData(1)
-            .then((data) => setUserData(data))
-            .then(() => console.log(userData));
-    });
+        dispatch(getUserCategories(1));
+        dispatch(getUserExpenses(1));
+    }, []);
 
     return (
         <Router>
-            <AppCtx.Provider value={userData}>
-                <Routes>
-                    <Route path="/" element={<DashboardPage />} />
-                    <Route path="/expenses" element={<ExpensesPage />} />
-                </Routes>
-            </AppCtx.Provider>
+            <Routes>
+                <Route path="/" element={<DashboardPage />} />
+                <Route path="/expenses" element={<ExpensesPage />} />
+            </Routes>
         </Router>
     );
 }

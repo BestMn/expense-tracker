@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 type Category = {
     id: number;
@@ -8,17 +8,25 @@ type Category = {
 };
 
 interface ICategoryState {
+    loading: boolean;
+    error: any;
     categories: Array<Category>;
 }
 
 const initialState: ICategoryState = {
-    categories: [
-        { id: 1, name: "Food", icon: "table", color: "red" },
-        { id: 2, name: "Car", icon: "table", color: "blue" },
-        { id: 3, name: "House", icon: "table", color: "green" },
-        { id: 4, name: "Other", icon: "table", color: "grey" },
-    ],
+    loading: false,
+    error: null,
+    categories: [],
 };
+
+export const getUserCategories = createAsyncThunk(
+    "users/getUserCategories",
+    async (userId: number) => {
+        const res = await fetch(`http://localhost:3000/users/${userId}`);
+        const json = await res.json();
+        return json.categories;
+    }
+);
 
 const categoriesSlice = createSlice({
     name: "categoriesSlice",
@@ -32,6 +40,20 @@ const categoriesSlice = createSlice({
                 color: "green",
             });
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(getUserCategories.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getUserCategories.fulfilled, (state, action) => {
+                state.loading = false;
+                state.categories = action.payload;
+            })
+            .addCase(getUserCategories.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            });
     },
 });
 
