@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Column } from "@ant-design/plots";
+import { Line } from "@ant-design/plots";
 
-const Columns = ({ data }) => {
+const LineColumn = ({ data }) => {
     const config = {
         height: 356,
         data,
@@ -19,17 +18,10 @@ const Columns = ({ data }) => {
             },
             tickLine: null,
         },
-        meta: {
-            type: {
-                alias: "别",
-            },
-            sales: {
-                alias: "销额",
-            },
-        },
+        smooth: true,
     };
 
-    return <Column {...config} />;
+    return <Line {...config} />;
 };
 
-export default Columns;
+export default LineColumn;

@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import DonutPlot from "./DonutPlot";
 
 const DonutPlotContainer = () => {
+    const userInfo = useSelector((state: any) => state.userReducer);
+
     const expenses = useSelector(
         (state: any) => state.expensesReducer.expenses
     );
@@ -17,10 +19,16 @@ const DonutPlotContainer = () => {
 
     const data = todayExpenses.map((el) => {
         const color = categories.find((elem) => elem.id === el.categoryId);
-        return { color: color.color, value: el.value, type: el.id };
+        const category = categories.find((elem) => elem.id === el.categoryId);
+        return {
+            color: color.color,
+            value: el.value,
+            type: el.id,
+            category: category.name,
+        };
     });
 
-    return <DonutPlot data={data} />;
+    return <DonutPlot data={data} currency={userInfo.currency} />;
 };
 
 export default DonutPlotContainer;

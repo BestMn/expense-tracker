@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Pie, measureTextWidth } from "@ant-design/plots";
 
-const DonutPlot = ({ data }) => {
+const DonutPlot = ({ data, currency }) => {
     function renderStatistic(containerWidth, text, style) {
         const { width: textWidth, height: textHeight } = measureTextWidth(
             text,
@@ -34,6 +34,11 @@ const DonutPlot = ({ data }) => {
     const config = {
         legend: {
             position: "right",
+            itemName: {
+                formatter: (text, item, index) => {
+                    return text;
+                },
+            },
         },
         appendPadding: 10,
         data,
@@ -46,9 +51,14 @@ const DonutPlot = ({ data }) => {
         innerRadius: 0.64,
         meta: {
             value: {
-                formatter: (v) => `${v} ¥`,
+                formatter: (v) => `${v} ${currency}`,
             },
             type: "type",
+            category: {
+                formatter: (value, index) => {
+                    console.log(value, index);
+                },
+            },
         },
         label: {
             type: "inner",
@@ -57,7 +67,9 @@ const DonutPlot = ({ data }) => {
                 textAlign: "center",
             },
             autoRotate: false,
-            content: "{value}",
+            content: (v) => {
+                return v.value;
+            },
         },
         statistic: {
             title: {
@@ -81,8 +93,11 @@ const DonutPlot = ({ data }) => {
                 customHtml: (container, view, datum, data) => {
                     const { width } = container.getBoundingClientRect();
                     const text = datum
-                        ? `¥ ${datum.value}`
-                        : `¥ ${data.reduce((r, d) => r + d.value, 0)}`;
+                        ? `${currency} ${datum.value}`
+                        : `${currency} ${data.reduce(
+                              (r, d) => r + d.value,
+                              0
+                          )}`;
                     return renderStatistic(width, text, {
                         fontSize: 32,
                     });
