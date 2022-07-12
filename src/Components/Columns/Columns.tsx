@@ -6,7 +6,7 @@ const Columns = ({ data }) => {
         height: 356,
         data,
         xField: "date",
-        yField: "value",
+        yField: "amount",
         xAxis: {
             label: {
                 autoHide: false,

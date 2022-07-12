@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useState, useCallback } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "./store/store";
 import { getUserExpenses } from "./store/reducers/expensesReducer";
 import { getUserCategories } from "./store/reducers/categoriesReducer";
 import { getUserInfo } from "./store/reducers/userReducer";
-import { AppDispatch } from "./store/store";
 import DashboardPage from "./Pages/DashboardPage";
 import ExpensesPage from "./Pages/ExpensesPage";
 

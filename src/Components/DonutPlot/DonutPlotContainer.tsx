@@ -17,20 +17,21 @@ const DonutPlotContainer = () => {
     const { categories, loading: categoriesLoading } = useSelector(
         (state: any) => state.categoriesReducer
     );
+    console.log(categories);
 
     useEffect(() => {
-        if (!expensesLoading && !categoriesLoading && !error) {
+        if (categories && expenses && !categoriesLoading) {
             const todayExpenses = expenses.filter(
                 (elem) =>
                     elem.date.slice(0, 10) == new Date().toJSON().slice(0, 10)
             );
             const donutData = todayExpenses.map((el) => {
                 const category = categories.find(
-                    (elem) => elem.id === el.categoryId
+                    (elem) => elem.categoryId === el.categoryId
                 );
                 return {
                     color: category.color,
-                    value: el.value,
+                    amount: el.amount,
                     type: el.id,
                     category: category.name,
                 };

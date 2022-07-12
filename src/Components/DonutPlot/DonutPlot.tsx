@@ -36,7 +36,7 @@ const DonutPlot = ({ data, currency }) => {
         data,
         legend: false,
         colorField: "color",
-        angleField: "value",
+        angleField: "amount",
         color: ({ color }) => {
             return color;
         },
@@ -87,9 +87,9 @@ const DonutPlot = ({ data, currency }) => {
                 customHtml: (container, view, datum, data) => {
                     const { width } = container.getBoundingClientRect();
                     const text = datum
-                        ? `${datum.value} ${currency}`
+                        ? `${datum.amount} ${currency}`
                         : `${data.reduce(
-                              (r, d) => r + d.value,
+                              (r, d) => r + d.amount,
                               0
                           )} ${currency}`;
                     return renderStatistic(width, text, {

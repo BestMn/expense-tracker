@@ -3,155 +3,74 @@
         {
             "id": "1",
             "name": "BestM",
-            "currency": "₽",
-            "categories": [
-                {
-                    "id": 1,
-                    "name": "Food",
-                    "icon": "table",
-                    "color": "red"
-                },
-                {
-                    "id": 2,
-                    "name": "Car",
-                    "icon": "table",
-                    "color": "blue"
-                },
-                {
-                    "id": 3,
-                    "name": "House",
-                    "icon": "table",
-                    "color": "green"
-                },
-                {
-                    "id": 4,
-                    "name": "House",
-                    "icon": "table",
-                    "color": "yellow"
-                },
-                {
-                    "id": 5,
-                    "name": "Other",
-                    "icon": "table",
-                    "color": "grey"
-                }
-            ],
-            "expenses": [
-                {
-                    "id": "epx-2",
-                    "date": "2022-07-11T23:15:30.000Z",
-                    "value": 120,
-                    "categoryId": 2
-                },
-                {
-                    "id": "epx-1",
-                    "date": "2022-03-19T23:15:30.000Z",
-                    "value": 300,
-                    "categoryId": 1
-                },
-                {
-                    "id": "epx-1",
-                    "date": "2022-06-19T23:15:30.000Z",
-                    "value": 300,
-                    "categoryId": 1
-                },
-                {
-                    "id": "epx-3",
-                    "date": "2022-07-05T23:15:30.000Z",
-                    "value": 190,
-                    "categoryId": 3
-                },
-                {
-                    "id": "epx-2",
-                    "date": "2022-06-25T23:15:30.000Z",
-                    "value": 150,
-                    "categoryId": 2
-                },
-                {
-                    "id": "epx-3",
-                    "date": "2022-07-03T23:15:30.000Z",
-                    "value": 100,
-                    "categoryId": 3
-                },
-                {
-                    "id": "epx-3",
-                    "date": "2022-07-04T23:15:30.000Z",
-                    "value": 150,
-                    "categoryId": 3
-                },
-                {
-                    "id": "epx-4",
-                    "date": "2022-07-06T23:15:30.000Z",
-                    "value": 80,
-                    "categoryId": 4
-                },
-                {
-                    "id": "epx-5",
-                    "date": "2022-07-08T23:15:30.000Z",
-                    "value": 120,
-                    "categoryId": 5
-                },
-                {
-                    "id": "epx-6",
-                    "date": "2022-07-08T23:15:30.000Z",
-                    "value": 220,
-                    "categoryId": 3
-                },
-                {
-                    "id": "epx-6",
-                    "date": "2022-07-11T23:15:30.000Z",
-                    "value": 220,
-                    "categoryId": 3
-                }
-            ]
+            "currency": "₽"
         },
         {
             "id": "2",
-            "name": "ManOfSteel",
-            "categoies": {
-                "array": [
-                    {
-                        "id": 1,
-                        "name": "Ozon",
-                        "icon": "table",
-                        "color": "red"
-                    },
-                    {
-                        "id": 2,
-                        "name": "Wildberies",
-                        "icon": "table",
-                        "color": "blue"
-                    },
-                    {
-                        "id": 3,
-                        "name": "Yandex",
-                        "icon": "table",
-                        "color": "green"
-                    }
-                ]
-            },
-            "expenses": {
-                "array": [
-                    {
-                        "id": "epx-1",
-                        "date": "2022-06-19T23:15:30.000Z",
-                        "value": 300,
-                        "categoryId": 1
-                    },
-                    {
-                        "id": "epx-2",
-                        "date": "2022-06-25T23:15:30.000Z",
-                        "value": 150,
-                        "categoryId": 2
-                    },
-                    {
-                        "id": "epx-3",
-                        "date": "2022-07-03T23:15:30.000Z",
-                        "value": 100,
-                        "categoryId": 3
-                    }
-                ]
-            }
+            "name": "ManOfSteel"
+        }
+    ],
+    "categories": [
+        {
+            "userId": 1,
+            "categoryId": 1,
+            "name": "Food",
+            "icon": "table",
+            "color": "red"
+        },
+        {
+            "userId": 1,
+            "categoryId": 2,
+            "name": "Car",
+            "icon": "table",
+            "color": "blue"
+        },
+        {
+            "userId": 1,
+            "categoryId": 3,
+            "name": "House",
+            "icon": "table",
+            "color": "green"
+        },
+        {
+            "userId": 1,
+            "categoryId": 4,
+            "name": "Cinema",
+            "icon": "table",
+            "color": "yellow"
+        },
+        {
+            "userId": 1,
+            "categoryId": 5,
+            "name": "Others",
+            "icon": "table",
+            "color": "grey"
+        }
+    ],
+    "expenses": [
+        {
+            "id": 10,
+            "userId": 1,
+            "date": "2022-07-12T23:15:30.000Z",
+            "amount": 120,
+            "categoryId": 1,
+            "description": ""
+        },
+        {
+            "id": 11,
+            "userId": 1,
+            "date": "2022-03-19T23:15:30.000Z",
+            "amount": 200,
+            "categoryId": 2,
+            "description": ""
+        },
+        {
+            "id": 12,
+            "userId": 1,
+            "date": "2022-06-19T23:15:30.000Z",
+            "amount": 300,
+            "categoryId": 3,
+            "description": ""
         }
     ]
 }

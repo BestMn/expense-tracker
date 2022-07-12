@@ -10,21 +10,22 @@ type Category = {
 interface ICategoryState {
     loading: boolean;
     error: any;
-    categories: Array<Category>;
+    categories: Array<Category> | null;
 }
 
 const initialState: ICategoryState = {
     loading: false,
     error: null,
-    categories: [],
+    categories: null,
 };
 
 export const getUserCategories = createAsyncThunk(
     "users/getUserCategories",
     async (userId: number) => {
-        const res = await fetch(`http://localhost:3000/users/${userId}`);
-        const json = await res.json();
-        return json.categories;
+        const res = await fetch(
+            `http://localhost:3000/categories?userId=${userId}`
+        );
+        return await res.json();
     }
 );
 

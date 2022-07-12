@@ -13,7 +13,7 @@ const ExpensesList: React.FC = ({ data, currency }) => (
                             <Avatar src="https://joeschmoe.io/api/v1/random" />
                         }
                         title={
-                            <a href="https://ant.design">{`${item.id} ${item.value} ${currency}`}</a>
+                            <a href="https://ant.design">{`${item.id} ${item.amount} ${currency}`}</a>
                         }
                         description={`${item.date}`}
                     />

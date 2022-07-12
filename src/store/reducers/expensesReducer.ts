@@ -10,21 +10,42 @@ type Expense = {
 interface IExpensesState {
     loading: boolean;
     error: any;
-    expenses: Array<Expense>;
+    expenses: Array<Expense> | null;
 }
 
 const initialState: IExpensesState = {
     loading: false,
     error: null,
-    expenses: [],
+    expenses: null,
 };
 
 export const getUserExpenses = createAsyncThunk(
-    "users/getUserExpenses",
+    "expenses/getUserExpenses",
     async (userId: number) => {
-        const res = await fetch(`http://localhost:3000/users/${userId}`);
-        const json = await res.json();
-        return json.expenses;
+        const res = await fetch(
+            `http://localhost:3000/expenses?userId=${userId}`
+        );
+        return await res.json();
+    }
+);
+
+export const addUserExpenses = createAsyncThunk(
+    "expenses/addUserExpenses",
+    async (data = {}) => {
+        const response = await fetch(`http://localhost:3000/expenses`, {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+        });
+        return await response.json();
     }
 );
 
@@ -66,6 +87,18 @@ const expensesSlice = createSlice({
                 state.expenses = action.payload;
             })
             .addCase(getUserExpenses.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(addUserExpenses.pending, (state) => {
+                console.log(state);
+                state.loading = true;
+            })
+            .addCase(addUserExpenses.fulfilled, (state, action) => {
+                state.loading = false;
+                state.expenses.push(action.payload);
+            })
+            .addCase(addUserExpenses.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             });

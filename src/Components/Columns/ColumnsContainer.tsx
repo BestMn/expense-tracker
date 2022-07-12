@@ -16,27 +16,29 @@ const ColumnsPlotContainer = () => {
     );
 
     useEffect(() => {
-        if (!loading && !error) {
-            const allDates = [...Array(period)].map((_, i) => {
-                const d = new Date();
-                d.setDate(d.getDate() - i);
-                return d.toJSON().slice(0, 10);
-            });
+        if (expenses) {
+            const allDates = [...Array(period)]
+                .map((_, i) => {
+                    const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    return d.toJSON().slice(0, 10);
+                })
+                .reverse();
             const preparedData = allDates.map((elem) => {
                 let accum = 0;
                 expenses.reduce((_, curr) => {
                     if (curr.date.slice(0, 10) == elem) {
-                        accum += curr.value;
+                        accum += curr.amount;
                     }
                 }, accum);
                 return {
                     date: elem,
-                    value: accum,
+                    amount: accum,
                 };
             });
             setData(preparedData);
         }
-    }, [loading]);
+    }, [loading, period]);
 
     const segment = (period) => {
         const d = new Date();
