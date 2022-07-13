@@ -1,7 +1,19 @@
+:root {
+    --dashboard-block-padding: 14px;
+}
+
 .dashboard-block {
-    padding: 14px;
+    padding: var(--dashboard-block-padding);
     margin: 12px;
     background-color: rgb(255, 255, 255);
     border-radius: 20px;
     box-shadow: 0 20px 27px rgba(0, 0, 0, 0.05);
+}
+
+.graph-block {
+    min-height: calc(400px + var(--dashboard-block-padding) * 2);
+}
+
+.list-block {
+    min-height: calc(365px + var(--dashboard-block-padding) * 2);
 }

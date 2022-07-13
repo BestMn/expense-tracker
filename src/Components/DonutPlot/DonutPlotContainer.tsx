@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import DonutPlot from "./DonutPlot";
-import { Spin } from "antd";
+import { Spin, Empty } from "antd";
 
 const DonutPlotContainer = () => {
     const [data, setData] = useState(null);
@@ -17,17 +17,16 @@ const DonutPlotContainer = () => {
     const { categories, loading: categoriesLoading } = useSelector(
         (state: any) => state.categoriesReducer
     );
-    console.log(categories);
 
     useEffect(() => {
-        if (categories && expenses && !categoriesLoading) {
+        if (categories && expenses) {
             const todayExpenses = expenses.filter(
                 (elem) =>
                     elem.date.slice(0, 10) == new Date().toJSON().slice(0, 10)
             );
             const donutData = todayExpenses.map((el) => {
                 const category = categories.find(
-                    (elem) => elem.categoryId === el.categoryId
+                    (elem) => elem.categoryId == el.categoryId
                 );
                 return {
                     color: category.color,
@@ -40,10 +39,12 @@ const DonutPlotContainer = () => {
         }
     }, [expenses, categories]);
 
-    if (data) {
+    if (data && data.length) {
         return <DonutPlot data={data} currency={currency} />;
-    } else {
+    } else if (expensesLoading || categoriesLoading) {
         return <Spin size="large" />;
+    } else if (data && !data.length) {
+        return <Empty description={"No expenses today"}></Empty>;
     }
 };
 

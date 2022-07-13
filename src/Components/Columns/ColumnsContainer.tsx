@@ -4,16 +4,19 @@ import { Segmented, Spin } from "antd";
 import "./ColumnsContainer.css";
 import Columns from "./Columns";
 import LineColumn from "./Line";
-import dataFormatter from "../../services/dataFormatter";
+import dateFormatter from "../../services/dateFormatter";
 
 const ColumnsPlotContainer = () => {
     const [period, setPeriod] = useState(7);
+    const [group, setGroup] = useState(7);
 
     const [data, setData] = useState(null);
 
     const { expenses, loading, error } = useSelector(
         (state: any) => state.expensesReducer
     );
+
+    const { currency } = useSelector((state: any) => state.userReducer);
 
     useEffect(() => {
         if (expenses) {
@@ -32,10 +35,11 @@ const ColumnsPlotContainer = () => {
                     }
                 }, accum);
                 return {
-                    date: elem,
+                    date: dateFormatter(elem),
                     amount: accum,
                 };
             });
+            const groupData = preparedData.map((el) => {});
             setData(preparedData);
         }
     }, [loading, period]);
@@ -43,16 +47,16 @@ const ColumnsPlotContainer = () => {
     const segment = (period) => {
         const d = new Date();
         switch (period) {
-            case "Weekly":
+            case "Week":
                 setPeriod(7);
                 break;
-            case "Monthly":
+            case "Month":
                 setPeriod(30);
                 break;
-            case "Quarterly":
+            case "Quarter":
                 setPeriod(90);
                 break;
-            case "Yearly":
+            case "Year":
                 setPeriod(365);
                 break;
             default:
@@ -63,19 +67,30 @@ const ColumnsPlotContainer = () => {
     if (data) {
         return (
             <React.Fragment>
-                <Segmented
-                    options={["Weekly", "Monthly", "Quarterly", "Yearly"]}
-                    defaultValue={"Weekly"}
-                    onChange={(value) => {
-                        segment(value);
-                    }}
-                    className={"segmented"}
-                    block={false}
-                />
+                <div className="segments">
+                    <Segmented
+                        options={["Week", "Month", "Quarter", "Year"]}
+                        defaultValue={"Week"}
+                        onChange={(value) => {
+                            segment(value);
+                        }}
+                        className={"segmented"}
+                        block={false}
+                    />
+                    <Segmented
+                        options={["Days", "Weeks", "Mounths"]}
+                        defaultValue={"Days"}
+                        onChange={(value) => {
+                            console.log(value);
+                        }}
+                        className={"segmented"}
+                        block={false}
+                    />
+                </div>
                 {period < 91 ? (
-                    <Columns data={data} />
+                    <Columns data={data} currency={currency} />
                 ) : (
-                    <LineColumn data={data} />
+                    <LineColumn data={data} currency={currency} />
                 )}
             </React.Fragment>
         );

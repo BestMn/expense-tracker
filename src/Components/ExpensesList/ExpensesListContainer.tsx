@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import ExpensesList from "./ExpensesList";
-import dataFormatter from "../../services/dataFormatter";
+import dateFormatter from "../../services/dateFormatter";
 
 const ExpensesListContainer: React.FC = () => {
     const [data, setData] = useState(null);
@@ -39,7 +39,7 @@ const ExpensesListContainer: React.FC = () => {
                 .map((elem) => {
                     return {
                         ...elem,
-                        date: dataFormatter(elem.date),
+                        date: dateFormatter(elem.date),
                     };
                 });
             setData(lastExpenses);

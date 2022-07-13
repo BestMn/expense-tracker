@@ -1,3 +1,9 @@
 .segmented {
     margin-bottom: 12px;
 }
+
+.segments {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

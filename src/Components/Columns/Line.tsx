@@ -1,6 +1,6 @@
 import { Line } from "@ant-design/plots";
 
-const LineColumn = ({ data }) => {
+const LineColumn = ({ data, currency }) => {
     const config = {
         height: 356,
         data,
@@ -17,6 +17,14 @@ const LineColumn = ({ data }) => {
                 },
             },
             tickLine: null,
+        },
+        tooltip: {
+            formatter: (datum) => {
+                return {
+                    name: "Amount",
+                    value: `${datum.amount} ${currency}`,
+                };
+            },
         },
         smooth: true,
     };

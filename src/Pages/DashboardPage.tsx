@@ -77,7 +77,7 @@ const DashboardPage: React.FC = () => {
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-10"
                             }
                         >
-                            <div className="dashboard-block">
+                            <div className="dashboard-block graph-block">
                                 <DonutPlotContainer />
                             </div>
                         </Col>
@@ -87,7 +87,7 @@ const DashboardPage: React.FC = () => {
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-14"
                             }
                         >
-                            <div className="dashboard-block">
+                            <div className="dashboard-block graph-block">
                                 <ColumnsContainer />
                             </div>
                         </Col>
@@ -99,7 +99,7 @@ const DashboardPage: React.FC = () => {
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
                             }
                         >
-                            <div className="dashboard-block">
+                            <div className="dashboard-block list-block">
                                 <CreateExpenseFormConitaner />
                             </div>
                         </Col>
@@ -109,7 +109,7 @@ const DashboardPage: React.FC = () => {
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
                             }
                         >
-                            <div className="dashboard-block">
+                            <div className="dashboard-block list-block">
                                 <ExpensesListContainer />
                             </div>
                         </Col>
@@ -119,7 +119,7 @@ const DashboardPage: React.FC = () => {
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
                             }
                         >
-                            <div className="dashboard-block">
+                            <div className="dashboard-block list-block">
                                 <ExpensesListContainer />
                             </div>
                         </Col>

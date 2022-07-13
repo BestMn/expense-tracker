@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Column } from "@ant-design/plots";
 
-const Columns = ({ data }) => {
+const Columns = ({ data, currency }) => {
     const config = {
         height: 356,
         data,
@@ -18,6 +18,14 @@ const Columns = ({ data }) => {
                 },
             },
             tickLine: null,
+        },
+        tooltip: {
+            formatter: (datum) => {
+                return {
+                    name: "Amount",
+                    value: `${datum.amount} ${currency}`,
+                };
+            },
         },
         meta: {
             type: {
