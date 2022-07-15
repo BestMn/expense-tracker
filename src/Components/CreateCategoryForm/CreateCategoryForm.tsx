@@ -1,5 +1,7 @@
 import { Button, Form, Input, Modal, Radio } from "antd";
 import { Colorpicker, ColorPickerValue } from "antd-colorpicker";
+import IconPicker from "../IconPicker/IconPicker";
+import { iconList } from "../IconPicker/iconList";
 import React, { useState } from "react";
 
 interface Values {
@@ -19,6 +21,8 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     onCreate,
     onCancel,
 }) => {
+    const [iconValue, setIconValue] = useState("FaAccusoft");
+
     const [form] = Form.useForm();
     return (
         <Modal
@@ -45,7 +49,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 initialValues={{ modifier: "public" }}
             >
                 <Form.Item
-                    name="name"
+                    name={["category", "name"]}
                     label="Name"
                     rules={[
                         {
@@ -56,20 +60,15 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item name="description" label="Description">
-                    <Input type="textarea" />
-                </Form.Item>
-                <Form.Item label={"Choose color"} name={`color`}>
+                <Form.Item label={"Choose color"} name={["category", "color"]}>
                     <Colorpicker picker={"CirclePicker"} />
                 </Form.Item>
-                <Form.Item
-                    name="modifier"
-                    className="collection-create-form_last-form-item"
-                >
-                    <Radio.Group>
-                        <Radio value="public">Public</Radio>
-                        <Radio value="private">Private</Radio>
-                    </Radio.Group>
+                <Form.Item label={"Choose icon"} name={["category", "icon"]}>
+                    <IconPicker
+                        iconValue={iconValue}
+                        onChange={(v) => setIconValue(v)}
+                        hideSearch={false}
+                    />
                 </Form.Item>
             </Form>
         </Modal>

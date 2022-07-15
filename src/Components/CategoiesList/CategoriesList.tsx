@@ -1,5 +1,5 @@
 import React from "react";
-import { EnvironmentOutlined } from "@ant-design/icons";
+import { FaBeer } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { createNewCategory } from "../../store/reducers/categoriesReducer";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
@@ -37,13 +37,7 @@ const CategoriesList = ({ editable }: { editable: boolean }) => {
                 style={{ backgroundColor: item.color }}
             >
                 {edit}
-                <EnvironmentOutlined
-                    style={{
-                        fontSize: "50px",
-                        color: "white",
-                        display: "block",
-                    }}
-                />
+                <FaBeer />
                 <span>{item.name}</span>
             </div>
         );
