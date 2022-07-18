@@ -49,7 +49,7 @@ const CreateExpenseForm: React.FC = ({ categories }) => {
 
     const categoriesList = categories.map((elem) => {
         return (
-            <Select.Option value={elem.id} key={elem.categoryId}>
+            <Select.Option value={elem.id} key={elem.id}>
                 {elem.name}
             </Select.Option>
         );

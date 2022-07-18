@@ -13,37 +13,37 @@
   "categories": [
     {
       "userId": 1,
-      "categoryId": 1,
+      "id": 1,
       "name": "Food",
-      "icon": "table",
-      "color": "red"
+      "icon": "FaVideo",
+      "color": "#cddc39"
     },
     {
       "userId": 1,
-      "categoryId": 2,
-      "name": "Car",
-      "icon": "table",
-      "color": "blue"
+      "name": "CinemaNew",
+      "icon": "FaVideo",
+      "color": "#607d8b",
+      "id": 2
     },
     {
       "userId": 1,
-      "categoryId": 3,
+      "id": 3,
       "name": "House",
-      "icon": "table",
+      "icon": "FaUser",
       "color": "green"
     },
     {
       "userId": 1,
-      "categoryId": 4,
+      "id": 4,
       "name": "Cinema",
-      "icon": "table",
+      "icon": "FaTrain",
       "color": "yellow"
     },
     {
       "userId": 1,
-      "categoryId": 5,
+      "id": 5,
       "name": "Others",
-      "icon": "table",
+      "icon": "FaTint",
       "color": "grey"
     }
   ],
@@ -87,6 +87,22 @@
       "categoryId": "4",
       "description": "",
       "id": 5
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-18T07:08:37.981Z",
+      "amount": 123,
+      "categoryId": "1",
+      "description": "",
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-18T07:28:41.490Z",
+      "amount": 23,
+      "categoryId": "3",
+      "description": "",
+      "id": 7
     }
   ]
 }

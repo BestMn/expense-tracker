@@ -1,0 +1,12 @@
+.categories-list-item {
+    background-color: brown;
+    color: white;
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

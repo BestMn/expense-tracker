@@ -26,7 +26,7 @@ const DonutPlotContainer = () => {
             );
             const donutData = todayExpenses.map((el) => {
                 const category = categories.find(
-                    (elem) => elem.categoryId == el.categoryId
+                    (elem) => elem.id == el.categoryId
                 );
                 return {
                     color: category.color,

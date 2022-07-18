@@ -91,12 +91,11 @@ const expensesSlice = createSlice({
                 state.error = action.error;
             })
             .addCase(addUserExpenses.pending, (state) => {
-                console.log(state);
                 state.loading = true;
             })
             .addCase(addUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
-                state.expenses.push(action.payload);
+                state.expenses?.push(action.payload);
             })
             .addCase(addUserExpenses.rejected, (state, action) => {
                 state.loading = false;

@@ -21,6 +21,7 @@ const IconPicker: React.FC<IconPickerProps> = ({
     const [display, changeDisplay] = useState(false);
     const [searchString, setSearchString] = useState("");
     useEffect(() => {
+        onChange(iconValue);
         function handleClickOutside(event: any) {
             // @ts-ignore
             if (ref.current && !ref.current.contains(event.target)) {

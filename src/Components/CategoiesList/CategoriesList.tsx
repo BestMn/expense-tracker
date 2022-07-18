@@ -1,8 +1,10 @@
-import React from "react";
-import { FaBeer } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import * as FontIcon from "react-icons/fa";
+import { Spin, Empty } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { createNewCategory } from "../../store/reducers/categoriesReducer";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
+import EditCategoryForm from "../EditCategoryForm/EditCategoryForm";
+import "./CategoriesList.css";
 
 type Category = {
     id: number;
@@ -12,13 +14,15 @@ type Category = {
 };
 
 const CategoriesList = ({ editable }: { editable: boolean }) => {
-    const categories = useSelector(
-        (state: any) => state.categoriesReducer.categories
+    const [categoriesListItems, setCategoriesListItems] = useState(null);
+
+    const { categories, loading, error } = useSelector(
+        (state: any) => state.categoriesReducer
     );
 
     const dispatch = useDispatch();
 
-    const edit = editable ? <span>edit</span> : null;
+    const edit = editable ? <EditCategoryForm /> : null;
 
     const addCategory = editable ? (
         // <div
@@ -28,24 +32,39 @@ const CategoriesList = ({ editable }: { editable: boolean }) => {
         <CreateCategoryForm />
     ) : null;
 
-    const items = categories.map((item: any) => {
-        return (
-            <div
-                key={item.id}
-                id={item.id}
-                className="expense-item"
-                style={{ backgroundColor: item.color }}
-            >
-                {edit}
-                <FaBeer />
-                <span>{item.name}</span>
-            </div>
-        );
-    });
+    useEffect(() => {
+        if (categories) {
+            const items = categories.map((item: any) => {
+                return (
+                    <div
+                        key={item.id}
+                        id={item.id}
+                        className="categories-list-item"
+                        style={{ backgroundColor: item.color }}
+                    >
+                        <EditCategoryForm editedCategory={item} />
+                        {item.icon ? (
+                            React.createElement(FontIcon[item.icon])
+                        ) : (
+                            <div />
+                        )}
+                        <span>{item.name}</span>
+                    </div>
+                );
+            });
+            setCategoriesListItems(items);
+        }
+    }, [categories]);
 
     return (
         <div style={{ display: "flex" }}>
-            {items}
+            {loading ? (
+                <Spin />
+            ) : categoriesListItems ? (
+                categoriesListItems
+            ) : (
+                <Empty />
+            )}
             {addCategory}
         </div>
     );

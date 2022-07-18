@@ -21,7 +21,7 @@ const ExpensesListContainer: React.FC = () => {
             const copied = [...expenses];
             const expensesWithCategories = copied.map((elem) => {
                 const category = categories.find(
-                    (el) => elem.categoryId == el.categoryId
+                    (el) => elem.categoryId == el.id
                 );
                 return {
                     ...elem,

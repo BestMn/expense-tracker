@@ -5,7 +5,7 @@ import { iconList } from "../IconPicker/iconList";
 import React, { useState } from "react";
 import { AppDispatch } from "./store/store";
 import { useDispatch } from "react-redux";
-import { addUserCategory } from "../../store/reducers/categoriesReducer";
+import { editUserCategory } from "../../store/reducers/categoriesReducer";
 
 interface Values {
     title: string;
@@ -23,8 +23,9 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     visible,
     onCreate,
     onCancel,
+    editedCategory,
 }) => {
-    const [iconValue, setIconValue] = useState("FaTshirt");
+    const [iconValue, setIconValue] = useState(editedCategory.icon);
 
     const [form] = Form.useForm();
     return (
@@ -54,22 +55,25 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 <Form.Item
                     name={["category", "name"]}
                     label="Name"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input name of category!",
-                        },
-                    ]}
+                    initialValue={editedCategory.name}
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item label={"Choose color"} name={["category", "color"]}>
+                <Form.Item
+                    label={"Choose color"}
+                    name={["category", "color"]}
+                    initialValue={editedCategory.color}
+                >
                     <Colorpicker
                         picker={"CirclePicker"}
                         onColorResult={(color) => color.hex}
                     />
                 </Form.Item>
-                <Form.Item label={"Choose icon"} name={["category", "icon"]}>
+                <Form.Item
+                    label={"Choose icon"}
+                    name={["category", "icon"]}
+                    initialValue={editedCategory.icon}
+                >
                     <IconPicker
                         iconValue={iconValue}
                         onChange={(v) => setIconValue(v)}
@@ -81,19 +85,24 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     );
 };
 
-const CreateCategoryForm: React.FC = () => {
+const EditCategoryForm: React.FC = ({ editedCategory }) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const [visible, setVisible] = useState(false);
 
     const onCreate = ({ category }) => {
+        console.log(category);
         const newCategory = {
             userId: 1,
-            name: category.name,
-            icon: category.icon,
-            color: category.color,
+            name: category.name ? category.name : editedCategory.name,
+            icon: category.icon ? category.icon : editedCategory.icon,
+            color: category.color ? category.color : editedCategory.color,
         };
-        dispatch(addUserCategory(newCategory));
+        const data = {
+            body: newCategory,
+            id: editedCategory.id,
+        };
+        dispatch(editUserCategory(data));
         setVisible(false);
     };
 
@@ -105,7 +114,7 @@ const CreateCategoryForm: React.FC = () => {
                     setVisible(true);
                 }}
             >
-                New Category
+                Edit
             </Button>
             <CollectionCreateForm
                 visible={visible}
@@ -113,9 +122,10 @@ const CreateCategoryForm: React.FC = () => {
                 onCancel={() => {
                     setVisible(false);
                 }}
+                editedCategory={editedCategory}
             />
         </div>
     );
 };
 
-export default CreateCategoryForm;
+export default EditCategoryForm;
