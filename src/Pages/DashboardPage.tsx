@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 import DonutPlotContainer from "../Components/DonutPlot/DonutPlotContainer";
 import ColumnsContainer from "../Components/Columns/ColumnsContainer";
-import ExpensesListContainer from "../Components/ExpensesList/ExpensesListContainer";
+import LastExpensesListContainer from "../Components/LastExpensesList/LastExpensesListContainer";
 import CreateExpenseFormConitaner from "../Components/CreateExpenseForm/CreateExpenseFormContainer";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -110,7 +110,7 @@ const DashboardPage: React.FC = () => {
                             }
                         >
                             <div className="dashboard-block list-block">
-                                <ExpensesListContainer />
+                                <LastExpensesListContainer />
                             </div>
                         </Col>
                         <Col
@@ -120,7 +120,7 @@ const DashboardPage: React.FC = () => {
                             }
                         >
                             <div className="dashboard-block list-block">
-                                <ExpensesListContainer />
+                                <LastExpensesListContainer />
                             </div>
                         </Col>
                     </Row>

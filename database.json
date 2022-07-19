@@ -20,9 +20,9 @@
     },
     {
       "userId": 1,
-      "name": "CinemaNew",
-      "icon": "FaVideo",
-      "color": "#607d8b",
+      "name": "Cinema",
+      "icon": "FaTint",
+      "color": "#00bcd4",
       "id": 2
     },
     {
@@ -35,9 +35,9 @@
     {
       "userId": 1,
       "id": 4,
-      "name": "Cinema",
+      "name": "Train",
       "icon": "FaTrain",
-      "color": "yellow"
+      "color": "#3f51b5"
     },
     {
       "userId": 1,
@@ -103,6 +103,14 @@
       "categoryId": "3",
       "description": "",
       "id": 7
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-19T04:56:36.840Z",
+      "amount": 50,
+      "categoryId": 4,
+      "description": "",
+      "id": 8
     }
   ]
 }

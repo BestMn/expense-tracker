@@ -1,10 +1,9 @@
-import { Spin } from "antd";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import ExpensesList from "./ExpensesList";
+import LastExpensesList from "./LastExpensesList";
 import dateFormatter from "../../services/dateFormatter";
 
-const ExpensesListContainer = () => {
+const LastExpensesListContainer: React.FC = () => {
     const [data, setData] = useState(null);
 
     const { expenses, loading: expensesLoading } = useSelector(
@@ -49,15 +48,13 @@ const ExpensesListContainer = () => {
 
     if (data) {
         return (
-            <ExpensesList
-                data={data}
-                currency={currency}
-                loading={expensesLoading}
-            />
+            <React.Fragment>
+                <h2>Last Expenses</h2>
+                <LastExpensesList fodata={data} currency={currency} />
+                <button>Show All</button>
+            </React.Fragment>
         );
-    } else {
-        return <Spin />;
     }
 };
 
-export default ExpensesListContainer;
+export default LastExpensesListContainer;

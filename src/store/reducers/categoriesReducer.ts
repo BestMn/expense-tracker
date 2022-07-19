@@ -51,24 +51,20 @@ export const addUserCategory = createAsyncThunk(
 
 export const editUserCategory = createAsyncThunk(
     "expenses/editUserCategory",
-    async (data = {}) => {
-        console.log(id);
-        const response = await fetch(
-            `http://localhost:3000/categories/${data.id}`,
-            {
-                method: "PATCH",
-                mode: "cors",
-                cache: "no-cache",
-                credentials: "same-origin",
-                headers: {
-                    "Content-Type": "application/json",
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                redirect: "follow",
-                referrerPolicy: "no-referrer",
-                body: JSON.stringify(data.body),
-            }
-        );
+    async ({ body, id } = {}) => {
+        const response = await fetch(`http://localhost:3000/categories/${id}`, {
+            method: "PATCH",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(body),
+        });
         return await response.json();
     }
 );
@@ -115,7 +111,10 @@ const categoriesSlice = createSlice({
             })
             .addCase(editUserCategory.fulfilled, (state, action) => {
                 state.loading = false;
-                console.log(action);
+                const editedCategoryInx = state.categories?.findIndex(
+                    (elem) => elem.id == action.payload.id
+                );
+                state.categories[editedCategoryInx] = action.payload;
             })
             .addCase(editUserCategory.rejected, (state, action) => {
                 state.loading = false;

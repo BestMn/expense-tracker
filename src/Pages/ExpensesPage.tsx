@@ -12,6 +12,7 @@ import "antd/dist/antd.css";
 import "./ExpensePage.css";
 import { Link } from "react-router-dom";
 import CategoriesList from "../Components/CategoiesList/CategoriesList";
+import ExpensesListContainer from "../Components/ExpensesList/ExpensesListContainer";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -66,21 +67,44 @@ const ExpensesPage: React.FC = () => {
             </Sider>
             <Layout className="site-layout">
                 <Content style={{ margin: "0 16px" }}>
-                    <CategoriesList editable={true} />
-                    {/* <Row>
-                        <Col span={2}>
-                            <div className={"expense-item"}></div>
+                    <Row>
+                        <Col
+                            span={12}
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-24"
+                            }
+                        >
+                            <div className="dashboard-block expenses-block">
+                                <ExpensesListContainer />
+                            </div>
                         </Col>
-                        <Col span={6}>col-6</Col>
-                        <Col span={6}>col-6</Col>
-                        <Col span={6}>col-6</Col>
                     </Row>
                     <Row>
-                        <Col span={6}>ExpensesPage</Col>
-                        <Col span={6}>col-6</Col>
-                        <Col span={6}>col-6</Col>
-                        <Col span={6}>col-6</Col>
-                    </Row> */}
+                        <Col
+                            span={12}
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
+                            }
+                        >
+                            <div className="dashboard-block list-block"></div>
+                        </Col>
+                        <Col
+                            span={12}
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
+                            }
+                        >
+                            <div className="dashboard-block list-block"></div>
+                        </Col>
+                        <Col
+                            span={12}
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
+                            }
+                        >
+                            <div className="dashboard-block list-block"></div>
+                        </Col>
+                    </Row>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
                     Ant Design ©2018 Created by Ant UED

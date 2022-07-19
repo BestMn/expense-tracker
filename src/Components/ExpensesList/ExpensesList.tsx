@@ -1,26 +1,35 @@
-import { Avatar, List } from "antd";
-import React from "react";
+import { Avatar, Button, List, Skeleton, Pagination } from "antd";
+import React, { useEffect, useState } from "react";
+const count = 3;
 
-const ExpensesList: React.FC = ({ data, currency }) => (
-    <React.Fragment>
+const ExpensesList = ({ data, currency, loading }) => {
+    return (
         <List
             itemLayout="horizontal"
             dataSource={data}
             renderItem={(item) => (
-                <List.Item>
-                    <List.Item.Meta
-                        avatar={
-                            <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title={
-                            <a href="https://ant.design">{`${item.id} ${item.amount} ${currency}`}</a>
-                        }
-                        description={`${item.date}`}
-                    />
+                <List.Item
+                    actions={[
+                        <a key="list-loadmore-edit">edit</a>,
+                        <a key="list-loadmore-more">more</a>,
+                    ]}
+                >
+                    <Skeleton avatar title={false} loading={!data} active>
+                        <List.Item.Meta
+                            avatar={
+                                <Avatar src="https://joeschmoe.io/api/v1/random" />
+                            }
+                            title={
+                                <a href="https://ant.design">{`${item.id} ${item.amount} ${currency}`}</a>
+                            }
+                            description={`${item.date}`}
+                        />
+                        <div>content</div>
+                    </Skeleton>
                 </List.Item>
             )}
         />
-    </React.Fragment>
-);
+    );
+};
 
 export default ExpensesList;
