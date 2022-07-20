@@ -4,6 +4,7 @@ import type { FilterConfirmProps } from "antd/es/table/interface";
 import React, { useState, useRef } from "react";
 import dateFormatter from "../../services/dateFormatter";
 const { Column, ColumnGroup } = Table;
+import moment from "moment";
 
 const ExpensesTable = ({ data }) => {
     console.log(data);
@@ -11,11 +12,20 @@ const ExpensesTable = ({ data }) => {
     const [searchedColumn, setSearchedColumn] = useState("");
     const searchInput = useRef(null);
 
-    const handleSearch = (
-        selectedKeys: string[],
-        confirm: (param?: FilterConfirmProps) => void,
-        dataIndex: any
-    ) => {
+    const disabledDate = (current) => {
+        if (
+            data.find((elem) => {
+                const cur = dateFormatter(current.toJSON());
+                return elem.date == cur;
+            })
+        ) {
+            return;
+        }
+
+        return current;
+    };
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
         setSearchedColumn(dataIndex);
@@ -36,49 +46,20 @@ const ExpensesTable = ({ data }) => {
             <div style={{ padding: 8 }}>
                 <Space>
                     <DatePicker
-                        // format={"DD-MM-YY"}
+                        format="DD-MM-YYYY"
                         onChange={(e) => {
-                            setSelectedKeys(dateFormatter(e?.toJSON()));
-                        }}
-                        allowClear={false}
-                    />
-                </Space>
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() =>
+                            e
+                                ? setSelectedKeys([dateFormatter(e?.toJSON())])
+                                : clearFilters && handleReset(clearFilters);
                             handleSearch(
                                 selectedKeys as string[],
                                 confirm,
                                 dataIndex
-                            )
-                        }
-                        icon={<SearchOutlined />}
-                        size="small"
-                        style={{ width: 90 }}
-                    >
-                        Search
-                    </Button>
-                    <Button
-                        onClick={() =>
-                            clearFilters && handleReset(clearFilters)
-                        }
-                        size="small"
-                        style={{ width: 90 }}
-                    >
-                        Reset
-                    </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        onClick={() => {
-                            confirm({ closeDropdown: false });
-                            setSearchText((selectedKeys as string[])[0]);
-                            setSearchedColumn(dataIndex);
+                            );
                         }}
-                    >
-                        Filter
-                    </Button>
+                        disabledDate={disabledDate}
+                        autoFocus={true}
+                    />
                 </Space>
             </div>
         ),
@@ -97,6 +78,20 @@ const ExpensesTable = ({ data }) => {
                 setTimeout(() => searchInput.current?.select(), 100);
             }
         },
+        render: (text) => text,
+        // searchedColumn === dataIndex ? (
+        //     <Highlighter
+        //         highlightStyle={{
+        //             backgroundColor: "#ffc069",
+        //             padding: 0,
+        //         }}
+        //         searchWords={[searchText]}
+        //         autoEscape
+        //         textToHighlight={text ? text.toString() : ""}
+        //     />
+        // ) : (
+        //     text
+        // ),
     });
 
     const columns: ColumnsType<DataType> = [
