@@ -1,116 +1,100 @@
 {
-  "users": [
-    {
-      "id": "1",
-      "name": "BestM",
-      "currency": "₽"
-    },
-    {
-      "id": "2",
-      "name": "ManOfSteel"
-    }
-  ],
-  "categories": [
-    {
-      "userId": 1,
-      "id": 1,
-      "name": "Food",
-      "icon": "FaVideo",
-      "color": "#cddc39"
-    },
-    {
-      "userId": 1,
-      "name": "Cinema",
-      "icon": "FaTint",
-      "color": "#00bcd4",
-      "id": 2
-    },
-    {
-      "userId": 1,
-      "id": 3,
-      "name": "House",
-      "icon": "FaUser",
-      "color": "green"
-    },
-    {
-      "userId": 1,
-      "id": 4,
-      "name": "Train",
-      "icon": "FaTrain",
-      "color": "#3f51b5"
-    },
-    {
-      "userId": 1,
-      "id": 5,
-      "name": "Others",
-      "icon": "FaTint",
-      "color": "grey"
-    }
-  ],
-  "expenses": [
-    {
-      "userId": 1,
-      "date": "2022-07-13T10:03:59.618Z",
-      "amount": 1,
-      "categoryId": "2",
-      "description": "",
-      "id": 1
-    },
-    {
-      "userId": 1,
-      "date": "2022-07-12T10:16:36.084Z",
-      "amount": 2,
-      "categoryId": "3",
-      "description": "",
-      "id": 2
-    },
-    {
-      "userId": 1,
-      "date": "2022-07-10T10:16:41.740Z",
-      "amount": 5,
-      "categoryId": "2",
-      "description": "",
-      "id": 3
-    },
-    {
-      "userId": 1,
-      "date": "2022-07-13T10:16:56.351Z",
-      "amount": 6,
-      "categoryId": "5",
-      "description": "",
-      "id": 4
-    },
-    {
-      "userId": 1,
-      "date": "2022-07-11T10:17:37.684Z",
-      "amount": 2,
-      "categoryId": "4",
-      "description": "",
-      "id": 5
-    },
-    {
-      "userId": 1,
-      "date": "2022-07-18T07:08:37.981Z",
-      "amount": 123,
-      "categoryId": "1",
-      "description": "",
-      "id": 6
-    },
-    {
-      "userId": 1,
-      "date": "2022-07-18T07:28:41.490Z",
-      "amount": 23,
-      "categoryId": "3",
-      "description": "",
-      "id": 7
-    },
-    {
-      "userId": 1,
-      "date": "2022-07-19T04:56:36.840Z",
-      "amount": 50,
-      "categoryId": 4,
-      "description": "",
-      "id": 8
-    }
-  ]
+    "users": [
+        {
+            "id": "1",
+            "name": "BestM",
+            "currency": "₽"
+        },
+        {
+            "id": "2",
+            "name": "ManOfSteel"
+        }
+    ],
+    "categories": [
+        {
+            "userId": 1,
+            "id": 1,
+            "name": "Food",
+            "icon": "FaVideo",
+            "color": "#cddc39"
+        },
+        {
+            "userId": 1,
+            "name": "Cinema",
+            "icon": "FaTint",
+            "color": "#00bcd4",
+            "id": 2
+        },
+        {
+            "userId": 1,
+            "id": 3,
+            "name": "House",
+            "icon": "FaUser",
+            "color": "green"
+        },
+        {
+            "userId": 1,
+            "id": 4,
+            "name": "Train",
+            "icon": "FaTrain",
+            "color": "#3f51b5"
+        },
+        {
+            "userId": 1,
+            "id": 5,
+            "name": "Others",
+            "icon": "FaTint",
+            "color": "grey"
+        }
+    ],
+    "expenses": [
+        {
+            "userId": 1,
+            "date": "2022-07-13T10:03:59.618Z",
+            "amount": 1,
+            "categoryId": "2",
+            "description": "",
+            "id": 1
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-12T10:16:36.084Z",
+            "amount": 2,
+            "categoryId": "3",
+            "description": "",
+            "id": 2
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-10T10:16:41.740Z",
+            "amount": 5,
+            "categoryId": "2",
+            "description": "",
+            "id": 3
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-04T10:35:02.756Z",
+            "amount": 23,
+            "categoryId": 3,
+            "description": "",
+            "id": 4
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-19T10:36:03.078Z",
+            "amount": 23,
+            "categoryId": 2,
+            "description": "Desc",
+            "id": 5
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-19T10:36:15.660Z",
+            "amount": 34,
+            "categoryId": 2,
+            "description": "",
+            "id": 6
+        }
+    ]
 }

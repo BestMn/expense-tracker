@@ -1,10 +1,10 @@
-import { Spin } from "antd";
+import { Spin, Pagination } from "antd";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import ExpensesList from "./ExpensesList";
+import ExpensesTable from "./ExpensesTable";
 import dateFormatter from "../../services/dateFormatter";
 
-const ExpensesListContainer = () => {
+const ExpensesTableContainer = () => {
     const [data, setData] = useState(null);
 
     const { expenses, loading: expensesLoading } = useSelector(
@@ -16,6 +16,8 @@ const ExpensesListContainer = () => {
     );
 
     const { currency } = useSelector((state: any) => state.userReducer);
+
+    const pageSize = 10;
 
     useEffect(() => {
         if (expenses && categories) {
@@ -29,14 +31,12 @@ const ExpensesListContainer = () => {
                     category: category.name,
                 };
             });
-
             const lastExpenses = expensesWithCategories
                 .sort((a, b) => {
                     const date1 = new Date(a.date);
                     const date2 = new Date(b.date);
                     return date2 - date1;
                 })
-                .slice(0, 4)
                 .map((elem) => {
                     return {
                         ...elem,
@@ -49,15 +49,17 @@ const ExpensesListContainer = () => {
 
     if (data) {
         return (
-            <ExpensesList
-                data={data}
-                currency={currency}
-                loading={expensesLoading}
-            />
+            <>
+                <ExpensesTable
+                    data={data}
+                    currency={currency}
+                    loading={expensesLoading}
+                />
+            </>
         );
     } else {
         return <Spin />;
     }
 };
 
-export default ExpensesListContainer;
+export default ExpensesTableContainer;

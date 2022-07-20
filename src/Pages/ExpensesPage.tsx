@@ -12,7 +12,7 @@ import "antd/dist/antd.css";
 import "./ExpensePage.css";
 import { Link } from "react-router-dom";
 import CategoriesList from "../Components/CategoiesList/CategoriesList";
-import ExpensesListContainer from "../Components/ExpensesList/ExpensesListContainer";
+import ExpensesTableContainer from "../Components/ExpensesTable/ExpensesTableContainer";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -75,7 +75,7 @@ const ExpensesPage: React.FC = () => {
                             }
                         >
                             <div className="dashboard-block expenses-block">
-                                <ExpensesListContainer />
+                                <ExpensesTableContainer />
                             </div>
                         </Col>
                     </Row>
