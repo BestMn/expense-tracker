@@ -95,6 +95,46 @@
             "categoryId": 2,
             "description": "",
             "id": 6
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-21T05:10:08.190Z",
+            "amount": 5,
+            "categoryId": 2,
+            "description": "",
+            "id": 7
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-21T06:09:12.598Z",
+            "amount": 10,
+            "categoryId": 1,
+            "description": "",
+            "id": 8
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-21T09:52:52.747Z",
+            "amount": 26,
+            "categoryId": 5,
+            "description": "",
+            "id": 9
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-21T10:16:41.627Z",
+            "amount": 34,
+            "categoryId": 4,
+            "description": "",
+            "id": 10
+        },
+        {
+            "userId": 1,
+            "date": "2022-07-21T10:16:50.070Z",
+            "amount": 34,
+            "categoryId": 3,
+            "description": "",
+            "id": 11
         }
     ]
 }

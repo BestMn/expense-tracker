@@ -26,6 +26,8 @@ const LastExpensesListContainer: React.FC = () => {
                 return {
                     ...elem,
                     category: category.name,
+                    icon: category.icon,
+                    color: category.color,
                 };
             });
 
@@ -50,7 +52,7 @@ const LastExpensesListContainer: React.FC = () => {
         return (
             <React.Fragment>
                 <h2>Last Expenses</h2>
-                <LastExpensesList fodata={data} currency={currency} />
+                <LastExpensesList data={data} currency={currency} />
                 <button>Show All</button>
             </React.Fragment>
         );

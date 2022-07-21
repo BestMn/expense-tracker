@@ -29,6 +29,8 @@ const ExpensesTableContainer = () => {
                 return {
                     ...elem,
                     category: category.name,
+                    icon: category.icon,
+                    color: category.color,
                 };
             });
             const lastExpenses = expensesWithCategories

@@ -4,15 +4,16 @@ import type { FilterConfirmProps } from "antd/es/table/interface";
 import React, { useState, useRef } from "react";
 import dateFormatter from "../../services/dateFormatter";
 const { Column, ColumnGroup } = Table;
-import moment from "moment";
+import * as FontIcon from "react-icons/fa";
+import "./ExpensesTable.css";
 
-const ExpensesTable = ({ data }) => {
+const ExpensesTable = ({ data, currency }) => {
     console.log(data);
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const searchInput = useRef(null);
 
-    const disabledDate = (current) => {
+    const disabledDates = (current) => {
         if (
             data.find((elem) => {
                 const cur = dateFormatter(current.toJSON());
@@ -57,7 +58,7 @@ const ExpensesTable = ({ data }) => {
                                 dataIndex
                             );
                         }}
-                        disabledDate={disabledDate}
+                        disabledDate={disabledDates}
                         autoFocus={true}
                     />
                 </Space>
@@ -79,19 +80,6 @@ const ExpensesTable = ({ data }) => {
             }
         },
         render: (text) => text,
-        // searchedColumn === dataIndex ? (
-        //     <Highlighter
-        //         highlightStyle={{
-        //             backgroundColor: "#ffc069",
-        //             padding: 0,
-        //         }}
-        //         searchWords={[searchText]}
-        //         autoEscape
-        //         textToHighlight={text ? text.toString() : ""}
-        //     />
-        // ) : (
-        //     text
-        // ),
     });
 
     const columns: ColumnsType<DataType> = [
@@ -105,11 +93,23 @@ const ExpensesTable = ({ data }) => {
             title: "Category",
             dataIndex: "category",
             key: "category",
+            render: (text, record) => (
+                <div className="expense-category">
+                    <div
+                        style={{ backgroundColor: record.color }}
+                        className="expense-category-icon"
+                    >
+                        {React.createElement(FontIcon[record.icon])}
+                    </div>
+                    {` ${text}`}
+                </div>
+            ),
         },
         {
             title: "Amount",
             dataIndex: "amount",
             key: "amount",
+            render: (text) => <span>{`${text} ${currency}`}</span>,
         },
         {
             title: "Description",
@@ -128,7 +128,15 @@ const ExpensesTable = ({ data }) => {
         },
     ];
 
-    return <Table columns={columns} dataSource={data} rowKey={"id"} />;
+    return (
+        <Table
+            pagination={{ position: ["bottomLeft"] }}
+            columns={columns}
+            dataSource={data}
+            rowKey={"id"}
+            // rowClassName={(record, index) => console.log(record, index)}
+        />
+    );
 };
 
 export default ExpensesTable;
