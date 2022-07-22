@@ -1,140 +1,196 @@
 {
-    "users": [
-        {
-            "id": "1",
-            "name": "BestM",
-            "currency": "₽"
-        },
-        {
-            "id": "2",
-            "name": "ManOfSteel"
-        }
-    ],
-    "categories": [
-        {
-            "userId": 1,
-            "id": 1,
-            "name": "Food",
-            "icon": "FaVideo",
-            "color": "#cddc39"
-        },
-        {
-            "userId": 1,
-            "name": "Cinema",
-            "icon": "FaTint",
-            "color": "#00bcd4",
-            "id": 2
-        },
-        {
-            "userId": 1,
-            "id": 3,
-            "name": "House",
-            "icon": "FaUser",
-            "color": "green"
-        },
-        {
-            "userId": 1,
-            "id": 4,
-            "name": "Train",
-            "icon": "FaTrain",
-            "color": "#3f51b5"
-        },
-        {
-            "userId": 1,
-            "id": 5,
-            "name": "Others",
-            "icon": "FaTint",
-            "color": "grey"
-        }
-    ],
-    "expenses": [
-        {
-            "userId": 1,
-            "date": "2022-07-13T10:03:59.618Z",
-            "amount": 1,
-            "categoryId": "2",
-            "description": "",
-            "id": 1
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-12T10:16:36.084Z",
-            "amount": 2,
-            "categoryId": "3",
-            "description": "",
-            "id": 2
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-10T10:16:41.740Z",
-            "amount": 5,
-            "categoryId": "2",
-            "description": "",
-            "id": 3
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-04T10:35:02.756Z",
-            "amount": 23,
-            "categoryId": 3,
-            "description": "",
-            "id": 4
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-19T10:36:03.078Z",
-            "amount": 23,
-            "categoryId": 2,
-            "description": "Desc",
-            "id": 5
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-19T10:36:15.660Z",
-            "amount": 34,
-            "categoryId": 2,
-            "description": "",
-            "id": 6
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-21T05:10:08.190Z",
-            "amount": 5,
-            "categoryId": 2,
-            "description": "",
-            "id": 7
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-21T06:09:12.598Z",
-            "amount": 10,
-            "categoryId": 1,
-            "description": "",
-            "id": 8
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-21T09:52:52.747Z",
-            "amount": 26,
-            "categoryId": 5,
-            "description": "",
-            "id": 9
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-21T10:16:41.627Z",
-            "amount": 34,
-            "categoryId": 4,
-            "description": "",
-            "id": 10
-        },
-        {
-            "userId": 1,
-            "date": "2022-07-21T10:16:50.070Z",
-            "amount": 34,
-            "categoryId": 3,
-            "description": "",
-            "id": 11
-        }
-    ]
+  "users": [
+    {
+      "id": "1",
+      "name": "BestM",
+      "currency": "₽"
+    },
+    {
+      "id": "2",
+      "name": "ManOfSteel"
+    }
+  ],
+  "categories": [
+    {
+      "userId": 1,
+      "id": 1,
+      "name": "Food",
+      "icon": "FaVideo",
+      "color": "#cddc39"
+    },
+    {
+      "userId": 1,
+      "name": "Cinema",
+      "icon": "FaTint",
+      "color": "#00bcd4",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "id": 3,
+      "name": "House",
+      "icon": "FaUser",
+      "color": "green"
+    },
+    {
+      "userId": 1,
+      "id": 4,
+      "name": "Train",
+      "icon": "FaTrain",
+      "color": "#3f51b5"
+    },
+    {
+      "userId": 1,
+      "id": 5,
+      "name": "Others",
+      "icon": "FaTint",
+      "color": "grey"
+    }
+  ],
+  "expenses": [
+    {
+      "userId": 1,
+      "date": "2022-07-13T10:03:59.618Z",
+      "amount": 1,
+      "categoryId": "2",
+      "description": "",
+      "id": 1
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-12T10:16:36.084Z",
+      "amount": 2,
+      "categoryId": "3",
+      "description": "",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-10T10:16:41.740Z",
+      "amount": 5,
+      "categoryId": "2",
+      "description": "",
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-04T10:35:02.756Z",
+      "amount": 23,
+      "categoryId": 3,
+      "description": "",
+      "id": 4
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-19T10:36:03.078Z",
+      "amount": 23,
+      "categoryId": 2,
+      "description": "Desc",
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-19T10:36:15.660Z",
+      "amount": 34,
+      "categoryId": 2,
+      "description": "",
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-21T05:10:08.190Z",
+      "amount": 5,
+      "categoryId": 2,
+      "description": "",
+      "id": 7
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-21T06:09:12.598Z",
+      "amount": 10,
+      "categoryId": 1,
+      "description": "",
+      "id": 8
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-21T09:52:52.747Z",
+      "amount": 26,
+      "categoryId": 5,
+      "description": "",
+      "id": 9
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-21T10:16:41.627Z",
+      "amount": 34,
+      "categoryId": 4,
+      "description": "",
+      "id": 10
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-21T10:16:50.070Z",
+      "amount": 34,
+      "categoryId": 3,
+      "description": "",
+      "id": 11
+    },
+    {
+      "userId": 1,
+      "date": "2022-05-04T09:04:50.629Z",
+      "amount": 234,
+      "categoryId": 4,
+      "description": "",
+      "id": 12
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-22T10:18:15.772Z",
+      "amount": 25,
+      "categoryId": 1,
+      "description": "",
+      "id": 13
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-22T10:18:23.281Z",
+      "amount": 25,
+      "categoryId": 1,
+      "description": "",
+      "id": 14
+    },
+    {
+      "userId": 1,
+      "date": "2022-04-01T10:56:26.164Z",
+      "amount": 30,
+      "categoryId": 1,
+      "description": "",
+      "id": 15
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-22T10:56:35.660Z",
+      "amount": 30,
+      "categoryId": 1,
+      "description": "",
+      "id": 16
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-22T11:29:30.338Z",
+      "amount": 24,
+      "categoryId": 2,
+      "description": "",
+      "id": 17
+    },
+    {
+      "userId": 1,
+      "date": "2022-07-22T11:41:56.230Z",
+      "amount": 10,
+      "categoryId": 2,
+      "description": "",
+      "id": 18
+    }
+  ]
 }
