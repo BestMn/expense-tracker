@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import TopCategories from "./TopCategories";
 import { useSelector } from "react-redux";
-import dateFormatter from "../../services/dateFormatter";
+import { Select } from "antd";
+import "./TopCategories.css";
 import moment from "moment";
 
 const TopCategoriesContainer = () => {
+    const period = 30;
+    const handleChange = () => {};
+
     const [data, setData] = useState(null);
 
     const { expenses } = useSelector((state: any) => state.expensesReducer);
@@ -15,7 +19,7 @@ const TopCategoriesContainer = () => {
 
     useEffect(() => {
         if (expenses && categories) {
-            const priorDate = moment().subtract(30, "days");
+            const priorDate = moment().subtract(period, "days");
             const copied = [...expenses];
             const lastExpenses = copied.filter(
                 (el) => priorDate < moment(el.date)
@@ -48,8 +52,36 @@ const TopCategoriesContainer = () => {
     }, [expenses, categories]);
 
     if (data) {
-        return <TopCategories data={data} currency={currency} />;
+        return (
+            <>
+                <h2>
+                    Top Categories in the last{" "}
+                    <PeriodSelect handleChange={handleChange} />
+                </h2>
+                <TopCategories data={data} currency={currency} />
+            </>
+        );
     }
+};
+
+const PeriodSelect: React.FC = ({ handleChange }) => {
+    const { Option } = Select;
+    return (
+        <>
+            <Select
+                defaultValue="lucy"
+                className="period-select"
+                bordered={false}
+                dropdownMatchSelectWidth={false}
+                onChange={handleChange}
+                showArrow={false}
+            >
+                <Option value="jack">7 days</Option>
+                <Option value="lucy">30 days</Option>
+                <Option value="Yiminghe">90 days</Option>
+            </Select>
+        </>
+    );
 };
 
 export default TopCategoriesContainer;

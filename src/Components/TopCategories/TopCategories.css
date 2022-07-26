@@ -1,0 +1,10 @@
+.period-select {
+    border-radius: 5px;
+    font-size: inherit;
+    font-weight: 500;
+    background-color: #aeb8c2;
+}
+
+.ant-select-open.ant-select-open {
+    color: white !important;
+}
