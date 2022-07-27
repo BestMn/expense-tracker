@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { Bar } from "@ant-design/plots";
 
 const TopCategories = ({ data }) => {
-    console.log(data);
     const config = {
         data,
         xField: "amount",

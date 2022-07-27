@@ -32,10 +32,22 @@ const DonutPlotContainer = () => {
                     color: category.color,
                     amount: el.amount,
                     type: el.id,
+                    categoryId: el.categoryId,
                     category: category.name,
                 };
             });
-            setData(donutData);
+            const reducedExpenses = [];
+            donutData.forEach((elem) => {
+                const existedCategoryIndex = reducedExpenses.findIndex(
+                    (el) => el.categoryId == elem.categoryId
+                );
+                if (existedCategoryIndex >= 0) {
+                    reducedExpenses[existedCategoryIndex].amount += elem.amount;
+                } else {
+                    reducedExpenses.push(elem);
+                }
+            });
+            setData(reducedExpenses);
         }
     }, [expenses, categories]);
 

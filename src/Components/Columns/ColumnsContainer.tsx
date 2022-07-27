@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Segmented, Spin } from "antd";
+import { Segmented, Spin, DatePicker } from "antd";
 import "./ColumnsContainer.css";
 import Columns from "./Columns";
 import LineColumn from "./Line";
 import dateFormatter from "../../services/dateFormatter";
 
+const { RangePicker } = DatePicker;
+
 const ColumnsPlotContainer = () => {
-    const [period, setPeriod] = useState(7);
-    const [group, setGroup] = useState(7);
+    const [period, setPeriod] = useState(null);
+    const [customPeriod, setCustomPeriod] = useState(null);
 
     const [data, setData] = useState(null);
 
@@ -18,9 +20,22 @@ const ColumnsPlotContainer = () => {
 
     const { currency } = useSelector((state: any) => state.userReducer);
 
+    const onPeriodChange = (days) => {
+        const now = new Date();
+        const backdate = new Date(now.setDate(now.getDate() - days));
+        setPeriod([Date.parse(backdate), Date.parse(new Date())]);
+    };
+
+    useEffect(() => {
+        onPeriodChange(7);
+    }, []);
+
     useEffect(() => {
         if (expenses) {
-            const allDates = [...Array(period)]
+            const days = (period[1] - period[0]) / 1000 / 60 / 60 / 24;
+            console.log(days);
+
+            const allDates = [...Array(days)]
                 .map((_, i) => {
                     const d = new Date();
                     d.setDate(d.getDate() - i);
@@ -39,28 +54,27 @@ const ColumnsPlotContainer = () => {
                     amount: accum,
                 };
             });
-            const groupData = preparedData.map((el) => {});
             setData(preparedData);
         }
-    }, [loading, period]);
+    }, [loading, period, customPeriod]);
 
     const segment = (period) => {
         const d = new Date();
         switch (period) {
             case "Week":
-                setPeriod(7);
+                onPeriodChange(7);
                 break;
             case "Month":
-                setPeriod(30);
+                onPeriodChange(30);
                 break;
             case "Quarter":
-                setPeriod(90);
+                onPeriodChange(90);
                 break;
             case "Year":
-                setPeriod(365);
+                onPeriodChange(365);
                 break;
             default:
-                setPeriod(7);
+                onPeriodChange(7);
         }
     };
 
@@ -77,6 +91,16 @@ const ColumnsPlotContainer = () => {
                         className={"segmented"}
                         block={false}
                     />
+                    <RangePicker
+                        onChange={(value) => {
+                            if (value) {
+                                setPeriod([
+                                    Date.parse(value[0]) - 86400000,
+                                    Date.parse(value[1]),
+                                ]);
+                            }
+                        }}
+                    />
                     <Segmented
                         options={["Days", "Weeks", "Mounths"]}
                         defaultValue={"Days"}
@@ -87,11 +111,7 @@ const ColumnsPlotContainer = () => {
                         block={false}
                     />
                 </div>
-                {period < 91 ? (
-                    <Columns data={data} currency={currency} />
-                ) : (
-                    <LineColumn data={data} currency={currency} />
-                )}
+                <Columns data={data} currency={currency} />
             </React.Fragment>
         );
     } else {

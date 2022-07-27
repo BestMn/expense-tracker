@@ -61,6 +61,7 @@ const DonutPlot = ({ data, currency }) => {
                 fontSize: 16,
             },
             autoRotate: false,
+            autoHide: true,
             content: (v) => {
                 return v.category;
             },
@@ -102,6 +103,7 @@ const DonutPlot = ({ data, currency }) => {
         interactions: [
             {
                 type: "element-selected",
+                enable: false,
             },
             {
                 type: "element-active",

@@ -3,13 +3,13 @@ import TopCategories from "./TopCategories";
 import { useSelector } from "react-redux";
 import { Select } from "antd";
 import "./TopCategories.css";
-import moment from "moment";
 
 const TopCategoriesContainer = () => {
-    const period = 30;
-    const handleChange = () => {};
-
     const [data, setData] = useState(null);
+    const [period, setPeriod] = useState(7);
+    const handleChange = (value) => {
+        setPeriod(value);
+    };
 
     const { expenses } = useSelector((state: any) => state.expensesReducer);
 
@@ -19,10 +19,11 @@ const TopCategoriesContainer = () => {
 
     useEffect(() => {
         if (expenses && categories) {
-            const priorDate = moment().subtract(period, "days");
+            const today = new Date();
+            const priorDate = new Date().setDate(today.getDate() - period);
             const copied = [...expenses];
             const lastExpenses = copied.filter(
-                (el) => priorDate < moment(el.date)
+                (el) => priorDate < Date.parse(el.date)
             );
             const expensesWithCategories = lastExpenses.map((elem) => {
                 const category = categories.find(
@@ -49,7 +50,7 @@ const TopCategoriesContainer = () => {
             reducedExpenses.sort((a, b) => b.amount - a.amount).slice(0, 4);
             setData(reducedExpenses);
         }
-    }, [expenses, categories]);
+    }, [expenses, categories, period]);
 
     if (data) {
         return (
@@ -69,16 +70,16 @@ const PeriodSelect: React.FC = ({ handleChange }) => {
     return (
         <>
             <Select
-                defaultValue="lucy"
+                defaultValue="7"
                 className="period-select"
                 bordered={false}
                 dropdownMatchSelectWidth={false}
-                onChange={handleChange}
+                onChange={(value) => handleChange(value)}
                 showArrow={false}
             >
-                <Option value="jack">7 days</Option>
-                <Option value="lucy">30 days</Option>
-                <Option value="Yiminghe">90 days</Option>
+                <Option value="7">7 days</Option>
+                <Option value="30">30 days</Option>
+                <Option value="90">90 days</Option>
             </Select>
         </>
     );
