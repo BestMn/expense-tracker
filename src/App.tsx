@@ -1,10 +1,11 @@
 import React, { createContext, useEffect, useState, useCallback } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "./store/store";
 import { getUserExpenses } from "./store/reducers/expensesReducer";
 import { getUserCategories } from "./store/reducers/categoriesReducer";
 import { getUserInfo } from "./store/reducers/userReducer";
+import AuthPage from "./Pages/AuthPage";
 import DashboardPage from "./Pages/DashboardPage";
 import ExpensesPage from "./Pages/ExpensesPage";
 
@@ -20,7 +21,8 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<DashboardPage />} />
+                <Route path="/" element={<AuthPage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/expenses" element={<ExpensesPage />} />
             </Routes>
         </Router>

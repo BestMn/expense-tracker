@@ -239,6 +239,14 @@
       "categoryId": 2,
       "description": "",
       "id": 24
+    },
+    {
+      "userId": 1,
+      "date": "2022-08-01T10:03:57.995Z",
+      "amount": 5,
+      "categoryId": 2,
+      "description": "",
+      "id": 25
     }
   ]
 }

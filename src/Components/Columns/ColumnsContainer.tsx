@@ -23,7 +23,7 @@ const ColumnsPlotContainer = () => {
     const onPeriodChange = (days) => {
         const now = new Date();
         const backdate = new Date(now.setDate(now.getDate() - days));
-        setPeriod([Date.parse(backdate), Date.parse(new Date())]);
+        setPeriod([backdate.toJSON(), new Date().toJSON()]);
     };
 
     useEffect(() => {
@@ -32,7 +32,12 @@ const ColumnsPlotContainer = () => {
 
     useEffect(() => {
         if (expenses) {
-            const days = (period[1] - period[0]) / 1000 / 60 / 60 / 24;
+            const days =
+                (Date.parse(period[1]) - Date.parse(period[0])) /
+                1000 /
+                60 /
+                60 /
+                24;
             console.log(days);
 
             const allDates = [...Array(days)]
@@ -95,8 +100,8 @@ const ColumnsPlotContainer = () => {
                         onChange={(value) => {
                             if (value) {
                                 setPeriod([
-                                    Date.parse(value[0]) - 86400000,
-                                    Date.parse(value[1]),
+                                    value[0]?.toJSON(),
+                                    value[1]?.toJSON(),
                                 ]);
                             }
                         }}
