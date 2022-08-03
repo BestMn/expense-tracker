@@ -7,7 +7,9 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, Col, Row } from "antd";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { setToken, setUserId } from "../store/reducers/userReducer";
 import "antd/dist/antd.css";
 import "./DashboardPage.css";
 import { Link } from "react-router-dom";
@@ -37,7 +39,7 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem(<Link to="/">Dashboard</Link>, "1", <PieChartOutlined />),
+    getItem(<Link to="/dashboard">Dashboard</Link>, "1", <PieChartOutlined />),
     getItem(<Link to="/expenses">Expenses</Link>, "2", <DesktopOutlined />),
     getItem("User", "sub1", <UserOutlined />, [
         getItem("Tom", "3"),
@@ -53,6 +55,13 @@ const items: MenuItem[] = [
 
 const DashboardPage: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const dispatch = useDispatch();
+    const logout = () => {
+        dispatch(setToken(null));
+        dispatch(setUserId(null));
+
+        localStorage.removeItem("userData");
+    };
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
@@ -127,7 +136,7 @@ const DashboardPage: React.FC = () => {
                     </Row>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
-                    Ant Design ©2018 Created by Ant UED
+                    <button onClick={logout}>Logout</button>
                 </Footer>
             </Layout>
         </Layout>

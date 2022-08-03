@@ -5,7 +5,12 @@ import LoginForm from "../Components/LoginForm/LoginForm";
 
 const AuthPage: React.FC = () => {
     const { token } = useSelector((state: any) => state.userReducer);
-    return <RegistrationForm />;
+    return (
+        <>
+            <RegistrationForm />
+            <LoginForm />
+        </>
+    );
 };
 
 export default AuthPage;

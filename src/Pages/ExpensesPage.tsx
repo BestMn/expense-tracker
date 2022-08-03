@@ -33,7 +33,7 @@ function getItem(
 }
 
 const menuItems: MenuItem[] = [
-    getItem(<Link to="/">Dashboard</Link>, "1", <PieChartOutlined />),
+    getItem(<Link to="/dashboard">Dashboard</Link>, "1", <PieChartOutlined />),
     getItem(<Link to="/expenses">Expenses</Link>, "2", <DesktopOutlined />),
     getItem("User", "sub1", <UserOutlined />, [
         getItem("Tom", "3"),

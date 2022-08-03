@@ -23,7 +23,7 @@ export const getUserCategories = createAsyncThunk(
     "users/getUserCategories",
     async (userId: number) => {
         const res = await fetch(
-            `http://localhost:3000/categories?userId=${userId}`
+            `http://localhost:5000/api/category?userId=${userId}`
         );
         return await res.json();
     }
@@ -32,7 +32,7 @@ export const getUserCategories = createAsyncThunk(
 export const addUserCategory = createAsyncThunk(
     "expenses/addUserCategory",
     async (data = {}) => {
-        const response = await fetch(`http://localhost:3000/categories`, {
+        const response = await fetch(`http://localhost:5000/api/category`, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -85,14 +85,17 @@ const categoriesSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getUserCategories.pending, (state) => {
+                console.log("pending");
                 state.loading = true;
             })
             .addCase(getUserCategories.fulfilled, (state, action) => {
                 state.loading = false;
+                console.log("full");
                 state.categories = action.payload;
             })
             .addCase(getUserCategories.rejected, (state, action) => {
                 state.loading = false;
+                console.log(action.error);
                 state.error = action.error;
             })
             .addCase(addUserCategory.pending, (state) => {

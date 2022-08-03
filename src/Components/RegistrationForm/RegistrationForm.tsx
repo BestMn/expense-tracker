@@ -19,7 +19,7 @@ const RegistrationForm: React.FC = () => {
 
     return (
         <Form
-            name="basic"
+            name="registration-form"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             initialValues={{ remember: true }}

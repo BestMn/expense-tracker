@@ -23,7 +23,7 @@ export const getUserExpenses = createAsyncThunk(
     "expenses/getUserExpenses",
     async (userId: number) => {
         const res = await fetch(
-            `http://localhost:3000/expenses?userId=${userId}`
+            `http://localhost:5000/expense?userId=${userId}`
         );
         return await res.json();
     }
@@ -32,7 +32,7 @@ export const getUserExpenses = createAsyncThunk(
 export const addUserExpenses = createAsyncThunk(
     "expenses/addUserExpenses",
     async (data = {}) => {
-        const response = await fetch(`http://localhost:3000/expenses`, {
+        const response = await fetch(`http://localhost:5000/api/expense`, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",

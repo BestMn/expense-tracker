@@ -3,14 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { Segmented, Spin, DatePicker } from "antd";
 import "./ColumnsContainer.css";
 import Columns from "./Columns";
-import LineColumn from "./Line";
 import dateFormatter from "../../services/dateFormatter";
 
 const { RangePicker } = DatePicker;
 
 const ColumnsPlotContainer = () => {
     const [period, setPeriod] = useState(null);
-    const [customPeriod, setCustomPeriod] = useState(null);
 
     const [data, setData] = useState(null);
 
@@ -31,13 +29,14 @@ const ColumnsPlotContainer = () => {
     }, []);
 
     useEffect(() => {
-        if (expenses) {
-            const days =
+        if (expenses && period) {
+            const days = Math.floor(
                 (Date.parse(period[1]) - Date.parse(period[0])) /
-                1000 /
-                60 /
-                60 /
-                24;
+                    1000 /
+                    60 /
+                    60 /
+                    24
+            );
             console.log(days);
 
             const allDates = [...Array(days)]
@@ -61,7 +60,7 @@ const ColumnsPlotContainer = () => {
             });
             setData(preparedData);
         }
-    }, [loading, period, customPeriod]);
+    }, [loading, period]);
 
     const segment = (period) => {
         const d = new Date();

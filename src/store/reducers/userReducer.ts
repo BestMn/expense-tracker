@@ -37,15 +37,38 @@ export const userRegistration = createAsyncThunk(
                 body: JSON.stringify(data),
             }
         );
-        console.log(response.json());
-        return await response.json();
+        const res = await response.json();
+        localStorage.setItem("userData", JSON.stringify({ token: res.token }));
+        return res;
     }
 );
+
+export const userLogin = createAsyncThunk("user/login", async (data = {}) => {
+    const response = await fetch(`http://localhost:5000/api/user/login`, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(data),
+    });
+    const res = await response.json();
+    localStorage.setItem(
+        "userData",
+        JSON.stringify({ token: res.token, userId: res.userId })
+    );
+    return res;
+});
 
 export const getUserInfo = createAsyncThunk(
     "users/getUserInfo",
     async (userId: number) => {
-        const res = await fetch(`http://localhost:3000/users/${userId}`);
+        const res = await fetch(`http://localhost:5000/api/user`);
         const json = await res.json();
         return { name: json.name, currency: json.currency };
     }
@@ -54,7 +77,14 @@ export const getUserInfo = createAsyncThunk(
 const categoriesSlice = createSlice({
     name: "userSlice",
     initialState,
-    reducers: {},
+    reducers: {
+        setToken: (state, action) => {
+            state.token = action.payload;
+        },
+        setUserId: (state, action) => {
+            state.userId = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getUserInfo.pending, (state) => {
@@ -81,9 +111,22 @@ const categoriesSlice = createSlice({
             .addCase(userRegistration.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
+            })
+            .addCase(userLogin.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(userLogin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.token = action.payload.token;
+                state.userId = action.payload.userId;
+                state.currency = action.payload.currency;
+            })
+            .addCase(userLogin.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
             });
     },
 });
 
-export const {} = categoriesSlice.actions;
+export const { setToken, setUserId } = categoriesSlice.actions;
 export const { reducer } = categoriesSlice;

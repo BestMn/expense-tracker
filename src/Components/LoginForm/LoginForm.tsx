@@ -2,24 +2,32 @@ import { Button, Checkbox, Form, Input } from "antd";
 import React from "react";
 import { AppDispatch } from "../../store/store";
 import { useDispatch } from "react-redux";
-import { userRegistration } from "../../store/reducers/userReducer";
+import { userLogin } from "../../store/reducers/userReducer";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    NavLink,
+    Navigate,
+    useNavigate,
+} from "react-router-dom";
 
 const LoginForm: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const onFinish = (values: any) => {
-        dispatch(
-            userRegistration({ email: values.email, password: values.password })
-        );
-        console.log("Success:", values);
+        dispatch(userLogin({ email: values.email, password: values.password }));
+        console.log("Login success:", values);
+        navigate("/dashboard");
     };
 
     const onFinishFailed = (errorInfo: any) => {
-        console.log("Failed:", errorInfo);
+        console.log("Login Failed:", errorInfo);
     };
 
     return (
         <Form
-            name="basic"
+            name="login-form"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             initialValues={{ remember: true }}
