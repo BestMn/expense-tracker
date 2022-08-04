@@ -4,6 +4,7 @@ import { Bar } from "@ant-design/plots";
 
 const TopCategories = ({ data }) => {
     const config = {
+        height: 322,
         data,
         xField: "amount",
         yField: "category",

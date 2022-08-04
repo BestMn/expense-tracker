@@ -16,7 +16,7 @@ interface IExpensesState {
 const initialState: IExpensesState = {
     loading: false,
     error: null,
-    expenses: null,
+    expenses: [],
 };
 
 export const getUserExpenses = createAsyncThunk(

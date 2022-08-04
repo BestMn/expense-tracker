@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "./store/store";
 import { getUserExpenses } from "./store/reducers/expensesReducer";
 import { getUserCategories } from "./store/reducers/categoriesReducer";
-import { getUserInfo, setToken, setUserId } from "./store/reducers/userReducer";
+import { checkUser, setToken, setUserId } from "./store/reducers/userReducer";
 import AuthPage from "./Pages/AuthPage";
 import DashboardPage from "./Pages/DashboardPage";
 import ExpensesPage from "./Pages/ExpensesPage";
@@ -23,18 +23,11 @@ function App() {
     const { token, userId } = useSelector((state) => state.userReducer);
     const routes = useRoutes(token);
 
-    const ProtectedRoute = ({ children }) => {
-        if (!token) {
-            return <Navigate to="/login" replace />;
-        }
-
-        return children;
-    };
-
     useEffect(() => {
         const data = localStorage.getItem("userData");
         if (data) {
             const parsedData = JSON.parse(data);
+            dispatch(checkUser(parsedData.token));
             dispatch(setToken(parsedData.token));
             dispatch(setUserId(parsedData.userId));
         }

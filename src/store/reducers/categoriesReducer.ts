@@ -85,12 +85,10 @@ const categoriesSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getUserCategories.pending, (state) => {
-                console.log("pending");
                 state.loading = true;
             })
             .addCase(getUserCategories.fulfilled, (state, action) => {
                 state.loading = false;
-                console.log("full");
                 state.categories = action.payload;
             })
             .addCase(getUserCategories.rejected, (state, action) => {

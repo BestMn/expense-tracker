@@ -68,9 +68,22 @@ export const userLogin = createAsyncThunk("user/login", async (data = {}) => {
 export const getUserInfo = createAsyncThunk(
     "users/getUserInfo",
     async (userId: number) => {
-        const res = await fetch(`http://localhost:5000/api/user`);
+        const res = await fetch(
+            `http://localhost:5000/api/user?userId=${userId}`
+        );
         const json = await res.json();
         return { name: json.name, currency: json.currency };
+    }
+);
+
+export const checkUser = createAsyncThunk(
+    "users/checkUser",
+    async (token: string) => {
+        const res = await fetch(`http://localhost:5000/api/user/auth`);
+        const json = await res.json();
+        console.log(token);
+        console.log(json);
+        return { token: json.token };
     }
 );
 
@@ -122,6 +135,17 @@ const categoriesSlice = createSlice({
                 state.currency = action.payload.userCurrency;
             })
             .addCase(userLogin.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(checkUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(checkUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.token = action.payload.token;
+            })
+            .addCase(checkUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             });
