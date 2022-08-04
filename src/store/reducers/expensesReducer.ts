@@ -23,7 +23,7 @@ export const getUserExpenses = createAsyncThunk(
     "expenses/getUserExpenses",
     async (userId: number) => {
         const res = await fetch(
-            `http://localhost:5000/expense?userId=${userId}`
+            `http://localhost:5000/api/expense?userId=${userId}`
         );
         return await res.json();
     }

@@ -30,18 +30,11 @@ class ExpenseController {
         //     limit,
         //     offset,
         // });
-        const userId = req.headers;
-        const expenses = await Category.findAll();
-        const data = res.json(expenses);
-        return res.json(expenses);
-    }
-
-    async getOne(req, res) {
-        const { id } = req.params;
-        const expense = await Expense.findOne({
-            where: { id },
+        const { userId } = req.query;
+        const expenses = await Expense.findAll({
+            where: { userId },
         });
-        return res.json(expense);
+        return res.json(expenses);
     }
 }
 

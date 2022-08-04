@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Segmented, Spin, DatePicker } from "antd";
+import { Segmented, Spin, DatePicker, Empty } from "antd";
 import "./ColumnsContainer.css";
 import Columns from "./Columns";
 import dateFormatter from "../../services/dateFormatter";
@@ -30,6 +30,7 @@ const ColumnsPlotContainer = () => {
 
     useEffect(() => {
         if (expenses && period) {
+            console.log(expenses);
             const days = Math.floor(
                 (Date.parse(period[1]) - Date.parse(period[0])) /
                     1000 /
@@ -37,7 +38,6 @@ const ColumnsPlotContainer = () => {
                     60 /
                     24
             );
-            console.log(days);
 
             const allDates = [...Array(days)]
                 .map((_, i) => {
@@ -118,8 +118,10 @@ const ColumnsPlotContainer = () => {
                 <Columns data={data} currency={currency} />
             </React.Fragment>
         );
-    } else {
+    } else if (loading) {
         return <Spin size="large" />;
+    } else if (!data) {
+        return <Empty />;
     }
 };
 

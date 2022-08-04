@@ -3,8 +3,8 @@ import { Colorpicker, ColorPickerValue } from "antd-colorpicker";
 import IconPicker from "../IconPicker/IconPicker";
 import { iconList } from "../IconPicker/iconList";
 import React, { useState } from "react";
-import { AppDispatch } from "./store/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 import { addUserCategory } from "../../store/reducers/categoriesReducer";
 
 interface Values {
@@ -83,12 +83,13 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
 
 const CreateCategoryForm: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const { userId } = useSelector((state: any) => state.userReducer);
 
     const [visible, setVisible] = useState(false);
 
     const onCreate = ({ category }) => {
         const newCategory = {
-            userId: 1,
+            userId: userId,
             name: category.name,
             icon: category.icon,
             color: category.color,

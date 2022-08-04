@@ -20,7 +20,7 @@ const DonutPlotContainer = () => {
 
     useEffect(() => {
         console.log("Categories:", categories);
-        if (categories && expenses) {
+        if (categories && expenses && categories?.length > 0) {
             const todayExpenses = expenses.filter(
                 (elem) =>
                     elem.date.slice(0, 10) == new Date().toJSON().slice(0, 10)
@@ -56,7 +56,7 @@ const DonutPlotContainer = () => {
         return <DonutPlot data={data} currency={currency} />;
     } else if (expensesLoading || categoriesLoading) {
         return <Spin size="large" />;
-    } else if (data && !data.length) {
+    } else if (!data || !data.length) {
         return <Empty description={"No expenses today"}></Empty>;
     }
 };

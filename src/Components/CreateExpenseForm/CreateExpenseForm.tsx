@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "./store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../store/store";
 import { Button, Form, Input, Select, InputNumber, DatePicker } from "antd";
 import { addUserExpenses } from "../../store/reducers/expensesReducer";
 
@@ -34,10 +34,11 @@ const config = {
 
 const CreateExpenseForm: React.FC = ({ categories }) => {
     const dispatch = useDispatch<AppDispatch>();
+    const { userId } = useSelector((state: any) => state.userReducer);
     const [form] = Form.useForm();
     const onFinish = ({ expense }) => {
         const data = {
-            userId: 1,
+            userId: userId,
             date: expense.date.toJSON(),
             amount: expense.amount,
             categoryId: expense.categoryId,
@@ -47,13 +48,17 @@ const CreateExpenseForm: React.FC = ({ categories }) => {
         form.resetFields();
     };
 
-    const categoriesList = categories.map((elem) => {
-        return (
-            <Select.Option value={elem.id} key={elem.id}>
-                {elem.name}
-            </Select.Option>
-        );
-    });
+    const categoriesList = categories ? (
+        categories.map((elem) => {
+            return (
+                <Select.Option value={elem.id} key={elem.id}>
+                    {elem.name}
+                </Select.Option>
+            );
+        })
+    ) : (
+        <Select.Option>{}</Select.Option>
+    );
 
     return (
         <Form

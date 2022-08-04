@@ -6,7 +6,7 @@ interface UserInfo {
     loading: boolean;
     error: any;
     name: string | null;
-    currency: string;
+    currency: string | null;
 }
 
 const initialState: UserInfo = {
@@ -15,7 +15,7 @@ const initialState: UserInfo = {
     loading: false,
     error: null,
     name: null,
-    currency: "₽",
+    currency: null,
 };
 
 export const userRegistration = createAsyncThunk(
@@ -106,7 +106,7 @@ const categoriesSlice = createSlice({
                 state.loading = false;
                 state.token = action.payload.token;
                 state.userId = action.payload.userId;
-                state.currency = action.payload.currency;
+                state.currency = action.payload.userCurrency;
             })
             .addCase(userRegistration.rejected, (state, action) => {
                 state.loading = false;
@@ -119,7 +119,7 @@ const categoriesSlice = createSlice({
                 state.loading = false;
                 state.token = action.payload.token;
                 state.userId = action.payload.userId;
-                state.currency = action.payload.currency;
+                state.currency = action.payload.userCurrency;
             })
             .addCase(userLogin.rejected, (state, action) => {
                 state.loading = false;

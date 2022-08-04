@@ -15,9 +15,10 @@ class CategoryController {
     }
 
     async getAll(req, res) {
-        const userId = req.headers;
-        console.log("UUUUUUUUASD", userId);
-        const categories = await Category.findAll();
+        const { userId } = req.query;
+        const categories = await Category.findAll({
+            where: { userId },
+        });
         return res.json(categories);
     }
 }
