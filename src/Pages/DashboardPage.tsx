@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { setToken, setUserId } from "../store/reducers/userReducer";
 import "antd/dist/antd.css";
 import "./DashboardPage.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import DonutPlotContainer from "../Components/DonutPlot/DonutPlotContainer";
 import ColumnsContainer from "../Components/Columns/ColumnsContainer";
@@ -39,8 +39,16 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem(<Link to="/dashboard">Dashboard</Link>, "1", <PieChartOutlined />),
-    getItem(<Link to="/expenses">Expenses</Link>, "2", <DesktopOutlined />),
+    getItem(
+        <NavLink to="/dashboard">Dashboard</NavLink>,
+        "1",
+        <PieChartOutlined />
+    ),
+    getItem(
+        <NavLink to="/expenses">Expenses</NavLink>,
+        "2",
+        <DesktopOutlined />
+    ),
     getItem("User", "sub1", <UserOutlined />, [
         getItem("Tom", "3"),
         getItem("Bill", "4"),

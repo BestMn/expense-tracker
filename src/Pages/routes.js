@@ -16,6 +16,8 @@ export const useRoutes = (isAuthenticated) => {
         return (
             <Router>
                 <Routes>
+                    <Route path="/login" element={<AuthPage />} />
+                    <Route path="*" element={<AuthPage />} />
                     <Route path="/dashboard" element={<DashboardPage />} />
                     <Route path="/expenses" element={<ExpensesPage />} />
                     <Route path="*" element={<DashboardPage />} />
@@ -26,8 +28,7 @@ export const useRoutes = (isAuthenticated) => {
         return (
             <Router>
                 <Routes>
-                    <Route path="/login" element={<AuthPage />} />
-                    <Route path="*" element={<AuthPage />} />
+                    <Navigate to="/login" replace />;
                 </Routes>
             </Router>
         );

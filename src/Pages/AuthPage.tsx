@@ -1,10 +1,21 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Outlet,
+    Navigate,
+    useNavigate,
+} from "react-router-dom";
 import RegistrationForm from "../Components/RegistrationForm/RegistrationForm";
 import LoginForm from "../Components/LoginForm/LoginForm";
 
 const AuthPage: React.FC = () => {
     const { token } = useSelector((state: any) => state.userReducer);
+    if (token) {
+        return <Navigate to={"/dashboard"} replace />;
+    }
     return (
         <>
             <RegistrationForm />

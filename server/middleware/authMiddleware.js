@@ -15,6 +15,7 @@ module.exports = function (req, res, next) {
         req.user = decoded;
         next();
     } catch (e) {
+        console.log(e);
         res.status(401).json({ message: "Не авторизован" });
     }
 };

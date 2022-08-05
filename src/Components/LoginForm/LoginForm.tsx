@@ -17,7 +17,6 @@ const LoginForm: React.FC = () => {
     const navigate = useNavigate();
     const onFinish = (values: any) => {
         dispatch(userLogin({ email: values.email, password: values.password }));
-        console.log("Login success:", values);
         navigate("/dashboard");
     };
 

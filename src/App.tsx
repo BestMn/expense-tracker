@@ -3,7 +3,7 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    NavLink,
+    Outlet,
     Navigate,
     useNavigate,
 } from "react-router-dom";
@@ -17,31 +17,54 @@ import DashboardPage from "./Pages/DashboardPage";
 import ExpensesPage from "./Pages/ExpensesPage";
 import { useRoutes } from "./Pages/routes";
 
+const ProtectedRoute = ({ token, redirectPath = "/login", children }) => {
+    if (!token) {
+        return <Navigate to={redirectPath} replace />;
+    }
+
+    return <Outlet />;
+};
+
 function App() {
     const dispatch = useDispatch<AppDispatch>();
 
     const { token, userId } = useSelector((state) => state.userReducer);
-    const routes = useRoutes(token);
+    console.log(token);
+    const localData = localStorage.getItem("userData");
 
     useEffect(() => {
-        const data = localStorage.getItem("userData");
-        if (data) {
-            const parsedData = JSON.parse(data);
+        if (localData) {
+            const parsedData = JSON.parse(localData);
             dispatch(checkUser(parsedData.token));
-            dispatch(setToken(parsedData.token));
-            dispatch(setUserId(parsedData.userId));
         }
     }, []);
 
     useEffect(() => {
-        console.log("UserId:", userId);
+        if (localData) {
+            const parsedData = JSON.parse(localData);
+            dispatch(setToken(parsedData.token));
+            dispatch(setUserId(parsedData.userId));
+        }
+    }, []);
+    useEffect(() => {
         if (userId) {
             dispatch(getUserCategories(userId));
             dispatch(getUserExpenses(userId));
         }
     }, [userId]);
 
-    return routes;
+    return (
+        <Router>
+            <Routes>
+                <Route path="/login" element={<AuthPage />} />
+                <Route element={<ProtectedRoute token={token} />}>
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="/expenses" element={<ExpensesPage />} />
+                    <Route path="*" element={<AuthPage />} />
+                </Route>
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;

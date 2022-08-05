@@ -79,10 +79,19 @@ export const getUserInfo = createAsyncThunk(
 export const checkUser = createAsyncThunk(
     "users/checkUser",
     async (token: string) => {
-        const res = await fetch(`http://localhost:5000/api/user/auth`);
+        const res = await fetch(`http://localhost:5000/api/user/auth`, {
+            method: "GET",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+        });
         const json = await res.json();
-        console.log(token);
-        console.log(json);
         return { token: json.token };
     }
 );
