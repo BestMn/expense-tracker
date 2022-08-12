@@ -57,7 +57,7 @@ const CategoriesList = ({ editable }: { editable: boolean }) => {
     }, [categories]);
 
     return (
-        <React.Fragment>
+        <div className={"categories-list-container"}>
             {loading ? (
                 <Spin />
             ) : categoriesListItems ? (
@@ -66,7 +66,7 @@ const CategoriesList = ({ editable }: { editable: boolean }) => {
                 <Empty />
             )}
             {addCategory}
-        </React.Fragment>
+        </div>
     );
 };
 

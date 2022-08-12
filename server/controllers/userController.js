@@ -49,10 +49,17 @@ class UserController {
         });
     }
 
-    async check(req, res, next) {
+    async check(req, res) {
         const token = generateJwt(req.user.id, req.user.email);
-        console.log("ASDASDASD", token);
         return res.json({ token });
+    }
+
+    async getUserInfo(req, res) {
+        const { id } = req.query;
+        const user = await User.findOne({
+            where: { id },
+        });
+        return res.json(user);
     }
 }
 

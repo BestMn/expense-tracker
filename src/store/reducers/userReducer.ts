@@ -68,11 +68,9 @@ export const userLogin = createAsyncThunk("user/login", async (data = {}) => {
 export const getUserInfo = createAsyncThunk(
     "users/getUserInfo",
     async (userId: number) => {
-        const res = await fetch(
-            `http://localhost:5000/api/user?userId=${userId}`
-        );
-        const json = await res.json();
-        return { name: json.name, currency: json.currency };
+        const res = await fetch(`http://localhost:5000/api/user?id=${userId}`);
+        return await res.json();
+        // return { name: json.name, currency: json.userCurrency };
     }
 );
 
@@ -115,7 +113,7 @@ const categoriesSlice = createSlice({
             .addCase(getUserInfo.fulfilled, (state, action) => {
                 state.loading = false;
                 state.name = action.payload.name;
-                state.currency = action.payload.currency;
+                state.currency = action.payload.userCurrency;
             })
             .addCase(getUserInfo.rejected, (state, action) => {
                 state.loading = false;

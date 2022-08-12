@@ -14,6 +14,20 @@ class CategoryController {
         return res.json(category);
     }
 
+    async edit(req, res) {
+        const { id, userId, name, icon, color } = req.body;
+        await Category.update(
+            {
+                name: name,
+                icon: icon,
+                color: color,
+            },
+            { where: { id } }
+        );
+        console.log("DASASDASD", res.json());
+        return res.json();
+    }
+
     async getAll(req, res) {
         const { userId } = req.query;
         const categories = await Category.findAll({

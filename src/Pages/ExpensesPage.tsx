@@ -71,23 +71,25 @@ const ExpensesPage: React.FC = () => {
                         <Col
                             span={12}
                             className={
-                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-24"
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-16"
                             }
                         >
                             <div className="dashboard-block expenses-block">
                                 <ExpensesTableContainer />
                             </div>
                         </Col>
-                    </Row>
-                    <Row>
                         <Col
                             span={12}
                             className={
-                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
                             }
                         >
-                            <div className="dashboard-block list-block"></div>
+                            <div className="dashboard-block list-block">
+                                <CategoriesList editable={true} />
+                            </div>
                         </Col>
+                    </Row>
+                    <Row>
                         <Col
                             span={12}
                             className={

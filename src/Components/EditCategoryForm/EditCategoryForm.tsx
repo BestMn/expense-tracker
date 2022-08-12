@@ -3,8 +3,8 @@ import { Colorpicker, ColorPickerValue } from "antd-colorpicker";
 import IconPicker from "../IconPicker/IconPicker";
 import { iconList } from "../IconPicker/iconList";
 import React, { useState } from "react";
-import { AppDispatch } from "./store/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 import { editUserCategory } from "../../store/reducers/categoriesReducer";
 
 interface Values {
@@ -90,19 +90,17 @@ const EditCategoryForm: React.FC = ({ editedCategory }) => {
 
     const [visible, setVisible] = useState(false);
 
+    const { userId } = useSelector((state) => state.userReducer);
+
     const onCreate = ({ category }) => {
-        console.log(category);
         const newCategory = {
-            userId: 1,
+            id: editedCategory.id,
+            userId: userId,
             name: category.name ? category.name : editedCategory.name,
             icon: category.icon ? category.icon : editedCategory.icon,
             color: category.color ? category.color : editedCategory.color,
         };
-        const data = {
-            body: newCategory,
-            id: editedCategory.id,
-        };
-        dispatch(editUserCategory(data));
+        dispatch(editUserCategory(newCategory));
         setVisible(false);
     };
 

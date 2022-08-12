@@ -31,7 +31,7 @@ export const getUserCategories = createAsyncThunk(
 
 export const addUserCategory = createAsyncThunk(
     "expenses/addUserCategory",
-    async (data = {}) => {
+    async (data) => {
         const response = await fetch(`http://localhost:5000/api/category`, {
             method: "POST",
             mode: "cors",
@@ -51,8 +51,8 @@ export const addUserCategory = createAsyncThunk(
 
 export const editUserCategory = createAsyncThunk(
     "expenses/editUserCategory",
-    async ({ body, id } = {}) => {
-        const response = await fetch(`http://localhost:3000/categories/${id}`, {
+    async (data) => {
+        const response = await fetch(`http://localhost:5000/api/category`, {
             method: "PATCH",
             mode: "cors",
             cache: "no-cache",
@@ -63,7 +63,7 @@ export const editUserCategory = createAsyncThunk(
             },
             redirect: "follow",
             referrerPolicy: "no-referrer",
-            body: JSON.stringify(body),
+            body: JSON.stringify(data),
         });
         return await response.json();
     }
@@ -112,6 +112,7 @@ const categoriesSlice = createSlice({
             })
             .addCase(editUserCategory.fulfilled, (state, action) => {
                 state.loading = false;
+                console.log(action.payload);
                 const editedCategoryInx = state.categories?.findIndex(
                     (elem) => elem.id == action.payload.id
                 );
