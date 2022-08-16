@@ -8,7 +8,6 @@ import * as FontIcon from "react-icons/fa";
 import "./ExpensesTable.css";
 
 const ExpensesTable = ({ data, currency }) => {
-    console.log(data);
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const searchInput = useRef(null);

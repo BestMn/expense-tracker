@@ -16,16 +16,15 @@ class CategoryController {
 
     async edit(req, res) {
         const { id, userId, name, icon, color } = req.body;
-        await Category.update(
+        const updatedCategory = await Category.update(
             {
                 name: name,
                 icon: icon,
                 color: color,
             },
-            { where: { id } }
+            { where: { id }, returning: true }
         );
-        console.log("DASASDASD", res.json());
-        return res.json();
+        return res.json(updatedCategory);
     }
 
     async getAll(req, res) {

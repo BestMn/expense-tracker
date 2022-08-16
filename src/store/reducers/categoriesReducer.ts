@@ -20,7 +20,7 @@ const initialState: ICategoryState = {
 };
 
 export const getUserCategories = createAsyncThunk(
-    "users/getUserCategories",
+    "category/getUserCategories",
     async (userId: number) => {
         const res = await fetch(
             `http://localhost:5000/api/category?userId=${userId}`
@@ -30,9 +30,9 @@ export const getUserCategories = createAsyncThunk(
 );
 
 export const addUserCategory = createAsyncThunk(
-    "expenses/addUserCategory",
+    "category/addUserCategory",
     async (data) => {
-        const response = await fetch(`http://localhost:5000/api/category`, {
+        const res = await fetch(`http://localhost:5000/api/category`, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -45,14 +45,14 @@ export const addUserCategory = createAsyncThunk(
             referrerPolicy: "no-referrer",
             body: JSON.stringify(data),
         });
-        return await response.json();
+        return await res.json();
     }
 );
 
 export const editUserCategory = createAsyncThunk(
-    "expenses/editUserCategory",
+    "category/editUserCategory",
     async (data) => {
-        const response = await fetch(`http://localhost:5000/api/category`, {
+        const res = await fetch(`http://localhost:5000/api/category`, {
             method: "PATCH",
             mode: "cors",
             cache: "no-cache",
@@ -65,7 +65,7 @@ export const editUserCategory = createAsyncThunk(
             referrerPolicy: "no-referrer",
             body: JSON.stringify(data),
         });
-        return await response.json();
+        return await res.json();
     }
 );
 
@@ -93,7 +93,6 @@ const categoriesSlice = createSlice({
             })
             .addCase(getUserCategories.rejected, (state, action) => {
                 state.loading = false;
-                console.log(action.error);
                 state.error = action.error;
             })
             .addCase(addUserCategory.pending, (state) => {
@@ -112,14 +111,15 @@ const categoriesSlice = createSlice({
             })
             .addCase(editUserCategory.fulfilled, (state, action) => {
                 state.loading = false;
-                console.log(action.payload);
-                const editedCategoryInx = state.categories?.findIndex(
-                    (elem) => elem.id == action.payload.id
+                const updatedCategory = action.payload[1][0];
+                const updatedCategoryInx = state.categories?.findIndex(
+                    (elem) => elem.id == updatedCategory.id
                 );
-                state.categories[editedCategoryInx] = action.payload;
+                state.categories[updatedCategoryInx] = updatedCategory;
             })
             .addCase(editUserCategory.rejected, (state, action) => {
                 state.loading = false;
+                console.log(action.error);
                 state.error = action.error;
             });
     },
