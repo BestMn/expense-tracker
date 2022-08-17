@@ -19,7 +19,6 @@ const DonutPlotContainer = () => {
     );
 
     useEffect(() => {
-        console.log("Categories:", categories);
         if (categories && expenses && categories?.length > 0) {
             const todayExpenses = expenses.filter(
                 (elem) =>

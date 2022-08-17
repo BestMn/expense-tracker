@@ -30,7 +30,6 @@ const ColumnsPlotContainer = () => {
 
     useEffect(() => {
         if (expenses && period) {
-            console.log(expenses);
             const days = Math.floor(
                 (Date.parse(period[1]) - Date.parse(period[0])) /
                     1000 /

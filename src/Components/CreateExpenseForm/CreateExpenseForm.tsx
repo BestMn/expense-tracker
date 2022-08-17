@@ -57,8 +57,11 @@ const CreateExpenseForm: React.FC = ({ categories }) => {
             );
         })
     ) : (
-        <Select.Option>{}</Select.Option>
+        <Select.Option value={"elem.id"} key={"elem.id"}>
+            Add Category
+        </Select.Option>
     );
+    // FIX THIS ^^^^^^^^^^^^^^
 
     return (
         <Form

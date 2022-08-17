@@ -7,9 +7,9 @@ import {
     Navigate,
     useNavigate,
 } from "react-router-dom";
-import AuthPage from "./AuthPage";
-import DashboardPage from "./DashboardPage";
-import ExpensesPage from "./ExpensesPage";
+import AuthPage from "./AuthPage/AuthPage";
+import DashboardPage from "./DashboardPage/DashboardPage";
+import ExpensesPage from "./ExpensesPage/ExpensesPage";
 
 export const useRoutes = (isAuthenticated) => {
     if (isAuthenticated) {

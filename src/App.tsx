@@ -17,10 +17,9 @@ import {
     setToken,
     setUserId,
 } from "./store/reducers/userReducer";
-import AuthPage from "./Pages/AuthPage";
-import DashboardPage from "./Pages/DashboardPage";
-import ExpensesPage from "./Pages/ExpensesPage";
-import { useRoutes } from "./Pages/routes";
+import AuthPage from "./Pages/AuthPage/AuthPage";
+import DashboardPageContainer from "./Pages/DashboardPage/DashboardPageContainer";
+import ExpensePageContainer from "./Pages/ExpensesPage/ExpensesPageContainer";
 import { Spin } from "antd";
 
 const ProtectedRoute = ({ token, redirectPath = "/login" }) => {
@@ -50,8 +49,6 @@ function App() {
     useEffect(() => {
         if (token) {
             dispatch(getUserInfo(userId));
-            dispatch(getUserCategories(userId));
-            dispatch(getUserExpenses(userId));
         }
     }, [token]);
 
@@ -64,8 +61,14 @@ function App() {
             <Routes>
                 <Route path="/login" element={<AuthPage />} />
                 <Route element={<ProtectedRoute token={token} />}>
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/expenses" element={<ExpensesPage />} />
+                    <Route
+                        path="/dashboard"
+                        element={<DashboardPageContainer />}
+                    />
+                    <Route
+                        path="/expenses"
+                        element={<ExpensePageContainer />}
+                    />
                     <Route path="*" element={<AuthPage />} />
                 </Route>
             </Routes>

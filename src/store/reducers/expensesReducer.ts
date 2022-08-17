@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import qs from "qs";
 
 type Expense = {
     id: string;
@@ -11,19 +12,21 @@ interface IExpensesState {
     loading: boolean;
     error: any;
     expenses: Array<Expense> | null;
+    count: number;
 }
 
 const initialState: IExpensesState = {
     loading: false,
     error: null,
     expenses: [],
+    count: 0,
 };
 
 export const getUserExpenses = createAsyncThunk(
     "expenses/getUserExpenses",
-    async (userId: number) => {
+    async (params) => {
         const res = await fetch(
-            `http://localhost:5000/api/expense?userId=${userId}`
+            `http://localhost:5000/api/expense?${qs.stringify(params)}`
         );
         return await res.json();
     }
@@ -84,7 +87,8 @@ const expensesSlice = createSlice({
             })
             .addCase(getUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
-                state.expenses = action.payload;
+                state.count = action.payload.count;
+                state.expenses = action.payload.rows;
             })
             .addCase(getUserExpenses.rejected, (state, action) => {
                 state.loading = false;
@@ -95,7 +99,6 @@ const expensesSlice = createSlice({
             })
             .addCase(addUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
-                state.expenses?.push(action.payload);
             })
             .addCase(addUserExpenses.rejected, (state, action) => {
                 state.loading = false;

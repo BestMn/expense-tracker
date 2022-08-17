@@ -7,12 +7,18 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, Col, Row } from "antd";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { setToken, setUserId } from "../../store/reducers/userReducer";
 import "antd/dist/antd.css";
-import "./ExpensePage.css";
-import { Link } from "react-router-dom";
-import CategoriesList from "../Components/CategoiesList/CategoriesList";
-import ExpensesTableContainer from "../Components/ExpensesTable/ExpensesTableContainer";
+import "./DashboardPage.css";
+import { NavLink } from "react-router-dom";
+
+import DonutPlotContainer from "../../Components/DonutPlot/DonutPlotContainer";
+import ColumnsContainer from "../../Components/Columns/ColumnsContainer";
+import LastExpensesListContainer from "../../Components/LastExpensesList/LastExpensesListContainer";
+import TopCategoriesContainer from "../../Components/TopCategories/TopCategoriesContainer";
+import CreateExpenseFormConitaner from "../../Components/CreateExpenseForm/CreateExpenseFormContainer";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -32,9 +38,17 @@ function getItem(
     } as MenuItem;
 }
 
-const menuItems: MenuItem[] = [
-    getItem(<Link to="/dashboard">Dashboard</Link>, "1", <PieChartOutlined />),
-    getItem(<Link to="/expenses">Expenses</Link>, "2", <DesktopOutlined />),
+const items: MenuItem[] = [
+    getItem(
+        <NavLink to="/dashboard">Dashboard</NavLink>,
+        "1",
+        <PieChartOutlined />
+    ),
+    getItem(
+        <NavLink to="/expenses">Expenses</NavLink>,
+        "2",
+        <DesktopOutlined />
+    ),
     getItem("User", "sub1", <UserOutlined />, [
         getItem("Tom", "3"),
         getItem("Bill", "4"),
@@ -47,8 +61,15 @@ const menuItems: MenuItem[] = [
     getItem("Files", "9", <FileOutlined />),
 ];
 
-const ExpensesPage: React.FC = () => {
+const DashboardPage: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const dispatch = useDispatch();
+    const logout = () => {
+        dispatch(setToken(null));
+        dispatch(setUserId(null));
+
+        localStorage.removeItem("userData");
+    };
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
@@ -60,9 +81,9 @@ const ExpensesPage: React.FC = () => {
                 <div className="logo" />
                 <Menu
                     theme="dark"
-                    defaultSelectedKeys={["2"]}
+                    defaultSelectedKeys={["1"]}
                     mode="inline"
-                    items={menuItems}
+                    items={items}
                 />
             </Sider>
             <Layout className="site-layout">
@@ -71,21 +92,21 @@ const ExpensesPage: React.FC = () => {
                         <Col
                             span={12}
                             className={
-                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-16"
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-10"
                             }
                         >
-                            <div className="dashboard-block expenses-block">
-                                <ExpensesTableContainer />
+                            <div className="dashboard-block graph-block">
+                                <DonutPlotContainer />
                             </div>
                         </Col>
                         <Col
                             span={12}
                             className={
-                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-14"
                             }
                         >
-                            <div className="dashboard-block list-block">
-                                <CategoriesList editable={true} />
+                            <div className="dashboard-block graph-block">
+                                <ColumnsContainer />
                             </div>
                         </Col>
                     </Row>
@@ -96,7 +117,19 @@ const ExpensesPage: React.FC = () => {
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
                             }
                         >
-                            <div className="dashboard-block list-block"></div>
+                            <div className="dashboard-block list-block">
+                                <CreateExpenseFormConitaner />
+                            </div>
+                        </Col>
+                        <Col
+                            span={12}
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
+                            }
+                        >
+                            <div className="dashboard-block list-block">
+                                <LastExpensesListContainer />
+                            </div>
                         </Col>
                         <Col
                             span={12}
@@ -104,16 +137,18 @@ const ExpensesPage: React.FC = () => {
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
                             }
                         >
-                            <div className="dashboard-block list-block"></div>
+                            <div className="dashboard-block list-block">
+                                <TopCategoriesContainer />
+                            </div>
                         </Col>
                     </Row>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
-                    Ant Design ©2018 Created by Ant UED
+                    <button onClick={logout}>Logout</button>
                 </Footer>
             </Layout>
         </Layout>
     );
 };
 
-export default ExpensesPage;
+export default DashboardPage;

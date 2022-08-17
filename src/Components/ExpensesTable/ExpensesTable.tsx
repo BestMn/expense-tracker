@@ -7,7 +7,7 @@ const { Column, ColumnGroup } = Table;
 import * as FontIcon from "react-icons/fa";
 import "./ExpensesTable.css";
 
-const ExpensesTable = ({ data, currency }) => {
+const ExpensesTable = ({ data, currency, pagination, handlePageChange }) => {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const searchInput = useRef(null);
@@ -129,7 +129,8 @@ const ExpensesTable = ({ data, currency }) => {
 
     return (
         <Table
-            pagination={{ position: ["bottomLeft"] }}
+            pagination={{ position: ["bottomLeft"], ...pagination }}
+            onChange={(pagination) => handlePageChange(pagination.current)}
             columns={columns}
             dataSource={data}
             rowKey={"id"}

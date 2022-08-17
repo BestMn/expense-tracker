@@ -21,18 +21,15 @@ class ExpenseController {
     }
 
     async getAll(req, res) {
-        // let { userId, limit, page } = req.query;
-        // page = page || 1;
-        // limit = limit || 9;
-        // let offset = page * limit - limit;
-        // let expenses = await Expense.findAndCountAll({
-        //     where: { userId },
-        //     limit,
-        //     offset,
-        // });
-        const { userId } = req.query;
-        const expenses = await Expense.findAll({
+        let { userId, limit, page } = req.query;
+        page = page || 1;
+        limit = limit || 10;
+        let offset = page * limit - limit;
+        let expenses = await Expense.findAndCountAll({
             where: { userId },
+            limit,
+            offset,
+            order: [["date", "DESC"]],
         });
         return res.json(expenses);
     }

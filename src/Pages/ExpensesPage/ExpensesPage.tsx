@@ -7,18 +7,13 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, Col, Row } from "antd";
-import React, { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { setToken, setUserId } from "../store/reducers/userReducer";
+import React, { useState } from "react";
 import "antd/dist/antd.css";
-import "./DashboardPage.css";
-import { NavLink } from "react-router-dom";
-
-import DonutPlotContainer from "../Components/DonutPlot/DonutPlotContainer";
-import ColumnsContainer from "../Components/Columns/ColumnsContainer";
-import LastExpensesListContainer from "../Components/LastExpensesList/LastExpensesListContainer";
-import TopCategoriesContainer from "../Components/TopCategories/TopCategoriesContainer";
-import CreateExpenseFormConitaner from "../Components/CreateExpenseForm/CreateExpenseFormContainer";
+import "./ExpensesPage.css";
+import { Link } from "react-router-dom";
+import CategoriesList from "../../Components/CategoiesList/CategoriesList";
+import ExpensesTableContainer from "../../Components/ExpensesTable/ExpensesTableContainer";
+import CreateExpenseFormConitaner from "../../Components/CreateExpenseForm/CreateExpenseFormContainer";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -38,17 +33,9 @@ function getItem(
     } as MenuItem;
 }
 
-const items: MenuItem[] = [
-    getItem(
-        <NavLink to="/dashboard">Dashboard</NavLink>,
-        "1",
-        <PieChartOutlined />
-    ),
-    getItem(
-        <NavLink to="/expenses">Expenses</NavLink>,
-        "2",
-        <DesktopOutlined />
-    ),
+const menuItems: MenuItem[] = [
+    getItem(<Link to="/dashboard">Dashboard</Link>, "1", <PieChartOutlined />),
+    getItem(<Link to="/expenses">Expenses</Link>, "2", <DesktopOutlined />),
     getItem("User", "sub1", <UserOutlined />, [
         getItem("Tom", "3"),
         getItem("Bill", "4"),
@@ -61,15 +48,8 @@ const items: MenuItem[] = [
     getItem("Files", "9", <FileOutlined />),
 ];
 
-const DashboardPage: React.FC = () => {
+const ExpensesPage: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
-    const dispatch = useDispatch();
-    const logout = () => {
-        dispatch(setToken(null));
-        dispatch(setUserId(null));
-
-        localStorage.removeItem("userData");
-    };
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
@@ -81,9 +61,9 @@ const DashboardPage: React.FC = () => {
                 <div className="logo" />
                 <Menu
                     theme="dark"
-                    defaultSelectedKeys={["1"]}
+                    defaultSelectedKeys={["2"]}
                     mode="inline"
-                    items={items}
+                    items={menuItems}
                 />
             </Sider>
             <Layout className="site-layout">
@@ -92,21 +72,21 @@ const DashboardPage: React.FC = () => {
                         <Col
                             span={12}
                             className={
-                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-10"
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-16"
                             }
                         >
-                            <div className="dashboard-block graph-block">
-                                <DonutPlotContainer />
+                            <div className="dashboard-block expenses-block">
+                                <ExpensesTableContainer />
                             </div>
                         </Col>
                         <Col
                             span={12}
                             className={
-                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-14"
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
                             }
                         >
-                            <div className="dashboard-block graph-block">
-                                <ColumnsContainer />
+                            <div className="dashboard-block list-block">
+                                <CategoriesList editable={true} />
                             </div>
                         </Col>
                     </Row>
@@ -124,31 +104,19 @@ const DashboardPage: React.FC = () => {
                         <Col
                             span={12}
                             className={
-                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
-                            }
-                        >
-                            <div className="dashboard-block list-block">
-                                <LastExpensesListContainer />
-                            </div>
-                        </Col>
-                        <Col
-                            span={12}
-                            className={
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
                             }
                         >
-                            <div className="dashboard-block list-block">
-                                <TopCategoriesContainer />
-                            </div>
+                            <div className="dashboard-block list-block"></div>
                         </Col>
                     </Row>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
-                    <button onClick={logout}>Logout</button>
+                    Ant Design ©2018 Created by Ant UED
                 </Footer>
             </Layout>
         </Layout>
     );
 };
 
-export default DashboardPage;
+export default ExpensesPage;
