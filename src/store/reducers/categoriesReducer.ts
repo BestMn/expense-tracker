@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 
 type Category = {
     id: number;
@@ -11,12 +11,14 @@ interface ICategoryState {
     loading: boolean;
     error: any;
     categories: Array<Category> | null;
+    shouldUpdate: boolean;
 }
 
 const initialState: ICategoryState = {
     loading: false,
     error: null,
     categories: null,
+    shouldUpdate: true,
 };
 
 export const getUserCategories = createAsyncThunk(
@@ -89,6 +91,13 @@ const categoriesSlice = createSlice({
             })
             .addCase(getUserCategories.fulfilled, (state, action) => {
                 state.loading = false;
+                state.shouldUpdate = false;
+                if (
+                    JSON.stringify(current(state).categories) ==
+                    JSON.stringify(action.payload)
+                ) {
+                    return;
+                }
                 state.categories = action.payload;
             })
             .addCase(getUserCategories.rejected, (state, action) => {
@@ -111,11 +120,7 @@ const categoriesSlice = createSlice({
             })
             .addCase(editUserCategory.fulfilled, (state, action) => {
                 state.loading = false;
-                const updatedCategory = action.payload[1][0];
-                const updatedCategoryInx = state.categories?.findIndex(
-                    (elem) => elem.id == updatedCategory.id
-                );
-                state.categories[updatedCategoryInx] = updatedCategory;
+                state.shouldUpdate = true;
             })
             .addCase(editUserCategory.rejected, (state, action) => {
                 state.loading = false;

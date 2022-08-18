@@ -25,9 +25,11 @@ const ExpensesTableContainer = () => {
         total: count,
     });
 
-    const { categories, loading: categoriesLoading } = useSelector(
-        (state: any) => state.categoriesReducer
-    );
+    const {
+        categories,
+        loading: categoriesLoading,
+        shouldUpdate,
+    } = useSelector((state: any) => state.categoriesReducer);
 
     const { token, userId, currency } = useSelector(
         (state: any) => state.userReducer
@@ -38,8 +40,13 @@ const ExpensesTableContainer = () => {
     };
 
     useEffect(() => {
-        if (token) {
+        if (token && shouldUpdate === true) {
             dispatch(getUserCategories(userId));
+        }
+    }, [token, shouldUpdate]);
+
+    useEffect(() => {
+        if (token) {
             dispatch(
                 getUserExpenses({
                     userId,

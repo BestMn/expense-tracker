@@ -13,6 +13,7 @@ interface IExpensesState {
     error: any;
     expenses: Array<Expense> | null;
     count: number;
+    shouldUpdate: boolean;
 }
 
 const initialState: IExpensesState = {
@@ -20,6 +21,7 @@ const initialState: IExpensesState = {
     error: null,
     expenses: [],
     count: 0,
+    shouldUpdate: true,
 };
 
 export const getUserExpenses = createAsyncThunk(
@@ -87,6 +89,7 @@ const expensesSlice = createSlice({
             })
             .addCase(getUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
+                state.shouldUpdate = false;
                 state.count = action.payload.count;
                 state.expenses = action.payload.rows;
             })
@@ -99,6 +102,7 @@ const expensesSlice = createSlice({
             })
             .addCase(addUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
+                state.shouldUpdate = true;
             })
             .addCase(addUserExpenses.rejected, (state, action) => {
                 state.loading = false;

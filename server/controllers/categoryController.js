@@ -31,6 +31,7 @@ class CategoryController {
         const { userId } = req.query;
         const categories = await Category.findAll({
             where: { userId },
+            order: ["createdAt"],
         });
         return res.json(categories);
     }

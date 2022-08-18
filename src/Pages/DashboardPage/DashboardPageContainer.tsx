@@ -13,18 +13,26 @@ const DashboardPageContainer = () => {
         expenses,
         loading: expensesLoading,
         error,
+        shouldUpdate: shouldUpdateExpenses,
     } = useSelector((state: any) => state.expensesReducer);
 
-    const { categories, loading: categoriesLoading } = useSelector(
-        (state: any) => state.categoriesReducer
-    );
+    const {
+        categories,
+        loading: categoriesLoading,
+        shouldUpdate: shouldUpdateCategories,
+    } = useSelector((state: any) => state.categoriesReducer);
 
     useEffect(() => {
-        if (token) {
+        if (token && shouldUpdateCategories === true) {
             dispatch(getUserCategories(userId));
+        }
+    }, [token, shouldUpdateCategories]);
+
+    useEffect(() => {
+        if (token && shouldUpdateExpenses === true) {
             dispatch(getUserExpenses({ userId }));
         }
-    }, [token]);
+    }, [token, shouldUpdateExpenses]);
 
     return <DashboardPage />;
 };

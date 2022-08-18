@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
 import EditCategoryForm from "../EditCategoryForm/EditCategoryForm";
 import "./CategoriesList.css";
+import { getUserCategories } from "../../store/reducers/categoriesReducer";
+import { AppDispatch } from "../../store/store";
 
 type Category = {
     id: number;
@@ -16,11 +18,19 @@ type Category = {
 const CategoriesList = ({ editable }: { editable: boolean }) => {
     const [categoriesListItems, setCategoriesListItems] = useState(null);
 
-    const { categories, loading, error } = useSelector(
+    const { token, userId } = useSelector((state: any) => state.userReducer);
+
+    const { categories, loading, error, shouldUpdate } = useSelector(
         (state: any) => state.categoriesReducer
     );
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        if (token && shouldUpdate === true) {
+            dispatch(getUserCategories(userId));
+        }
+    }, [token, shouldUpdate]);
 
     const edit = editable ? <EditCategoryForm /> : null;
 

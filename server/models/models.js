@@ -9,21 +9,42 @@ const User = sequelize.define("user", {
     userCurrency: { type: DataTypes.STRING },
 });
 
+const Category = sequelize.define("category", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: "id",
+        },
+    },
+    name: { type: DataTypes.STRING, allowNull: false },
+    icon: { type: DataTypes.STRING, allowNull: false },
+    color: { type: DataTypes.STRING, allowNull: false },
+});
+
 const Expense = sequelize.define("expense", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     date: { type: DataTypes.DATE, allowNull: false },
     amount: { type: DataTypes.INTEGER, allowNull: false },
-    categoryId: { type: DataTypes.INTEGER, allowNull: false },
-    userId: { type: DataTypes.INTEGER, allowNull: false },
+    categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Category,
+            key: "id",
+        },
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: "id",
+        },
+    },
     description: { type: DataTypes.STRING },
-});
-
-const Category = sequelize.define("category", {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    userId: { type: DataTypes.INTEGER, allowNull: false },
-    name: { type: DataTypes.STRING, allowNull: false },
-    icon: { type: DataTypes.STRING, allowNull: false },
-    color: { type: DataTypes.STRING, allowNull: false },
 });
 
 User.hasMany(Category);
