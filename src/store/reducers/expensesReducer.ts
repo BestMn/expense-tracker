@@ -54,6 +54,26 @@ export const addUserExpenses = createAsyncThunk(
     }
 );
 
+export const editUserExpense = createAsyncThunk(
+    "expenses/editUserExpense",
+    async (data) => {
+        const res = await fetch(`http://localhost:5000/api/expense`, {
+            method: "PATCH",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+        });
+        return await res.json();
+    }
+);
+
 const expensesSlice = createSlice({
     name: "expensesSlice",
     initialState,
@@ -106,6 +126,18 @@ const expensesSlice = createSlice({
             })
             .addCase(addUserExpenses.rejected, (state, action) => {
                 state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(editUserExpense.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(editUserExpense.fulfilled, (state, action) => {
+                state.loading = false;
+                state.shouldUpdate = true;
+            })
+            .addCase(editUserExpense.rejected, (state, action) => {
+                state.loading = false;
+                console.log(action.error);
                 state.error = action.error;
             });
     },

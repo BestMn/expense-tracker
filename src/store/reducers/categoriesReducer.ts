@@ -34,6 +34,7 @@ export const getUserCategories = createAsyncThunk(
 export const addUserCategory = createAsyncThunk(
     "category/addUserCategory",
     async (data) => {
+        console.log(data);
         const res = await fetch(`http://localhost:5000/api/category`, {
             method: "POST",
             mode: "cors",
@@ -90,6 +91,7 @@ const categoriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(getUserCategories.fulfilled, (state, action) => {
+                console.log("getting fetch cat");
                 state.loading = false;
                 state.shouldUpdate = false;
                 if (

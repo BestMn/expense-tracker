@@ -14,3 +14,7 @@
     align-items: center;
     justify-content: center;
 }
+
+.expense-table-row {
+    height: 75px;
+}

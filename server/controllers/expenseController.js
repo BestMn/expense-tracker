@@ -20,6 +20,20 @@ class ExpenseController {
         }
     }
 
+    async edit(req, res) {
+        const { id, categoryId, amount, date, description } = req.body;
+        const updatedExpense = await Expense.update(
+            {
+                categoryId: categoryId,
+                amount: amount,
+                date: date,
+                description: description,
+            },
+            { where: { id }, returning: true }
+        );
+        return res.json(updatedExpense);
+    }
+
     async getAll(req, res) {
         let { userId, limit, page } = req.query;
         page = page || 1;

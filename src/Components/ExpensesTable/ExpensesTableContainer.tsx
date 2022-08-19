@@ -1,10 +1,13 @@
 import { Spin, Pagination } from "antd";
 import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { getUserCategories } from "../../store/reducers/categoriesReducer";
-import { getUserExpenses } from "../../store/reducers/expensesReducer";
+import {
+    getUserExpenses,
+    editUserExpense,
+} from "../../store/reducers/expensesReducer";
 import ExpensesTable from "./ExpensesTable";
 import dateFormatter from "../../services/dateFormatter";
 
@@ -17,6 +20,7 @@ const ExpensesTableContainer = () => {
         expenses,
         loading: expensesLoading,
         count,
+        shouldUpdate: shouldUpdateExpense,
     } = useSelector((state: any) => state.expensesReducer);
 
     const [pagination, setPagination] = useState<TablePaginationConfig>({
@@ -25,25 +29,37 @@ const ExpensesTableContainer = () => {
         total: count,
     });
 
-    const {
-        categories,
-        loading: categoriesLoading,
-        shouldUpdate,
-    } = useSelector((state: any) => state.categoriesReducer);
+    const { categories, loading: categoriesLoading } = useSelector(
+        (state: any) => state.categoriesReducer
+    );
 
     const { token, userId, currency } = useSelector(
         (state: any) => state.userReducer
     );
 
+    useEffect(() => {
+        setPagination({
+            ...pagination,
+            total: count,
+        });
+    }, [count]);
+
     const handlePageChange = (currentPage) => {
-        setPagination({ ...pagination, current: currentPage, total: count });
+        setPagination({
+            ...pagination,
+            current: currentPage,
+            total: count,
+        });
     };
+    const handleEdit = (id) => {};
+
+    const handleDelete = (id) => {};
 
     useEffect(() => {
-        if (token && shouldUpdate === true) {
+        if (token) {
             dispatch(getUserCategories(userId));
         }
-    }, [token, shouldUpdate]);
+    }, [token]);
 
     useEffect(() => {
         if (token) {
@@ -55,10 +71,11 @@ const ExpensesTableContainer = () => {
                 })
             );
         }
-    }, [token, pagination]);
+    }, [token, pagination, shouldUpdateExpense]);
 
     useEffect(() => {
         if (expenses && categories) {
+            // Adding category information into expense objects
             const expensesWithCategories = expenses.map((elem) => {
                 const category = categories.find(
                     (el) => elem.categoryId == el.id
@@ -71,6 +88,14 @@ const ExpensesTableContainer = () => {
                     date: dateFormatter(elem.date),
                 };
             });
+
+            // Adding keys for empty table rows
+            let inx = 0;
+            while (expensesWithCategories.length < 10) {
+                inx++;
+                expensesWithCategories.push({ key: `empty-row-${inx}` });
+            }
+
             setData(expensesWithCategories);
         }
     }, [expenses, categories]);
@@ -84,6 +109,8 @@ const ExpensesTableContainer = () => {
                     loading={expensesLoading}
                     pagination={pagination}
                     handlePageChange={handlePageChange}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
                 />
             </>
         );
