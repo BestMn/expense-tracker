@@ -15,6 +15,7 @@ const ExpensesTableContainer = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const [data, setData] = useState(null);
+    const [dateFilter, setDateFilter] = useState(null);
 
     const {
         expenses,
@@ -55,6 +56,10 @@ const ExpensesTableContainer = () => {
 
     const handleDelete = (id) => {};
 
+    const handleDateFilter = (date) => {
+        setDateFilter(date);
+    };
+
     useEffect(() => {
         if (token) {
             dispatch(getUserCategories(userId));
@@ -68,10 +73,11 @@ const ExpensesTableContainer = () => {
                     userId,
                     limit: pagination.pageSize,
                     page: pagination.current,
+                    date: dateFilter,
                 })
             );
         }
-    }, [token, pagination, shouldUpdateExpense]);
+    }, [token, pagination, shouldUpdateExpense, dateFilter]);
 
     useEffect(() => {
         if (expenses && categories) {
@@ -85,7 +91,6 @@ const ExpensesTableContainer = () => {
                     category: category.name,
                     icon: category.icon,
                     color: category.color,
-                    date: dateFormatter(elem.date),
                 };
             });
 
@@ -100,17 +105,17 @@ const ExpensesTableContainer = () => {
         }
     }, [expenses, categories]);
 
-    if (data) {
+    if (data && !expensesLoading && !categoriesLoading) {
         return (
             <>
                 <ExpensesTable
                     data={data}
                     currency={currency}
-                    loading={expensesLoading}
                     pagination={pagination}
                     handlePageChange={handlePageChange}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
+                    handleDateFilter={handleDateFilter}
                 />
             </>
         );

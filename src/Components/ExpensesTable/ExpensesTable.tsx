@@ -15,26 +15,28 @@ const ExpensesTable = ({
     handlePageChange,
     handleEdit,
     handleDelete,
+    handleDateFilter,
 }) => {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const searchInput = useRef(null);
 
-    const disabledDates = (current) => {
-        if (
-            data.find((elem) => {
-                const cur = dateFormatter(current.toJSON());
-                return elem.date == cur;
-            })
-        ) {
-            return;
-        }
+    // const disabledDates = (current) => {
+    //     if (
+    //         data.find((elem) => {
+    //             const cur = dateFormatter(current.toJSON());
+    //             return elem.date == cur;
+    //         })
+    //     ) {
+    //         return;
+    //     }
 
-        return current;
-    };
+    //     return current;
+    // };
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
+        console.log(searchInput);
         setSearchText(selectedKeys[0]);
         setSearchedColumn(dataIndex);
     };
@@ -56,16 +58,19 @@ const ExpensesTable = ({
                     <DatePicker
                         format="DD-MM-YYYY"
                         onChange={(e) => {
-                            e
-                                ? setSelectedKeys([dateFormatter(e?.toJSON())])
-                                : clearFilters && handleReset(clearFilters);
+                            if (e) {
+                                setSelectedKeys([e]);
+                                handleDateFilter(e.toJSON());
+                            } else {
+                                clearFilters && handleReset(clearFilters);
+                            }
                             handleSearch(
                                 selectedKeys as string[],
                                 confirm,
                                 dataIndex
                             );
                         }}
-                        disabledDate={disabledDates}
+                        // disabledDate={disabledDates}
                         autoFocus={true}
                     />
                 </Space>
@@ -76,24 +81,13 @@ const ExpensesTable = ({
                 style={{ color: filtered ? "#1890ff" : undefined }}
             />
         ),
-        onFilter: (value, record) => {
-            console.log(
-                record[dataIndex]
-                    .toString()
-                    .toLowerCase()
-                    .includes((value as string).toLowerCase())
-            );
-            return record[dataIndex]
-                .toString()
-                .toLowerCase()
-                .includes((value as string).toLowerCase());
-        },
+        onFilter: (value, record) => {},
         onFilterDropdownVisibleChange: (visible) => {
             if (visible) {
                 setTimeout(() => searchInput.current?.select(), 100);
             }
         },
-        render: (text) => text,
+        render: (text) => (text ? dateFormatter(text) : text),
     });
 
     const columns: ColumnsType<DataType> = [

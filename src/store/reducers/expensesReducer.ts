@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import qs from "qs";
 
 type Expense = {
@@ -28,7 +28,9 @@ export const getUserExpenses = createAsyncThunk(
     "expenses/getUserExpenses",
     async (params) => {
         const res = await fetch(
-            `http://localhost:5000/api/expense?${qs.stringify(params)}`
+            `http://localhost:5000/api/expense?${qs.stringify(params, {
+                skipNulls: true,
+            })}`
         );
         return await res.json();
     }
@@ -110,6 +112,13 @@ const expensesSlice = createSlice({
             .addCase(getUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
                 state.shouldUpdate = false;
+                if (
+                    JSON.stringify(current(state).expenses) ==
+                    JSON.stringify(action.payload.rows)
+                ) {
+                    console.log("SAME");
+                    return;
+                }
                 state.count = action.payload.count;
                 state.expenses = action.payload.rows;
             })
