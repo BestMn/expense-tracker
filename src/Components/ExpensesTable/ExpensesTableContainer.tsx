@@ -20,64 +20,37 @@ const ExpensesTableContainer = () => {
     const {
         expenses,
         loading: expensesLoading,
-        count,
-        shouldUpdate: shouldUpdateExpense,
+        shouldUpdate: shouldUpdateExpenses,
     } = useSelector((state: any) => state.expensesReducer);
 
-    const [pagination, setPagination] = useState<TablePaginationConfig>({
-        current: 1,
-        pageSize: 10,
-        total: count,
-    });
-
-    const { categories, loading: categoriesLoading } = useSelector(
-        (state: any) => state.categoriesReducer
-    );
+    const {
+        categories,
+        loading: categoriesLoading,
+        shouldUpdate: shouldUpdateCategories,
+    } = useSelector((state: any) => state.categoriesReducer);
 
     const { token, userId, currency } = useSelector(
         (state: any) => state.userReducer
     );
-
-    useEffect(() => {
-        setPagination({
-            ...pagination,
-            total: count,
-        });
-    }, [count]);
-
-    const handlePageChange = (currentPage) => {
-        setPagination({
-            ...pagination,
-            current: currentPage,
-            total: count,
-        });
-    };
     const handleEdit = (id) => {};
 
     const handleDelete = (id) => {};
 
-    const handleDateFilter = (date) => {
-        setDateFilter(date);
-    };
-
     useEffect(() => {
-        if (token) {
+        if (token && shouldUpdateCategories === true) {
             dispatch(getUserCategories(userId));
         }
-    }, [token]);
+    }, [token, shouldUpdateCategories]);
 
     useEffect(() => {
-        if (token) {
+        if (token && shouldUpdateExpenses === true) {
             dispatch(
                 getUserExpenses({
                     userId,
-                    limit: pagination.pageSize,
-                    page: pagination.current,
-                    date: dateFilter,
                 })
             );
         }
-    }, [token, pagination, shouldUpdateExpense, dateFilter]);
+    }, [token, shouldUpdateExpenses]);
 
     useEffect(() => {
         if (expenses && categories) {
@@ -91,14 +64,17 @@ const ExpensesTableContainer = () => {
                     category: category.name,
                     icon: category.icon,
                     color: category.color,
+                    date: dateFormatter(elem.date),
                 };
             });
 
             // Adding keys for empty table rows
-            let inx = 0;
-            while (expensesWithCategories.length < 10) {
-                inx++;
-                expensesWithCategories.push({ key: `empty-row-${inx}` });
+            if (expensesWithCategories.length % 10 !== 0) {
+                let inx = 0;
+                while (expensesWithCategories.length % 10 !== 0) {
+                    inx++;
+                    expensesWithCategories.push({ key: `empty-row-${inx}` });
+                }
             }
 
             setData(expensesWithCategories);
@@ -111,11 +87,8 @@ const ExpensesTableContainer = () => {
                 <ExpensesTable
                     data={data}
                     currency={currency}
-                    pagination={pagination}
-                    handlePageChange={handlePageChange}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
-                    handleDateFilter={handleDateFilter}
                 />
             </>
         );

@@ -12,7 +12,6 @@ interface IExpensesState {
     loading: boolean;
     error: any;
     expenses: Array<Expense> | null;
-    count: number;
     shouldUpdate: boolean;
 }
 
@@ -20,7 +19,6 @@ const initialState: IExpensesState = {
     loading: false,
     error: null,
     expenses: [],
-    count: 0,
     shouldUpdate: true,
 };
 
@@ -112,15 +110,14 @@ const expensesSlice = createSlice({
             .addCase(getUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
                 state.shouldUpdate = false;
+                console.log("getting exp");
                 if (
                     JSON.stringify(current(state).expenses) ==
-                    JSON.stringify(action.payload.rows)
+                    JSON.stringify(action.payload)
                 ) {
-                    console.log("SAME");
                     return;
                 }
-                state.count = action.payload.count;
-                state.expenses = action.payload.rows;
+                state.expenses = action.payload;
             })
             .addCase(getUserExpenses.rejected, (state, action) => {
                 state.loading = false;

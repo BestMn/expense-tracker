@@ -8,35 +8,18 @@ import * as FontIcon from "react-icons/fa";
 import "./ExpensesTable.css";
 import EditExpenseForm from "../EditExpenseForm/EditExpenseForm";
 
-const ExpensesTable = ({
-    data,
-    currency,
-    pagination,
-    handlePageChange,
-    handleEdit,
-    handleDelete,
-    handleDateFilter,
-}) => {
+const ExpensesTable = ({ data, currency, handleEdit, handleDelete }) => {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const searchInput = useRef(null);
 
-    // const disabledDates = (current) => {
-    //     if (
-    //         data.find((elem) => {
-    //             const cur = dateFormatter(current.toJSON());
-    //             return elem.date == cur;
-    //         })
-    //     ) {
-    //         return;
-    //     }
-
-    //     return current;
-    // };
+    const disabledDates = (current) => {
+        const cur = current.utc().format("DD-MM-YYYY");
+        return !data.find((elem) => elem.date == cur);
+    };
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
-        console.log(searchInput);
         setSearchText(selectedKeys[0]);
         setSearchedColumn(dataIndex);
     };
@@ -58,19 +41,16 @@ const ExpensesTable = ({
                     <DatePicker
                         format="DD-MM-YYYY"
                         onChange={(e) => {
-                            if (e) {
-                                setSelectedKeys([e]);
-                                handleDateFilter(e.toJSON());
-                            } else {
-                                clearFilters && handleReset(clearFilters);
-                            }
+                            e
+                                ? setSelectedKeys([dateFormatter(e?.toJSON())])
+                                : clearFilters && handleReset(clearFilters);
                             handleSearch(
                                 selectedKeys as string[],
                                 confirm,
                                 dataIndex
                             );
                         }}
-                        // disabledDate={disabledDates}
+                        disabledDate={disabledDates}
                         autoFocus={true}
                     />
                 </Space>
@@ -81,13 +61,20 @@ const ExpensesTable = ({
                 style={{ color: filtered ? "#1890ff" : undefined }}
             />
         ),
-        onFilter: (value, record) => {},
+        onFilter: (value, record) => {
+            if (record[dataIndex]) {
+                return record[dataIndex]
+                    .toString()
+                    .toLowerCase()
+                    .includes((value as string).toLowerCase());
+            }
+        },
         onFilterDropdownVisibleChange: (visible) => {
             if (visible) {
                 setTimeout(() => searchInput.current?.select(), 100);
             }
         },
-        render: (text) => (text ? dateFormatter(text) : text),
+        render: (text) => text,
     });
 
     const columns: ColumnsType<DataType> = [
@@ -153,8 +140,7 @@ const ExpensesTable = ({
 
     return (
         <Table
-            pagination={{ position: ["bottomLeft"], ...pagination }}
-            onChange={(pagination) => handlePageChange(pagination.current)}
+            pagination={{ position: ["bottomLeft"] }}
             columns={columns}
             dataSource={data}
             rowKey={(record) => {

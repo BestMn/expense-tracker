@@ -37,27 +37,25 @@ class ExpenseController {
     }
 
     async getAll(req, res) {
-        let { userId, limit, page, date } = req.query;
-        let where = { userId: userId };
-        if (date) {
-            const momentDate = moment(date);
-            where = {
-                userId: { [Op.eq]: userId },
-                date: {
-                    [Op.between]: [
-                        momentDate.startOf("day").toString(),
-                        momentDate.endOf("day").toString(),
-                    ],
-                },
-            };
-        }
-        page = page || 1;
-        limit = limit || 10;
-        let offset = page * limit - limit;
-        let expenses = await Expense.findAndCountAll({
-            where,
-            limit,
-            offset,
+        let { userId } = req.query;
+        // let where = { userId: userId };
+        // if (date) {
+        //     const momentDate = moment(date);
+        //     where = {
+        //         userId: { [Op.eq]: userId },
+        //         date: {
+        //             [Op.between]: [
+        //                 momentDate.startOf("day").toString(),
+        //                 momentDate.endOf("day").toString(),
+        //             ],
+        //         },
+        //     };
+        // }
+        // page = page || 1;
+        // limit = limit || 10;
+        // let offset = page * limit - limit;
+        let expenses = await Expense.findAll({
+            where: { userId },
             order: [["date", "DESC"]],
         });
         return res.json(expenses);
