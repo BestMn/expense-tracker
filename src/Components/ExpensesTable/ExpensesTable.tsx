@@ -127,7 +127,7 @@ const ExpensesTable = ({ data, currency, handleEdit, handleDelete }) => {
                 if (record.id) {
                     return (
                         <Space size="middle">
-                            <EditExpenseForm editedExpense={record} />
+                            <EditExpenseForm editedExpenseId={record.id} />
                             <button onClick={() => handleDelete(record.id)}>
                                 Delete
                             </button>

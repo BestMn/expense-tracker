@@ -11,6 +11,8 @@ import {
 import React, { useState } from "react";
 import { AppDispatch } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
+import { editUserExpense } from "../../store/reducers/expensesReducer";
+import moment from "moment";
 
 interface Values {
     title: string;
@@ -47,7 +49,6 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     categoriesList,
 }) => {
     const [form] = Form.useForm();
-
     return (
         <Modal
             visible={visible}
@@ -76,7 +77,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 <Form.Item
                     label="Category"
                     name={["expense", "categoryId"]}
-                    initialValue={editedExpense.category}
+                    initialValue={editedExpense.categoryId}
                 >
                     <Select>{categoriesList}</Select>
                 </Form.Item>
@@ -91,6 +92,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 <Form.Item
                     name={["expense", "date"]}
                     label="DatePicker"
+                    initialValue={moment(editedExpense.date)}
                     {...config}
                 >
                     <DatePicker format="DD-MM-YYYY" />
@@ -112,7 +114,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     );
 };
 
-const EditExpenseForm: React.FC = ({ editedExpense }) => {
+const EditExpenseForm: React.FC = ({ editedExpenseId }) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const [visible, setVisible] = useState(false);
@@ -120,6 +122,10 @@ const EditExpenseForm: React.FC = ({ editedExpense }) => {
     const { userId } = useSelector((state) => state.userReducer);
 
     const { categories } = useSelector((state) => state.categoriesReducer);
+
+    const { expenses } = useSelector((state) => state.expensesReducer);
+
+    const editedExpense = expenses.find((elem) => elem.id === editedExpenseId);
 
     const categoriesList = categories ? (
         categories.map((elem) => {
@@ -136,20 +142,45 @@ const EditExpenseForm: React.FC = ({ editedExpense }) => {
     );
     // FIX THIS ^^^^^^^^^^^^^^
 
-    const onFinish = ({ category }) => {
-        const newCategory = {
+    const onFinish = ({ expense }) => {
+        const newExpense = {
             id: editedExpense.id,
             userId: userId,
-            name: category.name ? category.name : editedExpense.name,
-            icon: category.icon ? category.icon : editedExpense.icon,
-            color: category.color ? category.color : editedExpense.color,
+            categoryId: expense.categoryId
+                ? expense.categoryId
+                : editedExpense.categoryId,
+            amount: expense.amount ? expense.amount : editedExpense.amount,
+            date: expense.date ? expense.date.toJSON() : editedExpense.date,
+            description: expense.description ? expense.description : "",
         };
-        dispatch(editUserCategory(newCategory));
+        dispatch(editUserExpense(newExpense));
         setVisible(false);
     };
 
-    return (
-        <div>
+    if (editedExpense) {
+        return (
+            <div>
+                <Button
+                    type="primary"
+                    onClick={() => {
+                        setVisible(true);
+                    }}
+                >
+                    Edit
+                </Button>
+                <CollectionCreateForm
+                    visible={visible}
+                    onFinish={onFinish}
+                    onCancel={() => {
+                        setVisible(false);
+                    }}
+                    editedExpense={editedExpense}
+                    categoriesList={categoriesList}
+                />
+            </div>
+        );
+    } else {
+        return (
             <Button
                 type="primary"
                 onClick={() => {
@@ -158,17 +189,8 @@ const EditExpenseForm: React.FC = ({ editedExpense }) => {
             >
                 Edit
             </Button>
-            <CollectionCreateForm
-                visible={visible}
-                onFinish={onFinish}
-                onCancel={() => {
-                    setVisible(false);
-                }}
-                editedExpense={editedExpense}
-                categoriesList={categoriesList}
-            />
-        </div>
-    );
+        );
+    }
 };
 
 export default EditExpenseForm;

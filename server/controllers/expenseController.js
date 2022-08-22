@@ -26,10 +26,10 @@ class ExpenseController {
         const { id, categoryId, amount, date, description } = req.body;
         const updatedExpense = await Expense.update(
             {
-                categoryId: categoryId,
-                amount: amount,
-                date: date,
-                description: description,
+                categoryId,
+                amount,
+                date,
+                description,
             },
             { where: { id }, returning: true }
         );
