@@ -91,7 +91,6 @@ const categoriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(getUserCategories.fulfilled, (state, action) => {
-                console.log("getting fetch cat");
                 state.loading = false;
                 state.shouldUpdate = false;
                 if (

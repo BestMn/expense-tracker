@@ -23,7 +23,7 @@ class ExpenseController {
     }
 
     async edit(req, res) {
-        const { id, categoryId, amount, date, description } = req.body;
+        const { id, categoryId, amount, date, description, userId } = req.body;
         const updatedExpense = await Expense.update(
             {
                 categoryId,
@@ -31,9 +31,15 @@ class ExpenseController {
                 date,
                 description,
             },
-            { where: { id }, returning: true }
+            { where: { id, userId }, returning: true }
         );
         return res.json(updatedExpense);
+    }
+
+    async delete(req, res) {
+        const { id, userId } = req.body;
+        const deletedExpense = await Expense.destroy({ where: { id, userId } });
+        return res.json(deletedExpense);
     }
 
     async getAll(req, res) {

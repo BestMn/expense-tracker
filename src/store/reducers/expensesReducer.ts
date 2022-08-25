@@ -74,6 +74,26 @@ export const editUserExpense = createAsyncThunk(
     }
 );
 
+export const deleteUserExpense = createAsyncThunk(
+    "expenses/deleteUserExpense",
+    async (data) => {
+        const res = await fetch(`http://localhost:5000/api/expense`, {
+            method: "DELETE",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+        });
+        return await res.json();
+    }
+);
+
 const expensesSlice = createSlice({
     name: "expensesSlice",
     initialState,
@@ -142,6 +162,18 @@ const expensesSlice = createSlice({
                 state.shouldUpdate = true;
             })
             .addCase(editUserExpense.rejected, (state, action) => {
+                state.loading = false;
+                console.log(action.error);
+                state.error = action.error;
+            })
+            .addCase(deleteUserExpense.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteUserExpense.fulfilled, (state, action) => {
+                state.loading = false;
+                state.shouldUpdate = true;
+            })
+            .addCase(deleteUserExpense.rejected, (state, action) => {
                 state.loading = false;
                 console.log(action.error);
                 state.error = action.error;

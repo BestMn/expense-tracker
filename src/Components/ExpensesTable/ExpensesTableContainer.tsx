@@ -6,7 +6,7 @@ import { AppDispatch } from "../../store/store";
 import { getUserCategories } from "../../store/reducers/categoriesReducer";
 import {
     getUserExpenses,
-    editUserExpense,
+    deleteUserExpense,
 } from "../../store/reducers/expensesReducer";
 import ExpensesTable from "./ExpensesTable";
 import dateFormatter from "../../services/dateFormatter";
@@ -34,7 +34,9 @@ const ExpensesTableContainer = () => {
     );
     const handleEdit = (id) => {};
 
-    const handleDelete = (id) => {};
+    const handleDelete = (id) => {
+        dispatch(deleteUserExpense({ id, userId }));
+    };
 
     useEffect(() => {
         if (token && shouldUpdateCategories === true) {
