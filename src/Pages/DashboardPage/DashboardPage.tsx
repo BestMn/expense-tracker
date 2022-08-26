@@ -74,8 +74,10 @@ const DashboardPage: React.FC = () => {
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
-                collapsible
+                collapsible={true}
                 collapsed={collapsed}
+                breakpoint="lg"
+                collapsedWidth={50}
                 onCollapse={(value) => setCollapsed(value)}
             >
                 <div className="logo" />
