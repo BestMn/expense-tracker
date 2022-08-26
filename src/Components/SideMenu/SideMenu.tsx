@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-    AppstoreOutlined,
-    MailOutlined,
-    SettingOutlined,
+    DesktopOutlined,
+    FileOutlined,
+    PieChartOutlined,
+    TeamOutlined,
+    UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Menu } from "antd";
+import { Menu, Layout } from "antd";
 import "antd/dist/antd.css";
+import { NavLink, useLocation } from "react-router-dom";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -14,67 +17,60 @@ function getItem(
     label: React.ReactNode,
     key: React.Key,
     icon?: React.ReactNode,
-    children?: MenuItem[],
-    type?: "group"
+    children?: MenuItem[]
 ): MenuItem {
     return {
         key,
         icon,
         children,
         label,
-        type,
     } as MenuItem;
 }
 
-const items: MenuProps["items"] = [
-    getItem("Navigation One", "sub1", <MailOutlined />, [
-        getItem(
-            "Item 1",
-            "g1",
-            null,
-            [getItem("Option 1", "1"), getItem("Option 2", "2")],
-            "group"
-        ),
-        getItem(
-            "Item 2",
-            "g2",
-            null,
-            [getItem("Option 3", "3"), getItem("Option 4", "4")],
-            "group"
-        ),
-    ]),
+const { Sider } = Layout;
 
-    getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
-        getItem("Option 5", "5"),
-        getItem("Option 6", "6"),
-        getItem("Submenu", "sub3", null, [
-            getItem("Option 7", "7"),
-            getItem("Option 8", "8"),
-        ]),
+const items: MenuItem[] = [
+    getItem(
+        <NavLink to="/dashboard">Dashboard</NavLink>,
+        "/dashboard",
+        <PieChartOutlined />
+    ),
+    getItem(
+        <NavLink to="/expenses">Expenses</NavLink>,
+        "/expenses",
+        <DesktopOutlined />
+    ),
+    getItem("User", "sub1", <UserOutlined />, [
+        getItem("Tom", "3"),
+        getItem("Bill", "4"),
+        getItem("Alex", "5"),
     ]),
-
-    getItem("Navigation Three", "sub4", <SettingOutlined />, [
-        getItem("Option 9", "9"),
-        getItem("Option 10", "10"),
-        getItem("Option 11", "11"),
-        getItem("Option 12", "12"),
+    getItem("Team", "sub2", <TeamOutlined />, [
+        getItem("Team 1", "6"),
+        getItem("Team 2", "8"),
     ]),
+    getItem("Files", "9", <FileOutlined />),
 ];
 
 const SideMenu: React.FC = () => {
-    const onClick: MenuProps["onClick"] = (e) => {
-        console.log("click ", e);
-    };
-
+    const [collapsed, setCollapsed] = useState(false);
+    const location = useLocation();
     return (
-        <Menu
-            onClick={onClick}
-            style={{ width: 256 }}
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            mode="inline"
-            items={items}
-        />
+        <Sider
+            collapsible={true}
+            collapsed={collapsed}
+            breakpoint="lg"
+            collapsedWidth={50}
+            onCollapse={(value) => setCollapsed(value)}
+        >
+            <div className="logo" />
+            <Menu
+                theme="dark"
+                defaultSelectedKeys={[location.pathname]}
+                mode="inline"
+                items={items}
+            />
+        </Sider>
     );
 };
 

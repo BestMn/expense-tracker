@@ -1,18 +1,10 @@
-import {
-    DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Layout, Menu, Col, Row } from "antd";
-import React, { useState, useCallback } from "react";
+import { Layout, Col, Row } from "antd";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setUserId } from "../../store/reducers/userReducer";
 import "antd/dist/antd.css";
 import "./DashboardPage.css";
-import { NavLink } from "react-router-dom";
+import SideMenu from "../../Components/SideMenu/SideMenu";
 
 import DonutPlotContainer from "../../Components/DonutPlot/DonutPlotContainer";
 import ColumnsContainer from "../../Components/Columns/ColumnsContainer";
@@ -20,49 +12,9 @@ import LastExpensesListContainer from "../../Components/LastExpensesList/LastExp
 import TopCategoriesContainer from "../../Components/TopCategories/TopCategoriesContainer";
 import CreateExpenseFormConitaner from "../../Components/CreateExpenseForm/CreateExpenseFormContainer";
 
-const { Header, Content, Footer, Sider } = Layout;
-
-type MenuItem = Required<MenuProps>["items"][number];
-
-function getItem(
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[]
-): MenuItem {
-    return {
-        key,
-        icon,
-        children,
-        label,
-    } as MenuItem;
-}
-
-const items: MenuItem[] = [
-    getItem(
-        <NavLink to="/dashboard">Dashboard</NavLink>,
-        "1",
-        <PieChartOutlined />
-    ),
-    getItem(
-        <NavLink to="/expenses">Expenses</NavLink>,
-        "2",
-        <DesktopOutlined />
-    ),
-    getItem("User", "sub1", <UserOutlined />, [
-        getItem("Tom", "3"),
-        getItem("Bill", "4"),
-        getItem("Alex", "5"),
-    ]),
-    getItem("Team", "sub2", <TeamOutlined />, [
-        getItem("Team 1", "6"),
-        getItem("Team 2", "8"),
-    ]),
-    getItem("Files", "9", <FileOutlined />),
-];
+const { Content, Footer } = Layout;
 
 const DashboardPage: React.FC = () => {
-    const [collapsed, setCollapsed] = useState(false);
     const dispatch = useDispatch();
     const logout = () => {
         dispatch(setToken(null));
@@ -73,21 +25,7 @@ const DashboardPage: React.FC = () => {
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
-            <Sider
-                collapsible={true}
-                collapsed={collapsed}
-                breakpoint="lg"
-                collapsedWidth={50}
-                onCollapse={(value) => setCollapsed(value)}
-            >
-                <div className="logo" />
-                <Menu
-                    theme="dark"
-                    defaultSelectedKeys={["1"]}
-                    mode="inline"
-                    items={items}
-                />
-            </Sider>
+            <SideMenu />
             <Layout className="site-layout">
                 <Content style={{ margin: "0 16px" }}>
                     <Row>
