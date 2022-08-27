@@ -10,10 +10,10 @@ import {
 } from "../../store/reducers/expensesReducer";
 import ExpensesTable from "./ExpensesTable";
 import dateFormatter from "../../services/dateFormatter";
+import withPagination from "../../HOC/withPagination";
 
-const ExpensesTableContainer = () => {
+const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
     const dispatch = useDispatch<AppDispatch>();
-
     const [data, setData] = useState(null);
     const [dateFilter, setDateFilter] = useState(null);
 
@@ -32,7 +32,6 @@ const ExpensesTableContainer = () => {
     const { token, userId, currency } = useSelector(
         (state: any) => state.userReducer
     );
-    const handleEdit = (id) => {};
 
     const handleDelete = (id) => {
         dispatch(deleteUserExpense({ id, userId }));
@@ -89,8 +88,9 @@ const ExpensesTableContainer = () => {
                 <ExpensesTable
                     data={data}
                     currency={currency}
-                    handleEdit={handleEdit}
                     handleDelete={handleDelete}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
             </>
         );
@@ -99,4 +99,4 @@ const ExpensesTableContainer = () => {
     }
 };
 
-export default ExpensesTableContainer;
+export default withPagination(ExpensesTableContainer);

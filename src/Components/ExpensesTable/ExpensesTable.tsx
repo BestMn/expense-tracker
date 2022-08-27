@@ -8,7 +8,13 @@ import * as FontIcon from "react-icons/fa";
 import "./ExpensesTable.css";
 import EditExpenseForm from "../EditExpenseForm/EditExpenseForm";
 
-const ExpensesTable = ({ data, currency, handleEdit, handleDelete }) => {
+const ExpensesTable = ({
+    data,
+    currency,
+    handleDelete,
+    currentPage,
+    setCurrentPage,
+}) => {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const searchInput = useRef(null);
@@ -140,7 +146,11 @@ const ExpensesTable = ({ data, currency, handleEdit, handleDelete }) => {
 
     return (
         <Table
-            pagination={{ position: ["bottomLeft"] }}
+            pagination={{
+                position: ["bottomLeft"],
+                current: currentPage,
+                onChange: (page) => setCurrentPage(page),
+            }}
             columns={columns}
             dataSource={data}
             rowKey={(record) => {

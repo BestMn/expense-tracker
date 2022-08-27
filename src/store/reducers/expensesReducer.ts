@@ -148,6 +148,7 @@ const expensesSlice = createSlice({
             })
             .addCase(addUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
+                console.log(action);
                 state.shouldUpdate = true;
             })
             .addCase(addUserExpenses.rejected, (state, action) => {
@@ -159,6 +160,7 @@ const expensesSlice = createSlice({
             })
             .addCase(editUserExpense.fulfilled, (state, action) => {
                 state.loading = false;
+                console.log(action);
                 state.shouldUpdate = true;
             })
             .addCase(editUserExpense.rejected, (state, action) => {
@@ -172,6 +174,14 @@ const expensesSlice = createSlice({
             .addCase(deleteUserExpense.fulfilled, (state, action) => {
                 state.loading = false;
                 state.shouldUpdate = true;
+                // const deletedExpenseInx = state.expenses?.findIndex(
+                //     (elem) => elem.id == action.meta.arg.id
+                // );
+                // const newExpenses = [...state.expenses];
+                // state.expenses = [
+                //     ...newExpenses.slice(0, deletedExpenseInx),
+                //     ...newExpenses.slice(deletedExpenseInx + 1),
+                // ];
             })
             .addCase(deleteUserExpense.rejected, (state, action) => {
                 state.loading = false;
