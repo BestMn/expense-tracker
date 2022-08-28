@@ -10,6 +10,7 @@ import EditExpenseForm from "../EditExpenseForm/EditExpenseForm";
 
 const ExpensesTable = ({
     data,
+    categories,
     currency,
     handleDelete,
     currentPage,
@@ -80,7 +81,6 @@ const ExpensesTable = ({
                 setTimeout(() => searchInput.current?.select(), 100);
             }
         },
-        render: (text) => text,
     });
 
     const columns: ColumnsType<DataType> = [
@@ -109,6 +109,15 @@ const ExpensesTable = ({
                         </div>
                     );
                 }
+            },
+            filters: categories.map((elem) => {
+                return {
+                    text: <span>{elem.name}</span>,
+                    value: elem.name,
+                };
+            }),
+            onFilter: (value: string, record) => {
+                return record.category?.startsWith(value);
             },
         },
         {

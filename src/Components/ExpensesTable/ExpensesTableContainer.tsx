@@ -87,6 +87,7 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
             <>
                 <ExpensesTable
                     data={data}
+                    categories={categories}
                     currency={currency}
                     handleDelete={handleDelete}
                     currentPage={currentPage}
