@@ -81,11 +81,12 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     );
 };
 
-const CreateCategoryForm: React.FC = () => {
+const CreateCategoryForm: React.FC = ({
+    editFormVisible,
+    setEditFormVisible,
+}) => {
     const dispatch = useDispatch<AppDispatch>();
     const { userId } = useSelector((state: any) => state.userReducer);
-
-    const [visible, setVisible] = useState(false);
 
     const onCreate = ({ category }) => {
         const newCategory = {
@@ -95,27 +96,17 @@ const CreateCategoryForm: React.FC = () => {
             color: category.color,
         };
         dispatch(addUserCategory(newCategory));
-        setVisible(false);
+        setEditFormVisible(false);
     };
 
     return (
-        <div>
-            <Button
-                type="primary"
-                onClick={() => {
-                    setVisible(true);
-                }}
-            >
-                New Category
-            </Button>
-            <CollectionCreateForm
-                visible={visible}
-                onCreate={onCreate}
-                onCancel={() => {
-                    setVisible(false);
-                }}
-            />
-        </div>
+        <CollectionCreateForm
+            visible={editFormVisible}
+            onCreate={onCreate}
+            onCancel={() => {
+                setEditFormVisible(false);
+            }}
+        />
     );
 };
 

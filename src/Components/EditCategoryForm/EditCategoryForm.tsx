@@ -1,6 +1,7 @@
 import { Button, Form, Input, Modal, Radio } from "antd";
 import { Colorpicker, ColorPickerValue } from "antd-colorpicker";
 import IconPicker from "../IconPicker/IconPicker";
+import { EditFilled, DeleteFilled } from "@ant-design/icons";
 import { iconList } from "../IconPicker/iconList";
 import React, { useState } from "react";
 import { AppDispatch } from "../../store/store";
@@ -106,14 +107,14 @@ const EditCategoryForm: React.FC = ({ editedCategory }) => {
 
     return (
         <div>
-            <Button
+            <EditFilled
                 type="primary"
                 onClick={() => {
                     setVisible(true);
                 }}
             >
                 Edit
-            </Button>
+            </EditFilled>
             <CollectionCreateForm
                 visible={visible}
                 onCreate={onCreate}
