@@ -23,11 +23,7 @@ import ExpensePageContainer from "./Pages/ExpensesPage/ExpensesPageContainer";
 import { Spin } from "antd";
 
 const ProtectedRoute = ({ token, redirectPath = "/login" }) => {
-    if (!token) {
-        return <Navigate to={redirectPath} replace />;
-    }
-
-    return <Outlet />;
+    return token ? <Outlet /> : <Navigate to={redirectPath} replace />;
 };
 
 function App() {
@@ -47,6 +43,7 @@ function App() {
     }, []);
 
     useEffect(() => {
+        console.log(token);
         if (token) {
             dispatch(getUserInfo(userId));
         }
@@ -59,7 +56,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<AuthPage />} />
+                <Route path="/login" element={<AuthPage token={token} />} />
                 <Route element={<ProtectedRoute token={token} />}>
                     <Route
                         path="/dashboard"

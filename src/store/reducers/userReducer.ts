@@ -149,8 +149,8 @@ const categoriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(checkUser.fulfilled, (state, action) => {
-                state.loading = false;
                 state.token = action.payload.token;
+                state.loading = false;
             })
             .addCase(checkUser.rejected, (state, action) => {
                 state.loading = false;
