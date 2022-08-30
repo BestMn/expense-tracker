@@ -3,37 +3,3 @@
     display: flex;
     flex-wrap: wrap;
 }
-
-.categories-list__item {
-    padding: 10px;
-    background-color: brown;
-    color: white;
-    height: 100px;
-    width: 100px;
-    border-radius: 10px;
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.categories-list__item:hover .categories-list-item__buttons-container {
-    transition: opacity 0.5s;
-    opacity: 100%;
-}
-.categories-list-item__buttons-container {
-    transition: opacity 0.5s;
-    opacity: 0%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.categories-list-item__icon {
-    display: inline-flex;
-    font-size: 40px;
-}
-
-.categories-list-item__name {
-    font-size: 16px;
-}

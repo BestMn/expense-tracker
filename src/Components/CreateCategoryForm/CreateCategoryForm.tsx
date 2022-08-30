@@ -33,7 +33,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
             title="Create a new collection"
             okText="Create"
             cancelText="Cancel"
-            onCancel={onCancel}
+            onCancel={() => onCancel(false)}
             onOk={() => {
                 form.validateFields()
                     .then((values) => {
@@ -82,8 +82,8 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
 };
 
 const CreateCategoryForm: React.FC = ({
-    editFormVisible,
-    setEditFormVisible,
+    isEditFormVisible,
+    setIsEditFormVisible,
 }) => {
     const dispatch = useDispatch<AppDispatch>();
     const { userId } = useSelector((state: any) => state.userReducer);
@@ -96,16 +96,14 @@ const CreateCategoryForm: React.FC = ({
             color: category.color,
         };
         dispatch(addUserCategory(newCategory));
-        setEditFormVisible(false);
+        setIsEditFormVisible(false);
     };
 
     return (
         <CollectionCreateForm
-            visible={editFormVisible}
+            visible={isEditFormVisible}
             onCreate={onCreate}
-            onCancel={() => {
-                setEditFormVisible(false);
-            }}
+            onCancel={setIsEditFormVisible}
         />
     );
 };

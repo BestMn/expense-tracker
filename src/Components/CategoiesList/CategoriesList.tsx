@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import * as FontIcon from "react-icons/fa";
 import { EditFilled, DeleteFilled } from "@ant-design/icons";
 import { Spin, Empty } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
 import EditCategoryForm from "../EditCategoryForm/EditCategoryForm";
-import "./CategoriesList.css";
+import CategoriesListItem from "../CategoriesListItem/CategoriesListItem";
 import { getUserCategories } from "../../store/reducers/categoriesReducer";
 import { AppDispatch } from "../../store/store";
+import "./CategoriesList.css";
 
 type Category = {
     id: number;
@@ -16,9 +16,9 @@ type Category = {
     color: string;
 };
 
-const CategoriesList = ({ editable }: { editable: boolean }) => {
+const CategoriesList = () => {
     const [categoriesListItems, setCategoriesListItems] = useState(null);
-    const [editFormVisible, setEditFormVisible] = useState(false);
+    const [isEditFormVisible, setIsEditFormVisible] = useState(false);
 
     const { token, userId } = useSelector((state: any) => state.userReducer);
 
@@ -29,10 +29,6 @@ const CategoriesList = ({ editable }: { editable: boolean }) => {
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
-        console.log(editFormVisible);
-    }, [editFormVisible]);
-
-    useEffect(() => {
         if (token && shouldUpdate === true) {
             dispatch(getUserCategories(userId));
         }
@@ -41,31 +37,7 @@ const CategoriesList = ({ editable }: { editable: boolean }) => {
     useEffect(() => {
         if (categories) {
             const items = categories.map((item: any) => {
-                return (
-                    <div
-                        key={item.id}
-                        id={item.id}
-                        className="categories-list__item"
-                        style={{ backgroundColor: item.color }}
-                    >
-                        <div className="categories-list-item__buttons-container">
-                            <EditCategoryForm editedCategory={item} />
-                            <DeleteFilled style={{ fontSize: "16px" }} />
-                        </div>
-                        <span className="categories-list-item__icon">
-                            {React.createElement(FontIcon[item.icon])}
-                        </span>
-
-                        {/* {item.icon ? (
-                            React.createElement(FontIcon[item.icon])
-                        ) : (
-                            <div />
-                        )} */}
-                        <span className="categories-list-item__name">
-                            {item.name}
-                        </span>
-                    </div>
-                );
+                return <CategoriesListItem item={item} key={item.id} />;
             });
             setCategoriesListItems(items);
         }
@@ -76,19 +48,18 @@ const CategoriesList = ({ editable }: { editable: boolean }) => {
     }
 
     return (
-        <div className={"categories-list-container"}>
+        <div className="categories-list-container">
             {categoriesListItems ? categoriesListItems : <Empty />}
-            <div
+            <button
                 onClick={() => {
-                    setEditFormVisible(true);
+                    setIsEditFormVisible(true);
                 }}
                 className="categories-list__item"
-            >
-                <CreateCategoryForm
-                    editFormVisible={editFormVisible}
-                    setEditFormVisible={setEditFormVisible}
-                />
-            </div>
+            ></button>
+            <CreateCategoryForm
+                isEditFormVisible={isEditFormVisible}
+                setIsEditFormVisible={setIsEditFormVisible}
+            />
         </div>
     );
 };
