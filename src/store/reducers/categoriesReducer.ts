@@ -72,6 +72,26 @@ export const editUserCategory = createAsyncThunk(
     }
 );
 
+export const deleteUserCategory = createAsyncThunk(
+    "expenses/deleteUserCategory",
+    async (data) => {
+        const res = await fetch(`http://localhost:5000/api/category`, {
+            method: "DELETE",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+        });
+        return await res.json();
+    }
+);
+
 const categoriesSlice = createSlice({
     name: "categoriesSlice",
     initialState,
@@ -124,6 +144,17 @@ const categoriesSlice = createSlice({
                 state.shouldUpdate = true;
             })
             .addCase(editUserCategory.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(deleteUserCategory.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteUserCategory.fulfilled, (state, action) => {
+                state.loading = false;
+                state.shouldUpdate = true;
+            })
+            .addCase(deleteUserCategory.rejected, (state, action) => {
                 state.loading = false;
                 console.log(action.error);
                 state.error = action.error;

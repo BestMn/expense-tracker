@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
+import { deleteUserCategory } from "./categoriesReducer";
 import qs from "qs";
 
 type Expense = {
@@ -174,16 +175,21 @@ const expensesSlice = createSlice({
             .addCase(deleteUserExpense.fulfilled, (state, action) => {
                 state.loading = false;
                 state.shouldUpdate = true;
-                // const deletedExpenseInx = state.expenses?.findIndex(
-                //     (elem) => elem.id == action.meta.arg.id
-                // );
-                // const newExpenses = [...state.expenses];
-                // state.expenses = [
-                //     ...newExpenses.slice(0, deletedExpenseInx),
-                //     ...newExpenses.slice(deletedExpenseInx + 1),
-                // ];
             })
             .addCase(deleteUserExpense.rejected, (state, action) => {
+                state.loading = false;
+                console.log(action.error);
+                state.error = action.error;
+            })
+
+            .addCase(deleteUserCategory.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteUserCategory.fulfilled, (state, action) => {
+                state.loading = false;
+                state.shouldUpdate = true;
+            })
+            .addCase(deleteUserCategory.rejected, (state, action) => {
                 state.loading = false;
                 console.log(action.error);
                 state.error = action.error;

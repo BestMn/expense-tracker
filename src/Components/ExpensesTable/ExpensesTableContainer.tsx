@@ -15,7 +15,6 @@ import withPagination from "../../HOC/withPagination";
 const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [data, setData] = useState(null);
-    const [dateFilter, setDateFilter] = useState(null);
 
     const {
         expenses,
@@ -38,13 +37,13 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
     };
 
     useEffect(() => {
-        if (token && shouldUpdateCategories === true) {
+        if (token && shouldUpdateCategories) {
             dispatch(getUserCategories(userId));
         }
     }, [token, shouldUpdateCategories]);
 
     useEffect(() => {
-        if (token && shouldUpdateExpenses === true) {
+        if (token && shouldUpdateExpenses) {
             dispatch(
                 getUserExpenses({
                     userId,
@@ -54,7 +53,7 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
     }, [token, shouldUpdateExpenses]);
 
     useEffect(() => {
-        if (expenses && categories) {
+        if (expenses && categories && !expensesLoading && !categoriesLoading) {
             // Adding category information into expense objects
             const expensesWithCategories = expenses.map((elem) => {
                 const category = categories.find(
