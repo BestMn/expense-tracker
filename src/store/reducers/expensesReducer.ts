@@ -131,7 +131,6 @@ const expensesSlice = createSlice({
             .addCase(getUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
                 state.shouldUpdate = false;
-                console.log("getting exp");
                 if (
                     JSON.stringify(current(state).expenses) ==
                     JSON.stringify(action.payload)

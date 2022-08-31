@@ -8,6 +8,7 @@ import dateFormatter from "../../services/dateFormatter";
 const { RangePicker } = DatePicker;
 
 const ColumnsPlotContainer = () => {
+    const [segmentPeriod, setSegmentPeriod] = useState("Week");
     const [period, setPeriod] = useState(null);
 
     const [data, setData] = useState(null);
@@ -18,19 +19,40 @@ const ColumnsPlotContainer = () => {
 
     const { currency } = useSelector((state: any) => state.userReducer);
 
-    const onPeriodChange = (days) => {
+    const onSegmentPeriodChange = (days) => {
         const now = new Date();
         const backdate = new Date(now.setDate(now.getDate() - days));
         setPeriod([backdate.toJSON(), new Date().toJSON()]);
     };
 
+    const segment = (period) => {
+        switch (period) {
+            case "Week":
+                onSegmentPeriodChange(7);
+                break;
+            case "Month":
+                onSegmentPeriodChange(30);
+                break;
+            case "Quarter":
+                onSegmentPeriodChange(90);
+                break;
+            case "Year":
+                onSegmentPeriodChange(365);
+                break;
+            default:
+                onSegmentPeriodChange(7);
+        }
+    };
+
     useEffect(() => {
-        onPeriodChange(7);
-    }, []);
+        if (segmentPeriod) {
+            segment(segmentPeriod);
+        }
+    }, [segmentPeriod]);
 
     useEffect(() => {
         if (expenses && period) {
-            const days = Math.floor(
+            const daysInPeriod = Math.ceil(
                 (Date.parse(period[1]) - Date.parse(period[0])) /
                     1000 /
                     60 /
@@ -38,16 +60,20 @@ const ColumnsPlotContainer = () => {
                     24
             );
 
-            const allDates = [...Array(days)]
+            const expensesInPeriod = expenses.filter((elem) => {
+                return elem.date <= period[1] && elem.date >= period[0];
+            });
+
+            const datesArray = [...Array(daysInPeriod)]
                 .map((_, i) => {
-                    const d = new Date();
+                    const d = new Date(period[1]);
                     d.setDate(d.getDate() - i);
                     return d.toJSON().slice(0, 10);
                 })
                 .reverse();
-            const preparedData = allDates.map((elem) => {
+            const reducedExpenses = datesArray.map((elem) => {
                 let accum = 0;
-                expenses.reduce((_, curr) => {
+                expensesInPeriod.reduce((_, curr) => {
                     if (curr.date.slice(0, 10) == elem) {
                         accum += curr.amount;
                     }
@@ -57,61 +83,43 @@ const ColumnsPlotContainer = () => {
                     amount: accum,
                 };
             });
-            setData(preparedData);
+            setData(reducedExpenses);
         }
     }, [loading, period]);
-
-    const segment = (period) => {
-        const d = new Date();
-        switch (period) {
-            case "Week":
-                onPeriodChange(7);
-                break;
-            case "Month":
-                onPeriodChange(30);
-                break;
-            case "Quarter":
-                onPeriodChange(90);
-                break;
-            case "Year":
-                onPeriodChange(365);
-                break;
-            default:
-                onPeriodChange(7);
-        }
-    };
 
     if (data) {
         return (
             <React.Fragment>
-                <div className="segments">
+                <div className="columns__period-selector">
                     <Segmented
                         options={["Week", "Month", "Quarter", "Year"]}
-                        defaultValue={"Week"}
+                        value={segmentPeriod}
                         onChange={(value) => {
-                            segment(value);
+                            setSegmentPeriod(value);
                         }}
-                        className={"segmented"}
+                        className={"period-selector__period-segmented"}
                         block={false}
                     />
                     <RangePicker
+                        size="small"
                         onChange={(value) => {
                             if (value) {
+                                setSegmentPeriod(null);
+                                value[0].set({ hour: 0, minute: 0, second: 0 });
+                                value[1].set({
+                                    hour: 23,
+                                    minute: 59,
+                                    second: 59,
+                                });
                                 setPeriod([
                                     value[0]?.toJSON(),
                                     value[1]?.toJSON(),
                                 ]);
+                            } else {
+                                setSegmentPeriod("Week");
                             }
                         }}
-                    />
-                    <Segmented
-                        options={["Days", "Weeks", "Mounths"]}
-                        defaultValue={"Days"}
-                        onChange={(value) => {
-                            console.log(value);
-                        }}
-                        className={"segmented"}
-                        block={false}
+                        className={"period-selector__range-picker"}
                     />
                 </div>
                 <Columns data={data} currency={currency} />

@@ -32,7 +32,7 @@ const DashboardPage: React.FC = () => {
                         <Col
                             span={12}
                             className={
-                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-10"
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-10"
                             }
                         >
                             <div className="dashboard-block graph-block">
@@ -42,7 +42,7 @@ const DashboardPage: React.FC = () => {
                         <Col
                             span={12}
                             className={
-                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-14"
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-14"
                             }
                         >
                             <div className="dashboard-block graph-block">

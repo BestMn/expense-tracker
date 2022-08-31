@@ -1,9 +1,13 @@
-.segmented {
+.columns__period-selector {
+    display: inline-block;
     margin-bottom: 12px;
 }
 
-.segments {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+.period-selector__period-segmented {
+    margin-right: 18px;
+}
+
+.period-selector__range-picker {
+    height: 32px;
+    width: 220px;
 }
