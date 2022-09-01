@@ -22,7 +22,7 @@ const Columns = ({ data, currency }) => {
         tooltip: {
             formatter: (datum) => {
                 return {
-                    name: "Amount",
+                    name: "Total",
                     value: `${datum.amount} ${currency}`,
                 };
             },

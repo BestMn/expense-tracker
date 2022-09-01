@@ -21,8 +21,7 @@ const TopCategoriesContainer = () => {
         if (expenses && categories) {
             const today = new Date();
             const priorDate = new Date().setDate(today.getDate() - period);
-            const copied = [...expenses];
-            const lastExpenses = copied.filter(
+            const lastExpenses = expenses.filter(
                 (el) => priorDate < Date.parse(el.date)
             );
             const expensesWithCategories = lastExpenses.map((elem) => {
