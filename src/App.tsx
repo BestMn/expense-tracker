@@ -49,7 +49,7 @@ function App() {
         if (token) {
             dispatch(getUserInfo(userId));
         }
-    }, [token]);
+    }, [token, userId]);
 
     if (loading) {
         return <Spin />;

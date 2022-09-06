@@ -38,7 +38,10 @@ export const userRegistration = createAsyncThunk(
             }
         );
         const res = await response.json();
-        localStorage.setItem("userData", JSON.stringify({ token: res.token }));
+        localStorage.setItem(
+            "userData",
+            JSON.stringify({ token: res.token, userId: res.userId })
+        );
         return res;
     }
 );
@@ -90,7 +93,7 @@ export const checkUser = createAsyncThunk(
             referrerPolicy: "no-referrer",
         });
         const json = await res.json();
-        return { token: json.token };
+        return { token: json.token, userId: json.userId };
     }
 );
 
@@ -112,7 +115,7 @@ const categoriesSlice = createSlice({
             })
             .addCase(getUserInfo.fulfilled, (state, action) => {
                 state.loading = false;
-                state.name = action.payload.name;
+                state.name = action.payload.userName;
                 state.currency = action.payload.userCurrency;
             })
             .addCase(getUserInfo.rejected, (state, action) => {
@@ -150,6 +153,7 @@ const categoriesSlice = createSlice({
             })
             .addCase(checkUser.fulfilled, (state, action) => {
                 state.token = action.payload.token;
+                state.userId = action.payload.userId;
                 state.loading = false;
             })
             .addCase(checkUser.rejected, (state, action) => {
