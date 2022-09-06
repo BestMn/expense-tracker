@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import {
     DesktopOutlined,
-    FileOutlined,
     PieChartOutlined,
-    TeamOutlined,
+    LogoutOutlined,
     UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu, Layout } from "antd";
 import "antd/dist/antd.css";
 import { NavLink, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setToken, setUserId } from "../../store/reducers/userReducer";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -40,21 +41,20 @@ const items: MenuItem[] = [
         "/expenses",
         <DesktopOutlined />
     ),
-    getItem("User", "sub1", <UserOutlined />, [
-        getItem("Tom", "3"),
-        getItem("Bill", "4"),
-        getItem("Alex", "5"),
-    ]),
-    getItem("Team", "sub2", <TeamOutlined />, [
-        getItem("Team 1", "6"),
-        getItem("Team 2", "8"),
-    ]),
-    getItem("Files", "9", <FileOutlined />),
+    getItem(<NavLink to="/user">User</NavLink>, "/user", <UserOutlined />),
+    getItem(<span>Logout</span>, "logout", <LogoutOutlined />),
 ];
 
 const SideMenu: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
     const location = useLocation();
+    const dispatch = useDispatch();
+    const logout = () => {
+        dispatch(setToken(null));
+        dispatch(setUserId(null));
+
+        localStorage.removeItem("userData");
+    };
     return (
         <Sider
             collapsible={true}
@@ -66,9 +66,14 @@ const SideMenu: React.FC = () => {
             <div className="logo" />
             <Menu
                 theme="dark"
-                defaultSelectedKeys={[location.pathname]}
+                selectedKeys={[location.pathname]}
                 mode="inline"
                 items={items}
+                onClick={(item) => {
+                    if (item.key === "logout") {
+                        logout();
+                    }
+                }}
             />
         </Sider>
     );

@@ -17,9 +17,11 @@ import {
     setToken,
     setUserId,
 } from "./store/reducers/userReducer";
+import AppPage from "./Pages/AppPage/AppPage";
 import AuthPage from "./Pages/AuthPage/AuthPage";
 import DashboardPageContainer from "./Pages/DashboardPage/DashboardPageContainer";
 import ExpensePageContainer from "./Pages/ExpensesPage/ExpensesPageContainer";
+import UserPageContainer from "./Pages/UserPage/UserPageContainer";
 import { Spin } from "antd";
 
 const ProtectedRoute = ({ token, redirectPath = "/login" }) => {
@@ -60,11 +62,19 @@ function App() {
                 <Route element={<ProtectedRoute token={token} />}>
                     <Route
                         path="/dashboard"
-                        element={<DashboardPageContainer />}
+                        element={
+                            <AppPage children={<DashboardPageContainer />} />
+                        }
                     />
                     <Route
                         path="/expenses"
-                        element={<ExpensePageContainer />}
+                        element={
+                            <AppPage children={<ExpensePageContainer />} />
+                        }
+                    />
+                    <Route
+                        path="/user"
+                        element={<AppPage children={<UserPageContainer />} />}
                     />
                     <Route path="*" element={<AuthPage />} />
                 </Route>
