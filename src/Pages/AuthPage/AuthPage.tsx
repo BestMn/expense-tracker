@@ -1,25 +1,22 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Outlet,
-    Navigate,
-    useNavigate,
-} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import RegistrationForm from "../../Components/RegistrationForm/RegistrationForm";
 import LoginForm from "../../Components/LoginForm/LoginForm";
+import "./AuthPage.css";
 
 const AuthPage: React.FC = ({ token }) => {
     if (token) {
         return <Navigate to={"/dashboard"} replace />;
     }
     return (
-        <>
-            <RegistrationForm />
-            <LoginForm />
-        </>
+        <main>
+            <div className={"auth-page"}>
+                <div className={"auth-page__login-container"}>
+                    <RegistrationForm />
+                    <LoginForm />
+                </div>
+            </div>
+        </main>
     );
 };
 

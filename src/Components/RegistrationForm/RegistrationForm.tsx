@@ -8,7 +8,11 @@ const RegistrationForm: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const onFinish = (values: any) => {
         dispatch(
-            userRegistration({ email: values.email, password: values.password })
+            userRegistration({
+                userName: values.userName,
+                email: values.email,
+                password: values.password,
+            })
         );
         console.log("Success:", values);
     };
@@ -27,6 +31,13 @@ const RegistrationForm: React.FC = () => {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
         >
+            <Form.Item
+                label="Your Name"
+                name="userName"
+                rules={[{ required: true, message: "Please input your Name!" }]}
+            >
+                <Input />
+            </Form.Item>
             <Form.Item
                 label="Email"
                 name="email"

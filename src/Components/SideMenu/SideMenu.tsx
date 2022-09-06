@@ -9,7 +9,7 @@ import type { MenuProps } from "antd";
 import { Menu, Layout } from "antd";
 import "antd/dist/antd.css";
 import { NavLink, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUserId } from "../../store/reducers/userReducer";
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -30,23 +30,9 @@ function getItem(
 
 const { Sider } = Layout;
 
-const items: MenuItem[] = [
-    getItem(
-        <NavLink to="/dashboard">Dashboard</NavLink>,
-        "/dashboard",
-        <PieChartOutlined />
-    ),
-    getItem(
-        <NavLink to="/expenses">Expenses</NavLink>,
-        "/expenses",
-        <DesktopOutlined />
-    ),
-    getItem(<NavLink to="/user">User</NavLink>, "/user", <UserOutlined />),
-    getItem(<span>Logout</span>, "logout", <LogoutOutlined />),
-];
-
 const SideMenu: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const { name } = useSelector((state) => state.userReducer);
     const location = useLocation();
     const dispatch = useDispatch();
     const logout = () => {
@@ -55,6 +41,25 @@ const SideMenu: React.FC = () => {
 
         localStorage.removeItem("userData");
     };
+
+    const items: MenuItem[] = [
+        getItem(
+            <NavLink to="/dashboard">Dashboard</NavLink>,
+            "/dashboard",
+            <PieChartOutlined />
+        ),
+        getItem(
+            <NavLink to="/expenses">Expenses</NavLink>,
+            "/expenses",
+            <DesktopOutlined />
+        ),
+        getItem(
+            <NavLink to="/user">{name}</NavLink>,
+            "/user",
+            <UserOutlined />
+        ),
+        getItem(<span>Logout</span>, "logout", <LogoutOutlined />),
+    ];
     return (
         <Sider
             collapsible={true}
