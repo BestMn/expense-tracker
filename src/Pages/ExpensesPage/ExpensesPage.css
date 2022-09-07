@@ -1,7 +1,3 @@
-:root {
-    --dashboard-block-padding: 14px;
-}
-
 .dashboard-block {
     padding: var(--dashboard-block-padding);
     margin: 12px;

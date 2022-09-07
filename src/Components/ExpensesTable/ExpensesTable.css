@@ -9,12 +9,12 @@
     height: 34px;
     width: 34px;
     border-radius: 50%;
-    margin: 4px;
+    margin-right: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .expense-table-row {
-    height: 75px;
+    height: 70px;
 }

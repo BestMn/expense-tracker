@@ -11,6 +11,7 @@ import "antd/dist/antd.css";
 import { NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUserId } from "../../store/reducers/userReducer";
+import "./SideMenu.css";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -67,6 +68,7 @@ const SideMenu: React.FC = () => {
             breakpoint="lg"
             collapsedWidth={50}
             onCollapse={(value) => setCollapsed(value)}
+            className={"sider"}
         >
             <div className="logo" />
             <Menu

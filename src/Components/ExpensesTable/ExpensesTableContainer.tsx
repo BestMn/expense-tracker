@@ -84,6 +84,7 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
     if (data && !expensesLoading && !categoriesLoading) {
         return (
             <>
+                <h2>My Expenses</h2>
                 <ExpensesTable
                     data={data}
                     categories={categories}

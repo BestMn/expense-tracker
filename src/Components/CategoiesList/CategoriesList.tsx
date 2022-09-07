@@ -48,18 +48,21 @@ const CategoriesList = () => {
     }
 
     return (
-        <div className="categories-list-container">
-            {categoriesListItems ? categoriesListItems : <Empty />}
-            <button
-                onClick={() => {
-                    setIsEditFormVisible(true);
-                }}
-                className="categories-list__item"
-            ></button>
-            <CreateCategoryForm
-                isEditFormVisible={isEditFormVisible}
-                setIsEditFormVisible={setIsEditFormVisible}
-            />
+        <div className="categories-list">
+            <h2>My Categories</h2>
+            <div className="categories-list__content">
+                {categoriesListItems ? categoriesListItems : <Empty />}
+                <button
+                    onClick={() => {
+                        setIsEditFormVisible(true);
+                    }}
+                    className="categories-list__item"
+                ></button>
+                <CreateCategoryForm
+                    isEditFormVisible={isEditFormVisible}
+                    setIsEditFormVisible={setIsEditFormVisible}
+                />
+            </div>
         </div>
     );
 };

@@ -1,4 +1,4 @@
-.categories-list-container {
+.categories-list__content {
     justify-content: space-around;
     display: flex;
     flex-wrap: wrap;
