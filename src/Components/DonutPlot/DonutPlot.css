@@ -1,20 +1,18 @@
-.donut-plot__empty-svg {
-    font-size: 200px;
-    color: #bfbfbf;
-}
-
-.donut-plot__empty-description {
-    font-size: 20px;
-    color: #bfbfbf;
-}
-
 .donut-plot__empty-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    height: inherit;
+    min-height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.donut-plot__empty-svg {
+    font-size: 250px;
+    color: rgba(0, 0, 0, 0.04);
+}
+
+.donut-plot__empty-description {
+    margin-top: 10px;
+    font-size: 1.5em;
+    color: #bfbfbf;
 }

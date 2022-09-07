@@ -3,7 +3,6 @@
 }
 
 .dashboard-block {
-    position: relative;
     padding: var(--dashboard-block-padding);
     margin: 12px;
     background-color: rgb(255, 255, 255);

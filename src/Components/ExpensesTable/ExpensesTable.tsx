@@ -165,7 +165,7 @@ const ExpensesTable = ({
             rowKey={(record) => {
                 return record.id ? record.id : record.key;
             }}
-            rowClassName={(record, index) => "expense-table-row"}
+            rowClassName={(record, index) => "expense-table__row"}
         />
     );
 };
