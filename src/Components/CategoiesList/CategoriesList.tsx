@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { EditFilled, DeleteFilled } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { Spin, Empty } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
@@ -52,12 +52,14 @@ const CategoriesList = () => {
             <h2>My Categories</h2>
             <div className="categories-list__content">
                 {categoriesListItems ? categoriesListItems : <Empty />}
-                <button
+                <div
                     onClick={() => {
                         setIsEditFormVisible(true);
                     }}
-                    className="categories-list__item"
-                ></button>
+                    className="categories-list__add-btn"
+                >
+                    <PlusOutlined className="categories-list-item__icon" />
+                </div>
                 <CreateCategoryForm
                     isEditFormVisible={isEditFormVisible}
                     setIsEditFormVisible={setIsEditFormVisible}

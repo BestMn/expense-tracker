@@ -1,5 +1,25 @@
 .categories-list__content {
-    justify-content: space-around;
+    justify-content: center;
     display: flex;
     flex-wrap: wrap;
+}
+
+.categories-list__add-btn {
+    padding: 10px;
+    background-color: white;
+    color: #bfbfbf;
+    height: 100px;
+    width: 100px;
+    border: 2px solid #bfbfbf;
+    border-radius: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.categories-list__add-btn:active {
+    background-color: #bfbfbf;
+    color: #8a8989;
 }
