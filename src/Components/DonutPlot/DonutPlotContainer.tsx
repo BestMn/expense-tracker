@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import DonutPlot from "./DonutPlot";
 import { Spin, Empty } from "antd";
+import { PieChartFilled } from "@ant-design/icons";
+import "./DonutPlot.css";
 
 const DonutPlotContainer = () => {
     const [data, setData] = useState(null);
@@ -56,7 +58,14 @@ const DonutPlotContainer = () => {
     } else if (expensesLoading || categoriesLoading) {
         return <Spin size="large" />;
     } else if (!data || !data.length) {
-        return <Empty description={"No expenses today"}></Empty>;
+        return (
+            <div className="donut-plot__empty-container">
+                <PieChartFilled className="donut-plot__empty-svg" />
+                <span className="donut-plot__empty-description">
+                    No expenses today
+                </span>
+            </div>
+        );
     }
 };
 

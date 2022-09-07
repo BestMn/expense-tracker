@@ -1,0 +1,20 @@
+.donut-plot__empty-svg {
+    font-size: 200px;
+    color: #bfbfbf;
+}
+
+.donut-plot__empty-description {
+    font-size: 20px;
+    color: #bfbfbf;
+}
+
+.donut-plot__empty-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
