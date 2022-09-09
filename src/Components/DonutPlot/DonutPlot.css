@@ -6,13 +6,12 @@
     align-items: center;
 }
 
-.donut-plot__empty-svg {
-    font-size: 250px;
-    color: rgba(0, 0, 0, 0.04);
-}
-
 .donut-plot__empty-description {
     margin-top: 10px;
     font-size: 1.5em;
     color: #bfbfbf;
+}
+
+.donut-plot__empty-logo {
+    transform: scale(0.2);
 }

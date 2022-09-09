@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import DonutPlot from "./DonutPlot";
-import { Spin, Empty } from "antd";
-import { PieChartFilled, PieChartOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+import { ReactComponent as EmptyLogo } from "../../Icons/EmptyFolderIcon.svg";
 import "./DonutPlot.css";
 
 const DonutPlotContainer = () => {
@@ -60,7 +60,12 @@ const DonutPlotContainer = () => {
     } else if (!data || !data.length) {
         return (
             <div className="donut-plot__empty-container">
-                <PieChartOutlined className="donut-plot__empty-svg" />
+                <EmptyLogo
+                    viewBox="0 0 300 240"
+                    width="340px"
+                    height="240px"
+                    fill="rgba(0, 0, 0, 0.06)"
+                />
                 <span className="donut-plot__empty-description">
                     No expenses today
                 </span>
