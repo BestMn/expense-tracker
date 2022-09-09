@@ -14,8 +14,7 @@ import { getUserCategories } from "./store/reducers/categoriesReducer";
 import {
     checkUser,
     getUserInfo,
-    setToken,
-    setUserId,
+    setInitialTokenChecked,
 } from "./store/reducers/userReducer";
 import AppPage from "./Pages/AppPage/AppPage";
 import AuthPage from "./Pages/AuthPage/AuthPage";
@@ -31,27 +30,26 @@ const ProtectedRoute = ({ token, redirectPath = "/login" }) => {
 function App() {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { token, userId, loading } = useSelector(
+    const { token, userId, loading, initialTokenChecked } = useSelector(
         (state) => state.userReducer
     );
 
     useEffect(() => {
         const localData = localStorage.getItem("userData");
-        console.log(localData);
         if (localData) {
             const parsedData = JSON.parse(localData);
             dispatch(checkUser(parsedData.token));
         }
+        dispatch(setInitialTokenChecked(true));
     }, []);
 
     useEffect(() => {
-        console.log(token);
         if (token) {
             dispatch(getUserInfo(userId));
         }
     }, [token, userId]);
 
-    if (loading) {
+    if (loading || !initialTokenChecked) {
         return <Spin />;
     }
 

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface UserInfo {
+    initialTokenChecked: boolean;
     token: string | null;
     userId: string | null;
     loading: boolean;
@@ -10,6 +11,7 @@ interface UserInfo {
 }
 
 const initialState: UserInfo = {
+    initialTokenChecked: false,
     token: null,
     userId: null,
     loading: false,
@@ -96,6 +98,9 @@ const categoriesSlice = createSlice({
     name: "userSlice",
     initialState,
     reducers: {
+        setInitialTokenChecked: (state, action) => {
+            state.initialTokenChecked = action.payload;
+        },
         setToken: (state, action) => {
             state.token = action.payload;
         },
@@ -158,5 +163,6 @@ const categoriesSlice = createSlice({
     },
 });
 
-export const { setToken, setUserId } = categoriesSlice.actions;
+export const { setToken, setUserId, setInitialTokenChecked } =
+    categoriesSlice.actions;
 export const { reducer } = categoriesSlice;
