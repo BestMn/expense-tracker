@@ -37,10 +37,10 @@ function App() {
 
     useEffect(() => {
         const localData = localStorage.getItem("userData");
+        console.log(localData);
         if (localData) {
             const parsedData = JSON.parse(localData);
             dispatch(checkUser(parsedData.token));
-            dispatch(setUserId(parsedData.userId));
         }
     }, []);
 

@@ -38,10 +38,7 @@ export const userRegistration = createAsyncThunk(
             }
         );
         const res = await response.json();
-        localStorage.setItem(
-            "userData",
-            JSON.stringify({ token: res.token, userId: res.userId })
-        );
+        localStorage.setItem("userData", JSON.stringify({ token: res.token }));
         return res;
     }
 );
@@ -61,10 +58,7 @@ export const userLogin = createAsyncThunk("user/login", async (data = {}) => {
         body: JSON.stringify(data),
     });
     const res = await response.json();
-    localStorage.setItem(
-        "userData",
-        JSON.stringify({ token: res.token, userId: res.userId })
-    );
+    localStorage.setItem("userData", JSON.stringify({ token: res.token }));
     return res;
 });
 
@@ -80,7 +74,7 @@ export const getUserInfo = createAsyncThunk(
 export const checkUser = createAsyncThunk(
     "users/checkUser",
     async (token: string) => {
-        const res = await fetch(`http://localhost:5000/api/user/auth`, {
+        const response = await fetch(`http://localhost:5000/api/user/auth`, {
             method: "GET",
             mode: "cors",
             cache: "no-cache",
@@ -92,8 +86,9 @@ export const checkUser = createAsyncThunk(
             redirect: "follow",
             referrerPolicy: "no-referrer",
         });
-        const json = await res.json();
-        return { token: json.token, userId: json.userId };
+        const res = await response.json();
+        localStorage.setItem("userData", JSON.stringify({ token: res.token }));
+        return { token: res.token, userId: res.userId };
     }
 );
 
