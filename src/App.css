@@ -1,0 +1,11 @@
+:root {
+    --dashboard-block-padding: 18px;
+}
+
+.app-block {
+    padding: var(--dashboard-block-padding);
+    margin: 12px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    box-shadow: 0 20px 27px rgba(0, 0, 0, 0.05);
+}

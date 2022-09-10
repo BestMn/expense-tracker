@@ -22,6 +22,7 @@ import DashboardPageContainer from "./Pages/DashboardPage/DashboardPageContainer
 import ExpensePageContainer from "./Pages/ExpensesPage/ExpensesPageContainer";
 import UserPageContainer from "./Pages/UserPage/UserPageContainer";
 import { Spin } from "antd";
+import "./App.css";
 
 const ProtectedRoute = ({ token, redirectPath = "/login" }) => {
     return token ? <Outlet /> : <Navigate to={redirectPath} replace />;
