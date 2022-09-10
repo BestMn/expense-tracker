@@ -1,9 +1,14 @@
-.expense-category {
+.last-expenses-list__item {
+    min-height: 72px;
+    padding: 12px 0;
+}
+
+.last-expenses-list__item-category {
     display: flex;
     align-items: center;
 }
 
-.expense-category-icon {
+.last-expenses-list__item-category-icon {
     background-color: brown;
     color: white;
     height: 34px;
@@ -15,7 +20,7 @@
     justify-content: center;
 }
 
-.expense-amount {
+.last-expenses-list__item-amount {
     margin-right: 10px;
     font-weight: 500;
 }

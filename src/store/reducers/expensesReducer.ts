@@ -19,7 +19,7 @@ interface IExpensesState {
 const initialState: IExpensesState = {
     loading: false,
     error: null,
-    expenses: [],
+    expenses: null,
     shouldUpdate: true,
 };
 

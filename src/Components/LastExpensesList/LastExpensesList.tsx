@@ -9,31 +9,45 @@ const LastExpensesList: React.FC = ({ data, currency }) => {
             <List
                 itemLayout="horizontal"
                 dataSource={data}
-                renderItem={(item) => (
-                    <List.Item>
-                        <List.Item.Meta
-                            avatar={
-                                <div className="expense-category">
-                                    <div
-                                        style={{ backgroundColor: item.color }}
-                                        className="expense-category-icon"
-                                    >
-                                        {React.createElement(
-                                            FontIcon[item.icon]
-                                        )}
+                renderItem={(item) => {
+                    if (!item.category) {
+                        return (
+                            <List.Item
+                                key={item.key}
+                                className="last-expenses-list__item"
+                            />
+                        );
+                    }
+                    return (
+                        <List.Item>
+                            <List.Item.Meta
+                                avatar={
+                                    <div className="last-expenses-list__item-category">
+                                        <div
+                                            style={{
+                                                backgroundColor: item.color,
+                                            }}
+                                            className="last-expenses-list__item-category-icon"
+                                        >
+                                            {React.createElement(
+                                                FontIcon[item.icon]
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                            title={
-                                <a href="https://ant.design">{item.category}</a>
-                            }
-                            description={`${item.date}`}
-                        />
-                        <div
-                            className={"expense-amount"}
-                        >{`${item.amount} ${currency}`}</div>
-                    </List.Item>
-                )}
+                                }
+                                title={
+                                    <a href="https://ant.design">
+                                        {item.category}
+                                    </a>
+                                }
+                                description={`${item.date}`}
+                            />
+                            <div
+                                className={"last-expenses-list__item-amount"}
+                            >{`${item.amount} ${currency}`}</div>
+                        </List.Item>
+                    );
+                }}
             />
         </React.Fragment>
     );
