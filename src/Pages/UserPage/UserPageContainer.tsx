@@ -1,10 +1,18 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { editUser } from "../../store/reducers/userReducer";
+import { AppDispatch } from "../../store/store";
 import UserPage from "./UserPage";
 
 const UserPageContainer = () => {
     const userData = useSelector((state: any) => state.userReducer);
-    return <UserPage userData={userData} />;
+    const dispatch = useDispatch<AppDispatch>();
+    const onFinish = (value) => {
+        const editedUser = { ...value, id: userData.userId };
+        console.log(editedUser);
+        dispatch(editUser(editedUser));
+    };
+    return <UserPage userData={userData} onFinish={onFinish} />;
 };
 
 export default UserPageContainer;

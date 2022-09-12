@@ -3,7 +3,7 @@ import { Button, Input, Form, Avatar } from "antd";
 import { EditFilled, UserOutlined } from "@ant-design/icons";
 import "./UserPage.css";
 
-const UserPage = ({ userData }) => {
+const UserPage = ({ userData, onFinish }) => {
     const [form] = Form.useForm();
     const [editMode, setEditMode] = useState(false);
     return (
@@ -34,7 +34,7 @@ const UserPage = ({ userData }) => {
                         Edit
                     </Button>
                 </div>
-                <Form form={form}>
+                <Form form={form} onFinish={(value) => onFinish(value)}>
                     <div className="profile-block__info">
                         <div className="profile-block__info-item">
                             <div className="profile-block__info-item-title">
@@ -43,7 +43,7 @@ const UserPage = ({ userData }) => {
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
                                     <Form.Item
-                                        name={["user", "firstName"]}
+                                        name={["firstName"]}
                                         initialValue={userData.firstName}
                                     >
                                         <Input
@@ -64,7 +64,7 @@ const UserPage = ({ userData }) => {
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
                                     <Form.Item
-                                        name={["user", "secondName"]}
+                                        name={["secondName"]}
                                         initialValue={userData.secondName}
                                     >
                                         <Input
@@ -85,7 +85,7 @@ const UserPage = ({ userData }) => {
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
                                     <Form.Item
-                                        name={["user", "nickname"]}
+                                        name={["nickname"]}
                                         initialValue={userData.nickName}
                                     >
                                         <Input
@@ -106,7 +106,7 @@ const UserPage = ({ userData }) => {
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
                                     <Form.Item
-                                        name={["user", "phoneNumber"]}
+                                        name={["phoneNumber"]}
                                         initialValue={userData.phoneNumber}
                                     >
                                         <Input
@@ -127,7 +127,7 @@ const UserPage = ({ userData }) => {
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
                                     <Form.Item
-                                        name={["user", "currency"]}
+                                        name={["currency"]}
                                         initialValue={userData.currency}
                                     >
                                         <Input
@@ -139,6 +139,13 @@ const UserPage = ({ userData }) => {
                                     <span>{userData.currency}</span>
                                 )}
                             </div>
+                            {editMode ? (
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit">
+                                        Submit
+                                    </Button>
+                                </Form.Item>
+                            ) : null}
                         </div>
                     </div>
                 </Form>

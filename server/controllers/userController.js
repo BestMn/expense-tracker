@@ -64,6 +64,30 @@ class UserController {
         });
         return res.json(user);
     }
+
+    async edit(req, res) {
+        const {
+            id,
+            nickName,
+            firstName,
+            secondName,
+            phoneNumber,
+            userCurrency,
+        } = req.body;
+        console.log("UPDATED USER DATA", req.body);
+        const updatedUser = await User.update(
+            {
+                nickName,
+                firstName,
+                secondName,
+                phoneNumber,
+                userCurrency,
+            },
+            { where: { id }, returning: true }
+        );
+        console.log("UPDATED USER", updatedUser);
+        return res.json(updatedUser);
+    }
 }
 
 module.exports = new UserController();

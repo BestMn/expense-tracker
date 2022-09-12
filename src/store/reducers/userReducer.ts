@@ -101,6 +101,23 @@ export const checkUser = createAsyncThunk(
     }
 );
 
+export const editUser = createAsyncThunk("users/editUser", async (data) => {
+    const res = await fetch(`http://localhost:5000/api/user/`, {
+        method: "PATCH",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(data),
+    });
+    return await res.json();
+});
+
 const categoriesSlice = createSlice({
     name: "userSlice",
     initialState,
@@ -168,6 +185,31 @@ const categoriesSlice = createSlice({
                 state.loading = false;
             })
             .addCase(checkUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
+
+            .addCase(editUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(editUser.fulfilled, (state, { payload }) => {
+                const {
+                    firstName,
+                    secondName,
+                    nickName,
+                    phoneNumber,
+                    email,
+                    currency,
+                } = payload[1][0];
+                state.loading = false;
+                state.firstName = firstName;
+                state.secondName = secondName;
+                state.nickName = nickName;
+                state.phoneNumber = phoneNumber;
+                state.email = email;
+                state.currency = currency;
+            })
+            .addCase(editUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             });

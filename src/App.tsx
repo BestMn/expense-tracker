@@ -45,6 +45,7 @@ function App() {
     }, []);
 
     useEffect(() => {
+        console.log("trying to update");
         if (token) {
             dispatch(getUserInfo(userId));
         }
