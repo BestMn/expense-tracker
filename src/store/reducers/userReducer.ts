@@ -6,7 +6,11 @@ interface UserInfo {
     userId: string | null;
     loading: boolean;
     error: any;
-    name: string | null;
+    firstName: string | null;
+    secondName: string | null;
+    nickName: string | null;
+    phoneNumber: string | null;
+    email: string | null;
     currency: string | null;
 }
 
@@ -16,7 +20,11 @@ const initialState: UserInfo = {
     userId: null,
     loading: false,
     error: null,
-    name: null,
+    firstName: null,
+    secondName: null,
+    nickName: null,
+    phoneNumber: null,
+    email: null,
     currency: null,
 };
 
@@ -69,7 +77,6 @@ export const getUserInfo = createAsyncThunk(
     async (userId: number) => {
         const res = await fetch(`http://localhost:5000/api/user?id=${userId}`);
         return await res.json();
-        // return { name: json.name, currency: json.userCurrency };
     }
 );
 
@@ -113,10 +120,14 @@ const categoriesSlice = createSlice({
             .addCase(getUserInfo.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(getUserInfo.fulfilled, (state, action) => {
+            .addCase(getUserInfo.fulfilled, (state, { payload }) => {
                 state.loading = false;
-                state.name = action.payload.userName;
-                state.currency = action.payload.userCurrency;
+                state.firstName = payload.firstName;
+                state.secondName = payload.secondName;
+                state.nickName = payload.nickName;
+                state.phoneNumber = payload.phoneNumber;
+                state.email = payload.email;
+                state.currency = payload.userCurrency;
             })
             .addCase(getUserInfo.rejected, (state, action) => {
                 state.loading = false;

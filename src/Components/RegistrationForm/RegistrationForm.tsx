@@ -9,7 +9,9 @@ const RegistrationForm: React.FC = () => {
     const onFinish = (values: any) => {
         dispatch(
             userRegistration({
-                userName: values.userName,
+                nickName: values.nickName,
+                firstName: values.firstName,
+                secondName: values.secondName,
                 email: values.email,
                 password: values.password,
             })
@@ -32,10 +34,16 @@ const RegistrationForm: React.FC = () => {
             autoComplete="off"
         >
             <Form.Item
-                label="Your Name"
-                name="userName"
+                label="Nickname"
+                name="nickName"
                 rules={[{ required: true, message: "Please input your Name!" }]}
             >
+                <Input />
+            </Form.Item>
+            <Form.Item label="First Name" name="firstName">
+                <Input />
+            </Form.Item>
+            <Form.Item label="Second Name" name="secondName">
                 <Input />
             </Form.Item>
             <Form.Item

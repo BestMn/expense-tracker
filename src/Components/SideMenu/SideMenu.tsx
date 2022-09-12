@@ -33,7 +33,9 @@ const { Sider } = Layout;
 
 const SideMenu: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
-    const { name } = useSelector((state) => state.userReducer);
+    const { nickName, firstName, secondName } = useSelector(
+        (state) => state.userReducer
+    );
     const location = useLocation();
     const dispatch = useDispatch();
     const logout = () => {
@@ -55,7 +57,11 @@ const SideMenu: React.FC = () => {
             <DesktopOutlined />
         ),
         getItem(
-            <NavLink to="/user">{name}</NavLink>,
+            <NavLink to="/user">
+                {firstName && secondName
+                    ? `${firstName} ${secondName}`
+                    : nickName}
+            </NavLink>,
             "/user",
             <UserOutlined />
         ),
