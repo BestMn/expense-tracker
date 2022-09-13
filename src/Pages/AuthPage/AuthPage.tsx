@@ -3,8 +3,9 @@ import { Navigate } from "react-router-dom";
 import RegistrationForm from "../../Components/RegistrationForm/RegistrationForm";
 import LoginForm from "../../Components/LoginForm/LoginForm";
 import "./AuthPage.css";
+import { AuthPageProps } from "../../types";
 
-const AuthPage: React.FC = ({ token }) => {
+const AuthPage: React.FC<AuthPageProps> = ({ token }) => {
     if (token) {
         return <Navigate to={"/dashboard"} replace />;
     }

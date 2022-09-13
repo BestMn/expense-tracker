@@ -1,18 +1,17 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { deleteUserCategory } from "./categoriesReducer";
-import qs from "qs";
 
-type Expense = {
-    id: string;
-    date: string | Date;
-    value: number;
+export type TExpense = {
+    id: string | number;
+    date: string;
+    amount: number;
     categoryId: number;
 };
 
-interface IExpensesState {
+export interface IExpensesState {
     loading: boolean;
     error: any;
-    expenses: Array<Expense> | null;
+    expenses: Array<TExpense> | null;
     shouldUpdate: boolean;
 }
 
@@ -25,11 +24,9 @@ const initialState: IExpensesState = {
 
 export const getUserExpenses = createAsyncThunk(
     "expenses/getUserExpenses",
-    async (params) => {
+    async (userId: number) => {
         const res = await fetch(
-            `http://localhost:5000/api/expense?${qs.stringify(params, {
-                skipNulls: true,
-            })}`
+            `http://localhost:5000/api/expense?userId=${userId}`
         );
         return await res.json();
     }

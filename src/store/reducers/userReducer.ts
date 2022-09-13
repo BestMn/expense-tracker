@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-interface UserInfo {
+export interface IUserState {
     initialTokenChecked: boolean;
     token: string | null;
-    userId: string | null;
+    userId: number | null;
     loading: boolean;
     error: any;
     firstName: string | null;
@@ -14,7 +14,7 @@ interface UserInfo {
     currency: string | null;
 }
 
-const initialState: UserInfo = {
+const initialState: IUserState = {
     initialTokenChecked: false,
     token: null,
     userId: null,
@@ -75,7 +75,9 @@ export const userLogin = createAsyncThunk("user/login", async (data = {}) => {
 export const getUserInfo = createAsyncThunk(
     "users/getUserInfo",
     async (userId: number) => {
-        const res = await fetch(`http://localhost:5000/api/user?id=${userId}`);
+        const res = await fetch(
+            `http://localhost:5000/api/user?userId=${userId}`
+        );
         return await res.json();
     }
 );

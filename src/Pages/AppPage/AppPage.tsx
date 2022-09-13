@@ -1,9 +1,10 @@
 import { Layout } from "antd";
 import SideMenu from "../../Components/SideMenu/SideMenu";
+import { AppPageProps } from "../../types";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
-const AppPage = ({ children }) => {
+const AppPage: React.FC<AppPageProps> = ({ children }) => {
     return (
         <Layout style={{ minHeight: "100vh" }} hasSider={true}>
             <SideMenu />

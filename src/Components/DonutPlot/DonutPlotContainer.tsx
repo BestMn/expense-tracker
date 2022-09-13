@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import DonutPlot from "./DonutPlot";
 import { Spin } from "antd";
 import { ReactComponent as EmptyLogo } from "../../Icons/EmptyFolderIcon.svg";
+import { RootState } from "../../store/store";
+import { TExpense } from "../../store/reducers/expensesReducer";
 import "./DonutPlot.css";
 
 const DonutPlotContainer = () => {
     const [data, setData] = useState(null);
 
-    const { currency } = useSelector((state: any) => state.userReducer);
+    const { currency } = useSelector((state: RootState) => state.userReducer);
 
     const {
         expenses,
@@ -23,12 +25,12 @@ const DonutPlotContainer = () => {
     useEffect(() => {
         if (categories && expenses && categories?.length > 0) {
             const todayExpenses = expenses.filter(
-                (elem) =>
+                (elem: TExpense) =>
                     elem.date.slice(0, 10) == new Date().toJSON().slice(0, 10)
             );
-            const donutData = todayExpenses.map((el) => {
+            const donutData = todayExpenses.map((el: TExpense) => {
                 const category = categories.find(
-                    (elem) => elem.id == el.categoryId
+                    (elem: TExpense) => elem.id == el.categoryId
                 );
                 return {
                     color: category.color,
@@ -38,8 +40,8 @@ const DonutPlotContainer = () => {
                     category: category.name,
                 };
             });
-            const reducedExpenses = [];
-            donutData.forEach((elem) => {
+            const reducedExpenses: Array<TExpense> = [];
+            donutData.forEach((elem: TExpense) => {
                 const existedCategoryIndex = reducedExpenses.findIndex(
                     (el) => el.categoryId == elem.categoryId
                 );

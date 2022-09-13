@@ -4,11 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { getUserExpenses } from "../../store/reducers/expensesReducer";
 import { getUserCategories } from "../../store/reducers/categoriesReducer";
+import { RootState } from "../../store/store";
 
 const DashboardPageContainer = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { token, userId } = useSelector((state) => state.userReducer);
+    const { token, userId } = useSelector(
+        (state: RootState) => state.userReducer
+    );
     const {
         expenses,
         loading: expensesLoading,
@@ -23,16 +26,16 @@ const DashboardPageContainer = () => {
     } = useSelector((state: any) => state.categoriesReducer);
 
     useEffect(() => {
-        if (token && shouldUpdateCategories === true) {
+        if (userId && shouldUpdateCategories === true) {
             dispatch(getUserCategories(userId));
         }
-    }, [token, shouldUpdateCategories]);
+    }, [userId, shouldUpdateCategories]);
 
     useEffect(() => {
-        if (token && shouldUpdateExpenses === true) {
-            dispatch(getUserExpenses({ userId }));
+        if (userId && shouldUpdateExpenses === true) {
+            dispatch(getUserExpenses(userId));
         }
-    }, [token, shouldUpdateExpenses]);
+    }, [userId, shouldUpdateExpenses]);
 
     return <DashboardPage />;
 };

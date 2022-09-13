@@ -7,7 +7,7 @@ type Category = {
     color: string;
 };
 
-interface ICategoryState {
+export interface ICategoryState {
     loading: boolean;
     error: any;
     categories: Array<Category> | null;

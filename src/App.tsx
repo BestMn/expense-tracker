@@ -5,12 +5,9 @@ import {
     Route,
     Outlet,
     Navigate,
-    useNavigate,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "./store/store";
-import { getUserExpenses } from "./store/reducers/expensesReducer";
-import { getUserCategories } from "./store/reducers/categoriesReducer";
 import {
     checkUser,
     getUserInfo,
@@ -23,8 +20,13 @@ import ExpensePageContainer from "./Pages/ExpensesPage/ExpensesPageContainer";
 import UserPageContainer from "./Pages/UserPage/UserPageContainer";
 import { Spin } from "antd";
 import "./App.css";
+import { ProtectedRouteProps } from "./types";
+import { RootState } from "./store/store";
 
-const ProtectedRoute = ({ token, redirectPath = "/login" }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+    token,
+    redirectPath = "/login",
+}) => {
     return token ? <Outlet /> : <Navigate to={redirectPath} replace />;
 };
 
@@ -32,7 +34,7 @@ function App() {
     const dispatch = useDispatch<AppDispatch>();
 
     const { token, userId, loading, initialTokenChecked } = useSelector(
-        (state) => state.userReducer
+        (state: RootState) => state.userReducer
     );
 
     useEffect(() => {
@@ -45,11 +47,11 @@ function App() {
     }, []);
 
     useEffect(() => {
-        console.log("trying to update");
-        if (token) {
+        if (userId) {
+            console.log(userId);
             dispatch(getUserInfo(userId));
         }
-    }, [token, userId]);
+    }, [userId]);
 
     if (loading || !initialTokenChecked) {
         return <Spin />;
@@ -76,7 +78,7 @@ function App() {
                         path="/user"
                         element={<AppPage children={<UserPageContainer />} />}
                     />
-                    <Route path="*" element={<AuthPage />} />
+                    <Route path="*" element={<AuthPage token={token} />} />
                 </Route>
             </Routes>
         </Router>
