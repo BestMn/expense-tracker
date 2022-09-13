@@ -66,14 +66,8 @@ class UserController {
     }
 
     async edit(req, res) {
-        const {
-            id,
-            nickName,
-            firstName,
-            secondName,
-            phoneNumber,
-            userCurrency,
-        } = req.body;
+        const { id, nickName, firstName, secondName, phoneNumber, currency } =
+            req.body;
         console.log("UPDATED USER DATA", req.body);
         const updatedUser = await User.update(
             {
@@ -81,7 +75,7 @@ class UserController {
                 firstName,
                 secondName,
                 phoneNumber,
-                userCurrency,
+                userCurrency: currency,
             },
             { where: { id }, returning: true }
         );

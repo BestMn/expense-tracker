@@ -199,7 +199,7 @@ const categoriesSlice = createSlice({
                     nickName,
                     phoneNumber,
                     email,
-                    currency,
+                    userCurrency,
                 } = payload[1][0];
                 state.loading = false;
                 state.firstName = firstName;
@@ -207,7 +207,7 @@ const categoriesSlice = createSlice({
                 state.nickName = nickName;
                 state.phoneNumber = phoneNumber;
                 state.email = email;
-                state.currency = currency;
+                state.currency = userCurrency;
             })
             .addCase(editUser.rejected, (state, action) => {
                 state.loading = false;

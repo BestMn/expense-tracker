@@ -24,17 +24,23 @@ const UserPage = ({ userData, onFinish }) => {
                         </div>
                     </div>
 
-                    <Button
-                        type="primary"
-                        size="large"
-                        icon={<EditFilled />}
-                        className="profile-block__header-edit-btn"
-                        onClick={() => setEditMode(!editMode)}
-                    >
-                        Edit
-                    </Button>
+                    {editMode ? null : (
+                        <Button
+                            type="primary"
+                            size="large"
+                            icon={<EditFilled />}
+                            className="profile-block__header-edit-btn"
+                            onClick={() => setEditMode(!editMode)}
+                        >
+                            Edit
+                        </Button>
+                    )}
                 </div>
-                <Form form={form} onFinish={(value) => onFinish(value)}>
+                <Form
+                    form={form}
+                    onFinish={(value) => onFinish(value)}
+                    initialValues={userData}
+                >
                     <div className="profile-block__info">
                         <div className="profile-block__info-item">
                             <div className="profile-block__info-item-title">
@@ -42,10 +48,7 @@ const UserPage = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item
-                                        name={["firstName"]}
-                                        initialValue={userData.firstName}
-                                    >
+                                    <Form.Item name={["firstName"]}>
                                         <Input
                                             placeholder="First Name"
                                             size="large"
@@ -63,10 +66,7 @@ const UserPage = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item
-                                        name={["secondName"]}
-                                        initialValue={userData.secondName}
-                                    >
+                                    <Form.Item name={["secondName"]}>
                                         <Input
                                             placeholder="Second Name"
                                             size="large"
@@ -84,10 +84,7 @@ const UserPage = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item
-                                        name={["nickname"]}
-                                        initialValue={userData.nickName}
-                                    >
+                                    <Form.Item name={["nickName"]}>
                                         <Input
                                             placeholder="Nickname"
                                             size="large"
@@ -105,10 +102,7 @@ const UserPage = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item
-                                        name={["phoneNumber"]}
-                                        initialValue={userData.phoneNumber}
-                                    >
+                                    <Form.Item name={["phoneNumber"]}>
                                         <Input
                                             placeholder="Phone Number"
                                             size="large"
@@ -126,10 +120,7 @@ const UserPage = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item
-                                        name={["currency"]}
-                                        initialValue={userData.currency}
-                                    >
+                                    <Form.Item name={["currency"]}>
                                         <Input
                                             placeholder="Currency"
                                             size="large"
@@ -139,14 +130,28 @@ const UserPage = ({ userData, onFinish }) => {
                                     <span>{userData.currency}</span>
                                 )}
                             </div>
-                            {editMode ? (
-                                <Form.Item>
-                                    <Button type="primary" htmlType="submit">
-                                        Submit
-                                    </Button>
-                                </Form.Item>
-                            ) : null}
                         </div>
+                        {editMode ? (
+                            <div className="profile-block__info-item profile-block__info-edit-btns">
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    size="large"
+                                    className="profile-block__info-edit-btn"
+                                >
+                                    Submit
+                                </Button>
+
+                                <Button
+                                    type="default"
+                                    size="large"
+                                    onClick={() => setEditMode(false)}
+                                    className="profile-block__info-edit-btn"
+                                >
+                                    Cancel
+                                </Button>
+                            </div>
+                        ) : null}
                     </div>
                 </Form>
             </div>

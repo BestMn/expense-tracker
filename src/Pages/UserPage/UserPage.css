@@ -28,7 +28,7 @@
 
 .profile-block__header-name {
     display: block;
-    line-height: 46px;
+    line-height: 38px;
     font-size: 30px;
 }
 
@@ -59,4 +59,21 @@
 
 .profile-block__info-item-text {
     font-size: 18px;
+}
+
+.profile-block__info-edit-btns {
+    width: 100%;
+}
+
+.profile-block__info-edit-btn {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.profile-block__info-item.profile-block__info-edit-btns {
+    margin-top: 10px;
+}
+
+.profile-block__info-edit-btn:first-child {
+    margin-right: 20px;
 }
