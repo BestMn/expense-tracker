@@ -8,14 +8,14 @@ export type TExpense = {
     categoryId: number;
 };
 
-export interface IExpensesState {
+export type TExpensesState = {
     loading: boolean;
     error: any;
     expenses: Array<TExpense> | null;
     shouldUpdate: boolean;
-}
+};
 
-const initialState: IExpensesState = {
+const initialState: TExpensesState = {
     loading: false,
     error: null,
     expenses: null,

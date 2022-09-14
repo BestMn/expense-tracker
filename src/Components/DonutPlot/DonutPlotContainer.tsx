@@ -7,8 +7,18 @@ import { RootState } from "../../store/store";
 import { TExpense } from "../../store/reducers/expensesReducer";
 import "./DonutPlot.css";
 
+type DonutExpense = {
+    amount: number;
+    category: string;
+    categoryId: number;
+    color: string;
+    type: number;
+};
+
+export type DonutPlotData = Array<DonutExpense>;
+
 const DonutPlotContainer = () => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<DonutPlotData | null>(null);
 
     const { currency } = useSelector((state: RootState) => state.userReducer);
 
@@ -40,8 +50,8 @@ const DonutPlotContainer = () => {
                     category: category.name,
                 };
             });
-            const reducedExpenses: Array<TExpense> = [];
-            donutData.forEach((elem: TExpense) => {
+            const reducedExpenses: DonutPlotData = [];
+            donutData.forEach((elem: DonutExpense) => {
                 const existedCategoryIndex = reducedExpenses.findIndex(
                     (el) => el.categoryId == elem.categoryId
                 );

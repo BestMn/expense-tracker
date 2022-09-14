@@ -1,30 +1,31 @@
-import { Button, Form, Input, Modal, Radio } from "antd";
+import { Form, Input, Modal } from "antd";
 import { Colorpicker, ColorPickerValue } from "antd-colorpicker";
 import IconPicker from "../IconPicker/IconPicker";
-import { iconList } from "../IconPicker/iconList";
 import React, { useState } from "react";
 import { AppDispatch } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addUserCategory } from "../../store/reducers/categoriesReducer";
-
-interface Values {
-    title: string;
-    description: string;
-    modifier: string;
-}
+import { RootState } from "../../store/store";
+import { IconList } from "../IconPicker/iconType";
+import { TCategory } from "../../store/reducers/categoriesReducer";
 
 interface CollectionCreateFormProps {
     visible: boolean;
-    onCreate: (values: Values) => void;
-    onCancel: () => void;
+    onCreate: (values: TCategory) => void;
+    onCancel: (value: boolean) => void;
 }
+
+type CreateCategoryFormProps = {
+    isEditFormVisible: boolean;
+    setIsEditFormVisible: (value: boolean) => void;
+};
 
 const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     visible,
     onCreate,
     onCancel,
 }) => {
-    const [iconValue, setIconValue] = useState("FaTshirt");
+    const [iconValue, setIconValue] = useState<IconList>("FaTshirt");
 
     const [form] = Form.useForm();
     return (
@@ -90,7 +91,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 >
                     <IconPicker
                         iconValue={iconValue}
-                        onChange={(v) => setIconValue(v)}
+                        onChange={(v: IconList) => setIconValue(v)}
                         hideSearch={true}
                     />
                 </Form.Item>
@@ -99,14 +100,14 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     );
 };
 
-const CreateCategoryForm: React.FC = ({
+const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({
     isEditFormVisible,
     setIsEditFormVisible,
 }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const { userId } = useSelector((state: any) => state.userReducer);
+    const { userId } = useSelector((state: RootState) => state.userReducer);
 
-    const onCreate = ({ category }) => {
+    const onCreate = (category: TCategory) => {
         const newCategory = {
             userId: userId,
             name: category.name,

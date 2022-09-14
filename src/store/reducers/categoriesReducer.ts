@@ -1,20 +1,21 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 
-type Category = {
-    id: number;
+export type TCategory = {
+    id?: number;
+    userId: number;
     name: string;
     icon: string;
     color: string;
 };
 
-export interface ICategoryState {
+export type TCategoryState = {
     loading: boolean;
     error: any;
-    categories: Array<Category> | null;
+    categories: Array<TCategory> | null;
     shouldUpdate: boolean;
-}
+};
 
-const initialState: ICategoryState = {
+const initialState: TCategoryState = {
     loading: false,
     error: null,
     categories: null,
@@ -33,8 +34,7 @@ export const getUserCategories = createAsyncThunk(
 
 export const addUserCategory = createAsyncThunk(
     "category/addUserCategory",
-    async (data) => {
-        console.log(data);
+    async (data: TCategory) => {
         const res = await fetch(`http://localhost:5000/api/category`, {
             method: "POST",
             mode: "cors",

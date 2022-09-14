@@ -1,31 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Segmented, Spin, DatePicker, Empty } from "antd";
 import "./ColumnsContainer.css";
 import Columns from "./Columns";
 import dateFormatter from "../../services/dateFormatter";
+import { RootState } from "../../store/store";
 
 const { RangePicker } = DatePicker;
 
-const ColumnsPlotContainer = () => {
-    const [segmentPeriod, setSegmentPeriod] = useState("Week");
-    const [period, setPeriod] = useState(null);
+export type ColumnsExpense = {
+    date: string;
+    amount: number;
+};
 
-    const [data, setData] = useState(null);
+export type ColumnsData = Array<ColumnsExpense>;
+
+const ColumnsPlotContainer = () => {
+    const [segmentPeriod, setSegmentPeriod] = useState<string | null>("Week");
+    const [period, setPeriod] = useState<Array<string> | null>(null);
+
+    const [data, setData] = useState<ColumnsData | null>(null);
 
     const { expenses, loading, error } = useSelector(
-        (state: any) => state.expensesReducer
+        (state: RootState) => state.expensesReducer
     );
 
-    const { currency } = useSelector((state: any) => state.userReducer);
+    const { currency } = useSelector((state: RootState) => state.userReducer);
 
-    const onSegmentPeriodChange = (days) => {
+    const onSegmentPeriodChange = (days: number) => {
         const now = new Date();
         const backdate = new Date(now.setDate(now.getDate() - days));
         setPeriod([backdate.toJSON(), new Date().toJSON()]);
     };
 
-    const segment = (period) => {
+    const segment = (period: string) => {
         switch (period) {
             case "Week":
                 onSegmentPeriodChange(7);
@@ -103,17 +111,21 @@ const ColumnsPlotContainer = () => {
                     <RangePicker
                         size="small"
                         onChange={(value) => {
-                            if (value) {
+                            if (value && value[0] && value[1]) {
                                 setSegmentPeriod(null);
-                                value[0].set({ hour: 0, minute: 0, second: 0 });
+                                value[0].set({
+                                    hour: 0,
+                                    minute: 0,
+                                    second: 0,
+                                });
                                 value[1].set({
                                     hour: 23,
                                     minute: 59,
                                     second: 59,
                                 });
                                 setPeriod([
-                                    value[0]?.toJSON(),
-                                    value[1]?.toJSON(),
+                                    value[0].toJSON(),
+                                    value[1].toJSON(),
                                 ]);
                             } else {
                                 setSegmentPeriod("Week");

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export interface IUserState {
+export type TUserState = {
     initialTokenChecked: boolean;
     token: string | null;
     userId: number | null;
@@ -12,9 +12,9 @@ export interface IUserState {
     phoneNumber: string | null;
     email: string | null;
     currency: string | null;
-}
+};
 
-const initialState: IUserState = {
+const initialState: TUserState = {
     initialTokenChecked: false,
     token: null,
     userId: null,

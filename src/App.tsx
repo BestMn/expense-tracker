@@ -48,7 +48,6 @@ function App() {
 
     useEffect(() => {
         if (userId) {
-            console.log(userId);
             dispatch(getUserInfo(userId));
         }
     }, [userId]);

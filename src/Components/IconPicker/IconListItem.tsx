@@ -3,10 +3,10 @@ import * as FontIcon from "react-icons/fa";
 import { IconList } from "./iconType";
 
 interface IconPickerItemProps {
-    icon: string;
+    icon: IconList;
     size?: number;
     color?: string;
-    onClick?: (icon: string) => void;
+    onClick?: (icon: IconList) => void;
 }
 
 const IconPickerItem: React.FC<IconPickerItemProps> = ({

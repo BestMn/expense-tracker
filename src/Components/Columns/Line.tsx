@@ -1,6 +1,12 @@
 import { Line } from "@ant-design/plots";
+import { ColumnsData } from "./ColumnsContainer";
 
-const LineColumn = ({ data, currency }) => {
+type ColumnsProps = {
+    data: ColumnsData;
+    currency: string | null;
+};
+
+const LineColumn: React.FC<ColumnsProps> = ({ data, currency }) => {
     const config = {
         height: 356,
         data,
@@ -10,7 +16,7 @@ const LineColumn = ({ data, currency }) => {
             label: {
                 autoHide: false,
                 autoRotate: false,
-                formatter: (text, item, index) => {
+                formatter: (text: string, item, index: number) => {
                     if (index === 0 || index === data.length - 1) {
                         return text;
                     }
@@ -19,7 +25,7 @@ const LineColumn = ({ data, currency }) => {
             tickLine: null,
         },
         tooltip: {
-            formatter: (datum) => {
+            formatter: (datum: any) => {
                 return {
                     name: "Amount",
                     value: `${datum.amount} ${currency}`,

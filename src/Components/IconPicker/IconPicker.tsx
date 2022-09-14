@@ -7,7 +7,7 @@ import "./IconPicker.css";
 import { Button } from "antd";
 
 interface IconPickerProps {
-    iconValue: string;
+    iconValue: IconList;
     onChange: (value: IconList) => void;
     hideSearch?: boolean;
 }
@@ -54,16 +54,16 @@ const IconPicker: React.FC<IconPickerProps> = ({
                         />
                     )}
                     {iconList
-                        .filter((i: string) =>
+                        .filter((i): i is IconList =>
                             i.toLowerCase().includes(searchString.toLowerCase())
                         )
-                        .map((icon) => {
+                        .map((icon: IconList) => {
                             return (
                                 <IconPickerItem
                                     key={icon}
-                                    icon={`${icon}`}
-                                    onClick={(value: IconList) => {
-                                        onChange(value);
+                                    icon={icon}
+                                    onClick={(icon) => {
+                                        onChange(icon);
                                         changeDisplay(false);
                                         setSearchString("");
                                     }}

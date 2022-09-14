@@ -1,9 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Pie, measureTextWidth } from "@ant-design/plots";
+import { DonutPlotData } from "./DonutPlotContainer";
 
-const DonutPlot = ({ data, currency }) => {
-    function renderStatistic(containerWidth, text, style) {
+type DonutPlotProps = {
+    data: DonutPlotData;
+    currency: string | null;
+};
+
+type TRenderStatistic = (
+    containerWidth: number,
+    text: string,
+    style: {}
+) => string;
+
+const DonutPlot: React.FC<DonutPlotProps> = ({ data, currency = "$" }) => {
+    const renderStatistic: TRenderStatistic = function (
+        containerWidth,
+        text,
+        style
+    ) {
         const { width: textWidth, height: textHeight } = measureTextWidth(
             text,
             style
@@ -29,7 +43,7 @@ const DonutPlot = ({ data, currency }) => {
         return `<div style="${textStyleStr};font-size:${scale}em;line-height:${
             scale < 1 ? 1 : "inherit"
         };">${text}</div>`;
-    }
+    };
 
     const config = {
         appendPadding: 10,
@@ -37,22 +51,11 @@ const DonutPlot = ({ data, currency }) => {
         legend: false,
         colorField: "color",
         angleField: "amount",
-        color: ({ color }) => {
-            return color;
+        color: (data: any) => {
+            return data.color;
         },
         radius: 1,
         innerRadius: 0.64,
-        meta: {
-            value: {
-                formatter: (v) => `${v} ${currency}`,
-            },
-            type: "type",
-            category: {
-                formatter: (value, index) => {
-                    console.log(value, index);
-                },
-            },
-        },
         label: {
             type: "inner",
             offset: "-50%",
@@ -62,14 +65,14 @@ const DonutPlot = ({ data, currency }) => {
             },
             autoRotate: false,
             autoHide: true,
-            content: (v) => {
-                return v.category;
+            content: (value: any) => {
+                return value.category;
             },
         },
         statistic: {
             title: {
                 offsetY: -4,
-                customHtml: (container, view, datum) => {
+                customHtml: (container: any, view: any, datum: any) => {
                     const { width, height } = container.getBoundingClientRect();
                     const d = Math.sqrt(
                         Math.pow(width / 2, 2) + Math.pow(height / 2, 2)
@@ -85,12 +88,17 @@ const DonutPlot = ({ data, currency }) => {
                 style: {
                     fontSize: "32px",
                 },
-                customHtml: (container, view, datum, data) => {
+                customHtml: (
+                    container: any,
+                    view: any,
+                    datum: any,
+                    data: any
+                ) => {
                     const { width } = container.getBoundingClientRect();
                     const text = datum
                         ? `${datum.amount} ${currency}`
                         : `${data.reduce(
-                              (r, d) => r + d.amount,
+                              (r: number, d: any) => r + d.amount,
                               0
                           )} ${currency}`;
                     return renderStatistic(width, text, {
@@ -99,7 +107,6 @@ const DonutPlot = ({ data, currency }) => {
                 },
             },
         },
-        // 添加 中心统计文本 交互
         interactions: [
             {
                 type: "element-selected",

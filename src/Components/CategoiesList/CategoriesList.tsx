@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Spin, Empty } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
-import EditCategoryForm from "../EditCategoryForm/EditCategoryForm";
 import CategoriesListItem from "../CategoriesListItem/CategoriesListItem";
 import { getUserCategories } from "../../store/reducers/categoriesReducer";
 import { AppDispatch } from "../../store/store";
 import "./CategoriesList.css";
-
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-};
 
 const CategoriesList = () => {
     const [categoriesListItems, setCategoriesListItems] = useState(null);
