@@ -12,7 +12,8 @@ const ExpensesTable = ({
     data,
     categories,
     currency,
-    handleDelete,
+    onDelete,
+    onEdit,
     currentPage,
     setCurrentPage,
 }) => {
@@ -142,8 +143,11 @@ const ExpensesTable = ({
                 if (record.id) {
                     return (
                         <Space size="middle">
-                            <EditExpenseForm editedExpenseId={record.id} />
-                            <button onClick={() => handleDelete(record.id)}>
+                            <EditExpenseForm
+                                editedExpense={record}
+                                onEdit={onEdit}
+                            />
+                            <button onClick={() => onDelete(record.id)}>
                                 Delete
                             </button>
                         </Space>

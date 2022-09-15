@@ -5,26 +5,27 @@ import {
     Input,
     InputNumber,
     Modal,
-    Radio,
     Select,
 } from "antd";
-import React, { useState } from "react";
-import { AppDispatch } from "../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { editUserExpense } from "../../store/reducers/expensesReducer";
+import React, { ReactElement, useState } from "react";
 import moment from "moment";
-
-interface Values {
-    title: string;
-    description: string;
-    modifier: string;
-}
+import { EditUserExpenseData } from "../../store/actions/expenseActions";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface CollectionCreateFormProps {
     visible: boolean;
-    onCreate: (values: Values) => void;
+    onFinish: (values: EditUserExpenseData) => void;
     onCancel: () => void;
+    editedExpense: EditUserExpenseData;
+    categoriesList: Array<ReactElement> | ReactElement;
 }
+
+type EditExpenseFormProps = {
+    onFinish: (values: EditUserExpenseData) => void;
+    editedExpense: EditUserExpenseData;
+    categoriesList: Array<ReactElement> | ReactElement;
+};
 
 const layout = {
     labelCol: { span: 8 },
@@ -49,6 +50,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     categoriesList,
 }) => {
     const [form] = Form.useForm();
+    console.log(editedExpense);
     return (
         <Modal
             visible={visible}
@@ -60,7 +62,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 form.validateFields()
                     .then((values) => {
                         form.resetFields();
-                        onFinish(values);
+                        onFinish({ ...values, id: editedExpense.id });
                     })
                     .catch((info) => {
                         console.log("Validate Failed:", info);
@@ -72,36 +74,28 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 name="nest-messages"
                 onFinish={onFinish}
                 // validateMessages={validateMessages}   <<< FIX THIS
+                initialValues={editedExpense}
                 form={form}
             >
-                <Form.Item
-                    label="Category"
-                    name={["expense", "categoryId"]}
-                    initialValue={editedExpense.categoryId}
-                >
+                <Form.Item label="Category" name={["categoryId"]}>
                     <Select>{categoriesList}</Select>
                 </Form.Item>
                 <Form.Item
-                    name={["expense", "amount"]}
+                    name={["amount"]}
                     label="Amount"
                     rules={[{ required: true }]}
-                    initialValue={editedExpense.amount}
                 >
                     <InputNumber />
                 </Form.Item>
                 <Form.Item
-                    name={["expense", "date"]}
+                    name={["date"]}
                     label="DatePicker"
                     initialValue={moment(editedExpense.date)}
                     {...config}
                 >
                     <DatePicker format="DD-MM-YYYY" />
                 </Form.Item>
-                <Form.Item
-                    name={["expense", "description"]}
-                    label="Description"
-                    initialValue={editedExpense.description}
-                >
+                <Form.Item name={["description"]} label="Description">
                     <Input.TextArea />
                 </Form.Item>
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
@@ -114,18 +108,14 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     );
 };
 
-const EditExpenseForm: React.FC = ({ editedExpenseId }) => {
-    const dispatch = useDispatch<AppDispatch>();
-
+const EditExpenseForm: React.FC<EditExpenseFormProps> = ({
+    editedExpense,
+    onFinish,
+}) => {
     const [visible, setVisible] = useState(false);
-
-    const { userId } = useSelector((state) => state.userReducer);
-
-    const { categories } = useSelector((state) => state.categoriesReducer);
-
-    const { expenses } = useSelector((state) => state.expensesReducer);
-
-    const editedExpense = expenses.find((elem) => elem.id === editedExpenseId);
+    const { categories } = useSelector(
+        (state: RootState) => state.categoriesReducer
+    );
 
     const categoriesList = categories ? (
         categories.map((elem) => {
@@ -140,22 +130,6 @@ const EditExpenseForm: React.FC = ({ editedExpenseId }) => {
             Add Category
         </Select.Option>
     );
-    // FIX THIS ^^^^^^^^^^^^^^
-
-    const onFinish = ({ expense }) => {
-        const newExpense = {
-            id: editedExpense.id,
-            userId: userId,
-            categoryId: expense.categoryId
-                ? expense.categoryId
-                : editedExpense.categoryId,
-            amount: expense.amount ? expense.amount : editedExpense.amount,
-            date: expense.date ? expense.date.toJSON() : editedExpense.date,
-            description: expense.description ? expense.description : "",
-        };
-        dispatch(editUserExpense(newExpense));
-        setVisible(false);
-    };
 
     if (editedExpense) {
         return (
@@ -170,7 +144,10 @@ const EditExpenseForm: React.FC = ({ editedExpenseId }) => {
                 </Button>
                 <CollectionCreateForm
                     visible={visible}
-                    onFinish={onFinish}
+                    onFinish={(value) => {
+                        setVisible(false);
+                        onFinish;
+                    }}
                     onCancel={() => {
                         setVisible(false);
                     }}

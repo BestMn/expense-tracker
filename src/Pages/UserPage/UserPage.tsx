@@ -2,8 +2,15 @@ import { useState } from "react";
 import { Button, Input, Form, Avatar } from "antd";
 import { EditFilled, UserOutlined } from "@ant-design/icons";
 import "./UserPage.css";
+import { TUserState } from "../../store/reducers/userReducer";
+import { EditUserData } from "../../store/actions/userActions";
 
-const UserPage = ({ userData, onFinish }) => {
+type UserPageProps = {
+    userData: TUserState;
+    onFinish: (value: EditUserData) => void;
+};
+
+const UserPage: React.FC<UserPageProps> = ({ userData, onFinish }) => {
     const [form] = Form.useForm();
     const [editMode, setEditMode] = useState(false);
     return (

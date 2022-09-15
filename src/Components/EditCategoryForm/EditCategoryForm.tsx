@@ -1,24 +1,22 @@
-import { Button, Form, Input, Modal, Radio } from "antd";
-import { Colorpicker, ColorPickerValue } from "antd-colorpicker";
+import { Form, Input, Modal } from "antd";
+import { Colorpicker } from "antd-colorpicker";
 import IconPicker from "../IconPicker/IconPicker";
-import { EditFilled, DeleteFilled } from "@ant-design/icons";
-import { iconList } from "../IconPicker/iconList";
+import { EditFilled } from "@ant-design/icons";
 import React, { useState } from "react";
-import { AppDispatch } from "../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { editUserCategory } from "../../store/reducers/categoriesReducer";
+import { EditUserCategoryData } from "../../store/actions/categoryActions";
+import { IconList } from "../IconPicker/iconType";
 
-interface Values {
-    title: string;
-    description: string;
-    modifier: string;
-}
-
-interface CollectionCreateFormProps {
+type CollectionCreateFormProps = {
     visible: boolean;
-    onCreate: (values: Values) => void;
+    onCreate: (values: EditUserCategoryData) => void;
     onCancel: () => void;
-}
+    editedCategory: EditUserCategoryData;
+};
+
+type EditCategoryFormProps = {
+    editedCategory: EditUserCategoryData;
+    onCreate: (values: EditUserCategoryData) => void;
+};
 
 const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     visible,
@@ -26,7 +24,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     onCancel,
     editedCategory,
 }) => {
-    const [iconValue, setIconValue] = useState(editedCategory.icon);
+    const [iconValue, setIconValue] = useState<IconList>(editedCategory.icon);
 
     const [form] = Form.useForm();
     return (
@@ -51,30 +49,18 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 form={form}
                 layout="vertical"
                 name="form_in_modal"
-                initialValues={{ modifier: "public" }}
+                initialValues={editedCategory}
             >
-                <Form.Item
-                    name={["category", "name"]}
-                    label="Name"
-                    initialValue={editedCategory.name}
-                >
+                <Form.Item name={["name"]} label="Name">
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label={"Choose color"}
-                    name={["category", "color"]}
-                    initialValue={editedCategory.color}
-                >
+                <Form.Item label={"Choose color"} name={["color"]}>
                     <Colorpicker
                         picker={"CirclePicker"}
                         onColorResult={(color) => color.hex}
                     />
                 </Form.Item>
-                <Form.Item
-                    label={"Choose icon"}
-                    name={["category", "icon"]}
-                    initialValue={editedCategory.icon}
-                >
+                <Form.Item label={"Choose icon"} name={["icon"]}>
                     <IconPicker
                         iconValue={iconValue}
                         onChange={(v) => setIconValue(v)}
@@ -86,24 +72,11 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     );
 };
 
-const EditCategoryForm: React.FC = ({ editedCategory }) => {
-    const dispatch = useDispatch<AppDispatch>();
-
+const EditCategoryForm: React.FC<EditCategoryFormProps> = ({
+    editedCategory,
+    onCreate,
+}) => {
     const [visible, setVisible] = useState(false);
-
-    const { userId } = useSelector((state) => state.userReducer);
-
-    const onCreate = ({ category }) => {
-        const newCategory = {
-            id: editedCategory.id,
-            userId: userId,
-            name: category.name ? category.name : editedCategory.name,
-            icon: category.icon ? category.icon : editedCategory.icon,
-            color: category.color ? category.color : editedCategory.color,
-        };
-        dispatch(editUserCategory(newCategory));
-        setVisible(false);
-    };
 
     return (
         <div>
@@ -117,7 +90,10 @@ const EditCategoryForm: React.FC = ({ editedCategory }) => {
             </EditFilled>
             <CollectionCreateForm
                 visible={visible}
-                onCreate={onCreate}
+                onCreate={(values) => {
+                    onCreate(values);
+                    setVisible(false);
+                }}
                 onCancel={() => {
                     setVisible(false);
                 }}

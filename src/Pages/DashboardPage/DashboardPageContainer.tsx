@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import DashboardPage from "./DashboardPage";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import { getUserExpenses } from "../../store/reducers/expensesReducer";
-import { getUserCategories } from "../../store/reducers/categoriesReducer";
 import { RootState } from "../../store/store";
+import { getUserCategories } from "../../store/actions/categoryActions";
+import { getUserExpenses } from "../../store/actions/expenseActions";
 
 const DashboardPageContainer = () => {
     const dispatch = useDispatch<AppDispatch>();

@@ -1,10 +1,17 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { IconList } from "../../Components/IconPicker/iconType";
+import {
+    getUserCategories,
+    addUserCategory,
+    editUserCategory,
+    deleteUserCategory,
+} from "../actions/categoryActions";
 
 export type TCategory = {
-    id?: number;
+    id: number;
     userId: number;
     name: string;
-    icon: string;
+    icon: IconList;
     color: string;
 };
 
@@ -22,89 +29,10 @@ const initialState: TCategoryState = {
     shouldUpdate: true,
 };
 
-export const getUserCategories = createAsyncThunk(
-    "category/getUserCategories",
-    async (userId: number) => {
-        const res = await fetch(
-            `http://localhost:5000/api/category?userId=${userId}`
-        );
-        return await res.json();
-    }
-);
-
-export const addUserCategory = createAsyncThunk(
-    "category/addUserCategory",
-    async (data: TCategory) => {
-        const res = await fetch(`http://localhost:5000/api/category`, {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        });
-        return await res.json();
-    }
-);
-
-export const editUserCategory = createAsyncThunk(
-    "category/editUserCategory",
-    async (data) => {
-        const res = await fetch(`http://localhost:5000/api/category`, {
-            method: "PATCH",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        });
-        return await res.json();
-    }
-);
-
-export const deleteUserCategory = createAsyncThunk(
-    "expenses/deleteUserCategory",
-    async (data) => {
-        const res = await fetch(`http://localhost:5000/api/category`, {
-            method: "DELETE",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        });
-        return await res.json();
-    }
-);
-
 const categoriesSlice = createSlice({
     name: "categoriesSlice",
     initialState,
-    reducers: {
-        createNewCategory(state) {
-            state.categories.push({
-                id: 3,
-                name: "Cat",
-                icon: "table",
-                color: "green",
-            });
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(getUserCategories.pending, (state) => {

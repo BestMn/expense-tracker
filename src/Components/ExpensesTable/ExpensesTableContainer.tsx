@@ -3,14 +3,14 @@ import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import { getUserCategories } from "../../store/reducers/categoriesReducer";
-import {
-    getUserExpenses,
-    deleteUserExpense,
-} from "../../store/reducers/expensesReducer";
 import ExpensesTable from "./ExpensesTable";
 import dateFormatter from "../../services/dateFormatter";
 import withPagination from "../../HOC/withPagination";
+import { getUserCategories } from "../../store/actions/categoryActions";
+import {
+    deleteUserExpense,
+    getUserExpenses,
+} from "../../store/actions/expenseActions";
 
 const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
     const dispatch = useDispatch<AppDispatch>();
@@ -32,8 +32,20 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
         (state: any) => state.userReducer
     );
 
-    const handleDelete = (id) => {
+    const onDelete = (id) => {
         dispatch(deleteUserExpense({ id, userId }));
+    };
+
+    const onEdit = (expense: EditUserExpenseData) => {
+        const newExpense = {
+            id: editedExpenseId,
+            userId: userId,
+            categoryId: expense.categoryId,
+            amount: expense.amount,
+            date: expense.date.toJSON(),
+            description: expense.description,
+        };
+        dispatch(editUserExpense(newExpense));
     };
 
     useEffect(() => {
@@ -44,11 +56,7 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
 
     useEffect(() => {
         if (token && shouldUpdateExpenses) {
-            dispatch(
-                getUserExpenses({
-                    userId,
-                })
-            );
+            dispatch(getUserExpenses(userId));
         }
     }, [token, shouldUpdateExpenses]);
 
@@ -89,7 +97,8 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
                     data={data}
                     categories={categories}
                     currency={currency}
-                    handleDelete={handleDelete}
+                    onDelete={onDelete}
+                    onEdit={onEdit}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />

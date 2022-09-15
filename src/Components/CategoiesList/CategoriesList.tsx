@@ -1,21 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Spin, Empty } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
 import CategoriesListItem from "../CategoriesListItem/CategoriesListItem";
-import { getUserCategories } from "../../store/reducers/categoriesReducer";
 import { AppDispatch } from "../../store/store";
 import "./CategoriesList.css";
+import { getUserCategories } from "../../store/actions/categoryActions";
+import { RootState } from "../../store/store";
+import { TCategory } from "../../store/reducers/categoriesReducer";
 
 const CategoriesList = () => {
-    const [categoriesListItems, setCategoriesListItems] = useState(null);
+    const [categoriesListItems, setCategoriesListItems] =
+        useState<Array<ReactNode> | null>(null);
     const [isEditFormVisible, setIsEditFormVisible] = useState(false);
 
-    const { token, userId } = useSelector((state: any) => state.userReducer);
+    const { token, userId } = useSelector(
+        (state: RootState) => state.userReducer
+    );
 
     const { categories, loading, error, shouldUpdate } = useSelector(
-        (state: any) => state.categoriesReducer
+        (state: RootState) => state.categoriesReducer
     );
 
     const dispatch = useDispatch<AppDispatch>();
@@ -28,7 +33,7 @@ const CategoriesList = () => {
 
     useEffect(() => {
         if (categories) {
-            const items = categories.map((item: any) => {
+            const items = categories.map((item: TCategory) => {
                 return <CategoriesListItem item={item} key={item.id} />;
             });
             setCategoriesListItems(items);

@@ -2,15 +2,8 @@ import { Button, Checkbox, Form, Input } from "antd";
 import React from "react";
 import { AppDispatch } from "../../store/store";
 import { useDispatch } from "react-redux";
-import { userLogin } from "../../store/reducers/userReducer";
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    NavLink,
-    Navigate,
-    useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, useNavigate } from "react-router-dom";
+import { userLogin } from "../../store/actions/userActions";
 
 const LoginForm: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();

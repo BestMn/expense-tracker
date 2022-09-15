@@ -4,10 +4,10 @@ import IconPicker from "../IconPicker/IconPicker";
 import React, { useState } from "react";
 import { AppDispatch } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addUserCategory } from "../../store/reducers/categoriesReducer";
 import { RootState } from "../../store/store";
 import { IconList } from "../IconPicker/iconType";
 import { TCategory } from "../../store/reducers/categoriesReducer";
+import { addUserCategory } from "../../store/actions/categoryActions";
 
 interface CollectionCreateFormProps {
     visible: boolean;
@@ -53,7 +53,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 initialValues={{ modifier: "public" }}
             >
                 <Form.Item
-                    name={["category", "name"]}
+                    name={["name"]}
                     label="Name"
                     rules={[
                         {
@@ -66,7 +66,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 </Form.Item>
                 <Form.Item
                     label={"Choose color"}
-                    name={["category", "color"]}
+                    name={["color"]}
                     rules={[
                         {
                             required: true,
@@ -81,7 +81,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 </Form.Item>
                 <Form.Item
                     label={"Choose icon"}
-                    name={["category", "icon"]}
+                    name={["icon"]}
                     rules={[
                         {
                             required: true,

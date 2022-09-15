@@ -1,8 +1,8 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import React from "react";
 import { AppDispatch } from "../../store/store";
 import { useDispatch } from "react-redux";
-import { userRegistration } from "../../store/reducers/userReducer";
+import { userRegistration } from "../../store/actions/userActions";
 
 const RegistrationForm: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();

@@ -1,29 +1,35 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import EditCategoryForm from "../EditCategoryForm/EditCategoryForm";
-import { EditFilled, DeleteFilled } from "@ant-design/icons";
+import EditCategoryFormContainer from "../EditCategoryForm/EditCategoryFormContainer";
+import { DeleteFilled } from "@ant-design/icons";
 import * as FontIcon from "react-icons/fa";
-import { deleteUserCategory } from "../../store/reducers/categoriesReducer";
 import "./CategoriesListItem.css";
+import { deleteUserCategory } from "../../store/actions/categoryActions";
+import { RootState } from "../../store/store";
+import { TCategory } from "../../store/reducers/categoriesReducer";
 
-const CategoriesListItem = ({ item }) => {
+type CategoriesListItemProps = {
+    item: TCategory;
+};
+
+const CategoriesListItem: React.FC<CategoriesListItemProps> = ({ item }) => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { userId } = useSelector((state) => state.userReducer);
+    const { userId } = useSelector((state: RootState) => state.userReducer);
 
-    const deleteHandler = (id) => {
+    const deleteHandler = (id: number) => {
         dispatch(deleteUserCategory({ id, userId }));
     };
 
     return (
         <div
-            id={item.id}
+            id={`${item.id}`}
             className="categories-list__item"
             style={{ backgroundColor: item.color }}
         >
             <div className="categories-list-item__buttons-container">
-                <EditCategoryForm editedCategory={item} />
+                <EditCategoryFormContainer editedCategory={item} />
                 <DeleteFilled
                     style={{ fontSize: "16px" }}
                     onClick={() => deleteHandler(item.id)}

@@ -1,5 +1,11 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import { deleteUserCategory } from "./categoriesReducer";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { deleteUserCategory } from "../actions/categoryActions";
+import {
+    getUserExpenses,
+    addUserExpense,
+    editUserExpense,
+    deleteUserExpense,
+} from "../actions/expenseActions";
 
 export type TExpense = {
     id: string | number;
@@ -22,102 +28,12 @@ const initialState: TExpensesState = {
     shouldUpdate: true,
 };
 
-export const getUserExpenses = createAsyncThunk(
-    "expenses/getUserExpenses",
-    async (userId: number) => {
-        const res = await fetch(
-            `http://localhost:5000/api/expense?userId=${userId}`
-        );
-        return await res.json();
-    }
-);
-
-export const addUserExpenses = createAsyncThunk(
-    "expenses/addUserExpenses",
-    async (data = {}) => {
-        const response = await fetch(`http://localhost:5000/api/expense`, {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        });
-        return await response.json();
-    }
-);
-
-export const editUserExpense = createAsyncThunk(
-    "expenses/editUserExpense",
-    async (data) => {
-        const res = await fetch(`http://localhost:5000/api/expense`, {
-            method: "PATCH",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        });
-        return await res.json();
-    }
-);
-
-export const deleteUserExpense = createAsyncThunk(
-    "expenses/deleteUserExpense",
-    async (data) => {
-        const res = await fetch(`http://localhost:5000/api/expense`, {
-            method: "DELETE",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        });
-        return await res.json();
-    }
-);
-
 const expensesSlice = createSlice({
     name: "expensesSlice",
     initialState,
     reducers: {
         fetchUserExpenses: (state, action) => {
             state.expenses = action.payload;
-        },
-        addNewExpense: {
-            reducer: (state, action) => {
-                const newExpense = {
-                    id: "epx-1",
-                    date: "2022-06-19T23:15:30.000Z",
-                    value: 300,
-                    categoryId: 1,
-                };
-                state.expenses.push(newExpense);
-            },
-            prepare: (id, value) => {
-                const newExpense = {
-                    id: "epx-1",
-                    date: "2022-06-19T23:15:30.000Z",
-                    value: 300,
-                    categoryId: 1,
-                };
-                return { payload: { newExpense } };
-            },
         },
     },
     extraReducers: (builder) => {
@@ -140,15 +56,15 @@ const expensesSlice = createSlice({
                 state.loading = false;
                 state.error = action.error;
             })
-            .addCase(addUserExpenses.pending, (state) => {
+            .addCase(addUserExpense.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(addUserExpenses.fulfilled, (state, action) => {
+            .addCase(addUserExpense.fulfilled, (state, action) => {
                 state.loading = false;
                 console.log(action);
                 state.shouldUpdate = true;
             })
-            .addCase(addUserExpenses.rejected, (state, action) => {
+            .addCase(addUserExpense.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             })
@@ -193,5 +109,5 @@ const expensesSlice = createSlice({
     },
 });
 
-export const { addNewExpense, fetchUserExpenses } = expensesSlice.actions;
+export const { fetchUserExpenses } = expensesSlice.actions;
 export const { reducer } = expensesSlice;

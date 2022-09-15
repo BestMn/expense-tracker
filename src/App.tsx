@@ -8,11 +8,8 @@ import {
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "./store/store";
-import {
-    checkUser,
-    getUserInfo,
-    setInitialTokenChecked,
-} from "./store/reducers/userReducer";
+import { setInitialTokenChecked } from "./store/reducers/userReducer";
+import { checkUser, getUserInfo } from "./store/actions/userActions";
 import AppPage from "./Pages/AppPage/AppPage";
 import AuthPage from "./Pages/AuthPage/AuthPage";
 import DashboardPageContainer from "./Pages/DashboardPage/DashboardPageContainer";

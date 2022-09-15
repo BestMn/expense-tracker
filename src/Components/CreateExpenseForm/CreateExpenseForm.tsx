@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { Button, Form, Input, Select, InputNumber, DatePicker } from "antd";
-import { addUserExpenses } from "../../store/reducers/expensesReducer";
+import { addUserExpense } from "../../store/actions/expenseActions";
 
 const layout = {
     labelCol: { span: 8 },
@@ -44,7 +44,7 @@ const CreateExpenseForm: React.FC = ({ categories }) => {
             categoryId: expense.categoryId,
             description: expense.description ? expense.description : "",
         };
-        dispatch(addUserExpenses(data));
+        dispatch(addUserExpense(data));
         form.resetFields();
     };
 
