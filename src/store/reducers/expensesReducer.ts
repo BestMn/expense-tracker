@@ -73,7 +73,6 @@ const expensesSlice = createSlice({
             })
             .addCase(editUserExpense.fulfilled, (state, action) => {
                 state.loading = false;
-                console.log(action);
                 state.shouldUpdate = true;
             })
             .addCase(editUserExpense.rejected, (state, action) => {

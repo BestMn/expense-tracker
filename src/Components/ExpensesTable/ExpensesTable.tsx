@@ -1,17 +1,47 @@
-import { Space, Table, Tag, DatePicker, Button, Input } from "antd";
+import { Space, Table, Tag, DatePicker, Button, Input, InputRef } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import type { FilterConfirmProps } from "antd/es/table/interface";
+import type {
+    ColumnsType,
+    ColumnType,
+    FilterConfirmProps,
+} from "antd/es/table/interface";
 import React, { useState, useRef, useEffect } from "react";
 import dateFormatter from "../../services/dateFormatter";
-const { Column, ColumnGroup } = Table;
 import * as FontIcon from "react-icons/fa";
 import "./ExpensesTable.css";
 import EditExpenseForm from "../EditExpenseForm/EditExpenseForm";
+import { IconList } from "../IconPicker/iconType";
+import { TCategory } from "../../store/reducers/categoriesReducer";
+import { EditUserExpenseData } from "../../store/actions/expenseActions";
 
-const ExpensesTable = ({
+export type TTableExpense = {
+    id: number;
+    categoryId: number;
+    amount: number;
+    category: string;
+    icon: IconList;
+    color: string;
+    date: string;
+    description: string;
+    key?: string;
+};
+
+type DataIndex = keyof TTableExpense;
+
+type ExpenseTableProps = {
+    data: Array<TTableExpense>;
+    categories: TCategory[];
+    currency: string;
+    onDelete: (value: number) => void;
+    onEdit: (value: EditUserExpenseData) => void;
+    currentPage: number;
+    setCurrentPage: (value: number) => void;
+};
+
+const ExpensesTable: React.FC<ExpenseTableProps> = ({
     data,
     categories,
-    currency,
+    currency = "$",
     onDelete,
     onEdit,
     currentPage,
@@ -19,14 +49,18 @@ const ExpensesTable = ({
 }) => {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
-    const searchInput = useRef(null);
+    const searchInput = useRef<InputRef>(null);
 
-    const disabledDates = (current) => {
+    const disabledDates = (current: moment.Moment) => {
         const cur = current.utc().format("DD-MM-YYYY");
         return !data.find((elem) => elem.date == cur);
     };
 
-    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    const handleSearch = (
+        selectedKeys: string[],
+        confirm: (param?: FilterConfirmProps) => void,
+        dataIndex: DataIndex
+    ) => {
         confirm();
         setSearchText(selectedKeys[0]);
         setSearchedColumn(dataIndex);
@@ -37,7 +71,9 @@ const ExpensesTable = ({
         setSearchText("");
     };
 
-    const getColumnSearchProps = (dataIndex) => ({
+    const getColumnSearchProps = (
+        dataIndex: DataIndex
+    ): ColumnType<TTableExpense> => ({
         filterDropdown: ({
             setSelectedKeys,
             selectedKeys,
@@ -75,16 +111,16 @@ const ExpensesTable = ({
                     .toString()
                     .toLowerCase()
                     .includes((value as string).toLowerCase());
-            }
+            } else return false;
         },
-        onFilterDropdownVisibleChange: (visible) => {
+        onFilterDropdownVisibleChange: (visible: boolean) => {
             if (visible) {
                 setTimeout(() => searchInput.current?.select(), 100);
             }
         },
     });
 
-    const columns: ColumnsType<DataType> = [
+    const columns: ColumnsType<TTableExpense> = [
         {
             title: "Date",
             dataIndex: "date",
@@ -117,9 +153,8 @@ const ExpensesTable = ({
                     value: elem.name,
                 };
             }),
-            onFilter: (value: string, record) => {
-                return record.category?.startsWith(value);
-            },
+            onFilter: (value: string, record) =>
+                record.category?.startsWith(value),
         },
         {
             title: "Amount",
@@ -167,7 +202,11 @@ const ExpensesTable = ({
             columns={columns}
             dataSource={data}
             rowKey={(record) => {
-                return record.id ? record.id : record.key;
+                if (record.id) {
+                    return record.id;
+                } else if (record.key) {
+                    return record.key;
+                } else return "defaultKey";
             }}
             rowClassName={(record, index) => "expense-table__row"}
         />

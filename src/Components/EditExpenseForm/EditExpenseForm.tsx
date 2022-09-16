@@ -12,19 +12,19 @@ import moment from "moment";
 import { EditUserExpenseData } from "../../store/actions/expenseActions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { TTableExpense } from "../ExpensesTable/ExpensesTable";
 
 interface CollectionCreateFormProps {
     visible: boolean;
     onFinish: (values: EditUserExpenseData) => void;
     onCancel: () => void;
-    editedExpense: EditUserExpenseData;
+    editedExpense: TTableExpense;
     categoriesList: Array<ReactElement> | ReactElement;
 }
 
 type EditExpenseFormProps = {
-    onFinish: (values: EditUserExpenseData) => void;
-    editedExpense: EditUserExpenseData;
-    categoriesList: Array<ReactElement> | ReactElement;
+    onEdit: (values: EditUserExpenseData) => void;
+    editedExpense: TTableExpense;
 };
 
 const layout = {
@@ -50,7 +50,6 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     categoriesList,
 }) => {
     const [form] = Form.useForm();
-    console.log(editedExpense);
     return (
         <Modal
             visible={visible}
@@ -61,8 +60,10 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
             onOk={() => {
                 form.validateFields()
                     .then((values) => {
-                        form.resetFields();
-                        onFinish({ ...values, id: editedExpense.id });
+                        onFinish({
+                            ...values,
+                            id: editedExpense.id,
+                        });
                     })
                     .catch((info) => {
                         console.log("Validate Failed:", info);
@@ -72,30 +73,44 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
             <Form
                 {...layout}
                 name="nest-messages"
-                onFinish={onFinish}
+                onFinish={(values) => {
+                    console.log(values);
+                    onFinish({
+                        ...values,
+                        id: editedExpense.id,
+                    });
+                }}
                 // validateMessages={validateMessages}   <<< FIX THIS
-                initialValues={editedExpense}
                 form={form}
             >
-                <Form.Item label="Category" name={["categoryId"]}>
+                <Form.Item
+                    label="Category"
+                    name={["categoryId"]}
+                    initialValue={editedExpense.categoryId}
+                >
                     <Select>{categoriesList}</Select>
                 </Form.Item>
                 <Form.Item
                     name={["amount"]}
                     label="Amount"
                     rules={[{ required: true }]}
+                    initialValue={editedExpense.amount}
                 >
                     <InputNumber />
                 </Form.Item>
                 <Form.Item
                     name={["date"]}
                     label="DatePicker"
-                    initialValue={moment(editedExpense.date)}
+                    initialValue={moment(editedExpense.date, "DD-MM-YYYY")}
                     {...config}
                 >
                     <DatePicker format="DD-MM-YYYY" />
                 </Form.Item>
-                <Form.Item name={["description"]} label="Description">
+                <Form.Item
+                    name={["description"]}
+                    label="Description"
+                    initialValue={editedExpense.description}
+                >
                     <Input.TextArea />
                 </Form.Item>
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
@@ -110,7 +125,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
 
 const EditExpenseForm: React.FC<EditExpenseFormProps> = ({
     editedExpense,
-    onFinish,
+    onEdit,
 }) => {
     const [visible, setVisible] = useState(false);
     const { categories } = useSelector(
@@ -146,7 +161,7 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = ({
                     visible={visible}
                     onFinish={(value) => {
                         setVisible(false);
-                        onFinish;
+                        onEdit(value);
                     }}
                     onCancel={() => {
                         setVisible(false);

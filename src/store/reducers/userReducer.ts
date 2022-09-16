@@ -10,7 +10,7 @@ import {
 export type TUserState = {
     initialTokenChecked: boolean;
     token: string | null;
-    userId: number;
+    userId: number | null;
     loading: boolean;
     error: any;
     firstName: string | null;

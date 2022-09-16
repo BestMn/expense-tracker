@@ -3,42 +3,47 @@ import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import ExpensesTable from "./ExpensesTable";
+import ExpensesTable, { TTableExpense } from "./ExpensesTable";
 import dateFormatter from "../../services/dateFormatter";
 import withPagination from "../../HOC/withPagination";
 import { getUserCategories } from "../../store/actions/categoryActions";
 import {
     deleteUserExpense,
+    editUserExpense,
+    EditUserExpenseData,
     getUserExpenses,
 } from "../../store/actions/expenseActions";
+import { RootState } from "../../store/store";
 
 const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<TTableExpense[] | null>(null);
 
     const {
         expenses,
         loading: expensesLoading,
         shouldUpdate: shouldUpdateExpenses,
-    } = useSelector((state: any) => state.expensesReducer);
+    } = useSelector((state: RootState) => state.expensesReducer);
 
     const {
         categories,
         loading: categoriesLoading,
         shouldUpdate: shouldUpdateCategories,
-    } = useSelector((state: any) => state.categoriesReducer);
+    } = useSelector((state: RootState) => state.categoriesReducer);
 
     const { token, userId, currency } = useSelector(
-        (state: any) => state.userReducer
+        (state: RootState) => state.userReducer
     );
 
-    const onDelete = (id) => {
+    const onDelete = (id: number) => {
         dispatch(deleteUserExpense({ id, userId }));
     };
 
-    const onEdit = (expense: EditUserExpenseData) => {
-        const newExpense = {
-            id: editedExpenseId,
+    const onEdit = (expense: TTableExpense) => {
+        console.log(expense);
+        console.log(expense.date.toJSON());
+        const newExpense: EditUserExpenseData = {
+            id: expense.id,
             userId: userId,
             categoryId: expense.categoryId,
             amount: expense.amount,
@@ -49,16 +54,16 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
     };
 
     useEffect(() => {
-        if (token && shouldUpdateCategories) {
+        if (userId && shouldUpdateCategories) {
             dispatch(getUserCategories(userId));
         }
-    }, [token, shouldUpdateCategories]);
+    }, [userId, shouldUpdateCategories]);
 
     useEffect(() => {
-        if (token && shouldUpdateExpenses) {
+        if (userId && shouldUpdateExpenses) {
             dispatch(getUserExpenses(userId));
         }
-    }, [token, shouldUpdateExpenses]);
+    }, [shouldUpdateExpenses]);
 
     useEffect(() => {
         if (expenses && categories && !expensesLoading && !categoriesLoading) {
