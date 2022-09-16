@@ -15,7 +15,15 @@ import {
 } from "../../store/actions/expenseActions";
 import { RootState } from "../../store/store";
 
-const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
+type ExpensesTableContainerProps = {
+    currentPage: number;
+    setCurrentPage: (value: number) => void;
+};
+
+const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
+    currentPage,
+    setCurrentPage,
+}) => {
     const dispatch = useDispatch<AppDispatch>();
     const [data, setData] = useState<TTableExpense[] | null>(null);
 
@@ -39,15 +47,13 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
         dispatch(deleteUserExpense({ id, userId }));
     };
 
-    const onEdit = (expense: TTableExpense) => {
-        console.log(expense);
-        console.log(expense.date.toJSON());
+    const onEdit = (expense: EditUserExpenseData) => {
         const newExpense: EditUserExpenseData = {
             id: expense.id,
             userId: userId,
             categoryId: expense.categoryId,
             amount: expense.amount,
-            date: expense.date.toJSON(),
+            date: expense.date,
             description: expense.description,
         };
         dispatch(editUserExpense(newExpense));
@@ -68,18 +74,20 @@ const ExpensesTableContainer = ({ currentPage, setCurrentPage }) => {
     useEffect(() => {
         if (expenses && categories && !expensesLoading && !categoriesLoading) {
             // Adding category information into expense objects
-            const expensesWithCategories = expenses.map((elem) => {
-                const category = categories.find(
-                    (el) => elem.categoryId == el.id
-                );
-                return {
-                    ...elem,
-                    category: category.name,
-                    icon: category.icon,
-                    color: category.color,
-                    date: dateFormatter(elem.date),
-                };
-            });
+            const expensesWithCategories: TTableExpense[] = expenses.map(
+                (elem) => {
+                    const category = categories.find(
+                        (el) => elem.categoryId == el.id
+                    );
+                    return {
+                        ...elem,
+                        category: category.name,
+                        icon: category.icon,
+                        color: category.color,
+                        date: dateFormatter(elem.date),
+                    };
+                }
+            );
 
             // Adding keys for empty table rows
             if (expensesWithCategories.length % 10 !== 0) {

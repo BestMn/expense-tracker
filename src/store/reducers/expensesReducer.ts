@@ -8,10 +8,11 @@ import {
 } from "../actions/expenseActions";
 
 export type TExpense = {
-    id: string | number;
+    id: number;
     date: string;
     amount: number;
     categoryId: number;
+    description: string;
 };
 
 export type TExpensesState = {

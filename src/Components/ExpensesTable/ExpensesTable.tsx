@@ -30,8 +30,8 @@ type DataIndex = keyof TTableExpense;
 
 type ExpenseTableProps = {
     data: Array<TTableExpense>;
-    categories: TCategory[];
-    currency: string;
+    categories: TCategory[] | null;
+    currency: string | null;
     onDelete: (value: number) => void;
     onEdit: (value: EditUserExpenseData) => void;
     currentPage: number;
@@ -147,7 +147,7 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
                     );
                 }
             },
-            filters: categories.map((elem) => {
+            filters: categories?.map((elem) => {
                 return {
                     text: <span>{elem.name}</span>,
                     value: elem.name,

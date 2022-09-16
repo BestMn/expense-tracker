@@ -63,6 +63,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                         onFinish({
                             ...values,
                             id: editedExpense.id,
+                            date: values.date.toJSON(),
                         });
                     })
                     .catch((info) => {
@@ -74,7 +75,6 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 {...layout}
                 name="nest-messages"
                 onFinish={(values) => {
-                    console.log(values);
                     onFinish({
                         ...values,
                         id: editedExpense.id,
@@ -101,7 +101,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 <Form.Item
                     name={["date"]}
                     label="DatePicker"
-                    initialValue={moment(editedExpense.date, "DD-MM-YYYY")}
+                    initialValue={moment.utc(editedExpense.date, "DD-MM-YYYY")}
                     {...config}
                 >
                     <DatePicker format="DD-MM-YYYY" />

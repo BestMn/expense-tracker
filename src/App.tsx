@@ -49,7 +49,7 @@ function App() {
         }
     }, [userId]);
 
-    if (loading || !initialTokenChecked || !userId) {
+    if (loading || !initialTokenChecked) {
         return <Spin />;
     }
 
