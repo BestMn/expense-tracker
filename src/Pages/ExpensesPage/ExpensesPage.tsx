@@ -27,7 +27,7 @@ const ExpensesPage: React.FC = () => {
                     }
                 >
                     <div className="app-block list-block">
-                        <CategoriesList editable={true} />
+                        <CategoriesList />
                     </div>
                 </Col>
             </Row>

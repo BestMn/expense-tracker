@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import LastExpensesList from "./LastExpensesList";
+import LastExpensesList, { LastExpensesListItem } from "./LastExpensesList";
 import dateFormatter from "../../services/dateFormatter";
 import { ReactComponent as EmptyLogo } from "../../Icons/EmptyFolderIcon.svg";
+import { Spin } from "antd";
+import { RootState } from "../../store/store";
 
 const LastExpensesListContainer: React.FC = () => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<LastExpensesListItem[] | null>(null);
 
     const { expenses, loading: expensesLoading } = useSelector(
-        (state: any) => state.expensesReducer
+        (state: RootState) => state.expensesReducer
     );
 
     const { categories, loading: categoriesLoading } = useSelector(
-        (state: any) => state.categoriesReducer
+        (state: RootState) => state.categoriesReducer
     );
 
-    const { currency } = useSelector((state: any) => state.userReducer);
+    const { currency } = useSelector((state: RootState) => state.userReducer);
 
     useEffect(() => {
-        if (expenses && categories) {
+        if (expenses && categories && !expensesLoading && !categoriesLoading) {
             const copied = [...expenses];
             const expensesWithCategories = copied.map((elem) => {
                 const category = categories.find(
@@ -55,6 +57,11 @@ const LastExpensesListContainer: React.FC = () => {
             setData(lastExpenses);
         }
     }, [expenses, categories]);
+
+    if (expensesLoading || categoriesLoading) {
+        return <Spin />;
+    }
+
     if (data && !data.length) {
         return (
             <>

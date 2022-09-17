@@ -89,6 +89,4 @@ const categoriesSlice = createSlice({
             });
     },
 });
-
-export const { createNewCategory } = categoriesSlice.actions;
 export const { reducer } = categoriesSlice;

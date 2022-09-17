@@ -1,9 +1,28 @@
-import { Avatar, List } from "antd";
+import { List } from "antd";
 import React from "react";
 import * as FontIcon from "react-icons/fa";
 import "./LastExpensesList.css";
 
-const LastExpensesList: React.FC = ({ data, currency }) => {
+export type LastExpensesListItem = {
+    amount: number;
+    category: string;
+    color: string;
+    date: string;
+    description: string;
+    icon: string;
+    key?: string;
+};
+
+type LastExpensesListProps = {
+    data: LastExpensesListItem[];
+    currency: string | null;
+};
+
+const LastExpensesList: React.FC<LastExpensesListProps> = ({
+    data,
+    currency = "$",
+}) => {
+    console.log(data);
     return (
         <React.Fragment>
             <List
