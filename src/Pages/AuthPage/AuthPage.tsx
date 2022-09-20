@@ -32,8 +32,8 @@ const AuthPage: React.FC<AuthPageProps> = ({ token }) => {
                         <div className="overlay-panel overlay-left">
                             <h1>Welcome Back!</h1>
                             <p>
-                                Already have an account? Please login with your
-                                personal info
+                                Already have an account? Please sign in with
+                                your login
                             </p>
                             <Button
                                 ghost
@@ -51,8 +51,8 @@ const AuthPage: React.FC<AuthPageProps> = ({ token }) => {
                         <div className="overlay-panel overlay-right">
                             <h1>Hello, Friend!</h1>
                             <p>
-                                Enter your personal details and start journey
-                                with us
+                                Enter your personal details and start manage
+                                your expenses
                             </p>
                             <Button
                                 ghost
