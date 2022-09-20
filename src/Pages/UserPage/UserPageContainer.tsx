@@ -9,7 +9,10 @@ const UserPageContainer = () => {
     const userData = useSelector((state: RootState) => state.userReducer);
     const dispatch = useDispatch<AppDispatch>();
     const onFinish = (value: EditUserData) => {
-        const editedUser = { ...value, id: userData.userId };
+        const editedUser = {
+            ...value,
+            id: userData.userId,
+        };
         dispatch(editUser(editedUser));
     };
     return <UserPage userData={userData} onFinish={onFinish} />;

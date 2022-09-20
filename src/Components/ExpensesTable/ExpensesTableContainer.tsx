@@ -39,7 +39,7 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
         shouldUpdate: shouldUpdateCategories,
     } = useSelector((state: RootState) => state.categoriesReducer);
 
-    const { token, userId, currency } = useSelector(
+    const { userId, currency } = useSelector(
         (state: RootState) => state.userReducer
     );
 
@@ -63,7 +63,7 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
         if (userId && shouldUpdateCategories) {
             dispatch(getUserCategories(userId));
         }
-    }, [userId, shouldUpdateCategories]);
+    }, [shouldUpdateCategories]);
 
     useEffect(() => {
         if (userId && shouldUpdateExpenses) {

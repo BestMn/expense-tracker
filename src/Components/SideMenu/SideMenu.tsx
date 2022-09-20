@@ -12,6 +12,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUserId } from "../../store/reducers/userReducer";
 import "./SideMenu.css";
+import { RootState } from "../../store/store";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -34,7 +35,7 @@ const { Sider } = Layout;
 const SideMenu: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
     const { nickName, firstName, secondName } = useSelector(
-        (state) => state.userReducer
+        (state: RootState) => state.userReducer
     );
     const location = useLocation();
     const dispatch = useDispatch();

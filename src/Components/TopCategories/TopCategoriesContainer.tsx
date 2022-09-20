@@ -3,6 +3,7 @@ import TopCategories from "./TopCategories";
 import { useSelector } from "react-redux";
 import { Select } from "antd";
 import "./TopCategories.css";
+import { RootState } from "../../store/store";
 
 const TopCategoriesContainer = () => {
     const [data, setData] = useState(null);
@@ -11,11 +12,15 @@ const TopCategoriesContainer = () => {
         setPeriod(value);
     };
 
-    const { expenses } = useSelector((state: any) => state.expensesReducer);
+    const { expenses } = useSelector(
+        (state: RootState) => state.expensesReducer
+    );
 
-    const { categories } = useSelector((state: any) => state.categoriesReducer);
+    const { categories } = useSelector(
+        (state: RootState) => state.categoriesReducer
+    );
 
-    const { currency } = useSelector((state: any) => state.userReducer);
+    const { currency } = useSelector((state: RootState) => state.userReducer);
 
     useEffect(() => {
         if (expenses && categories) {

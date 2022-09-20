@@ -3,9 +3,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { User, Basket } = require("../models/models");
 
-const generateJwt = (id, email, role) => {
-    return jwt.sign({ id, email, role }, process.env.SECRET_KEY, {
-        expiresIn: "24h",
+const generateJwt = (id, email) => {
+    return jwt.sign({ id, email }, process.env.SECRET_KEY, {
+        expiresIn: "4h",
     });
 };
 
@@ -68,7 +68,8 @@ class UserController {
     async edit(req, res) {
         const { id, nickName, firstName, secondName, phoneNumber, currency } =
             req.body;
-        console.log("UPDATED USER DATA", req.body);
+        const token = generateJwt(req.user.id, req.user.email);
+
         const updatedUser = await User.update(
             {
                 nickName,
@@ -79,8 +80,7 @@ class UserController {
             },
             { where: { id }, returning: true }
         );
-        console.log("UPDATED USER", updatedUser);
-        return res.json(updatedUser);
+        return res.json({ ...updatedUser, token });
     }
 }
 

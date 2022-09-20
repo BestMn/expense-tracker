@@ -9,9 +9,7 @@ import { getUserExpenses } from "../../store/actions/expenseActions";
 const DashboardPageContainer = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { token, userId } = useSelector(
-        (state: RootState) => state.userReducer
-    );
+    const { userId } = useSelector((state: RootState) => state.userReducer);
     const {
         expenses,
         loading: expensesLoading,

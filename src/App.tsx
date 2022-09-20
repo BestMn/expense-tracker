@@ -44,7 +44,13 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (userId) {
+        if (token) {
+            localStorage.setItem("userData", JSON.stringify({ token: token }));
+        }
+    }, [token]);
+
+    useEffect(() => {
+        if (userId && token) {
             dispatch(getUserInfo(userId));
         }
     }, [userId]);

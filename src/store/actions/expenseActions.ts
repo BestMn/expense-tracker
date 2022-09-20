@@ -24,9 +24,15 @@ type DeleteUserExpenseData = {
 
 export const getUserExpenses = createAsyncThunk(
     "expenses/getUserExpenses",
-    async (userId: number) => {
+    async (userId: number, { getState }) => {
+        const { token } = getState().userReducer;
         const res = await fetch(
-            `http://localhost:5000/api/expense?userId=${userId}`
+            `http://localhost:5000/api/expense?userId=${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
         );
         return await res.json();
     }
@@ -34,15 +40,16 @@ export const getUserExpenses = createAsyncThunk(
 
 export const addUserExpense = createAsyncThunk(
     "expenses/addUserExpense",
-    async (data: AddUserExpenseData) => {
+    async (data: AddUserExpenseData, { getState }) => {
+        const { token } = getState().userReducer;
         const response = await fetch(`http://localhost:5000/api/expense`, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             redirect: "follow",
             referrerPolicy: "no-referrer",
@@ -54,15 +61,16 @@ export const addUserExpense = createAsyncThunk(
 
 export const editUserExpense = createAsyncThunk(
     "expenses/editUserExpense",
-    async (data: EditUserExpenseData) => {
+    async (data: EditUserExpenseData, { getState }) => {
+        const { token } = getState().userReducer;
         const res = await fetch(`http://localhost:5000/api/expense`, {
             method: "PATCH",
             mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             redirect: "follow",
             referrerPolicy: "no-referrer",
@@ -74,15 +82,16 @@ export const editUserExpense = createAsyncThunk(
 
 export const deleteUserExpense = createAsyncThunk(
     "expenses/deleteUserExpense",
-    async (data: DeleteUserExpenseData) => {
+    async (data: DeleteUserExpenseData, { getState }) => {
+        const { token } = getState().userReducer;
         const res = await fetch(`http://localhost:5000/api/expense`, {
             method: "DELETE",
             mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             redirect: "follow",
             referrerPolicy: "no-referrer",

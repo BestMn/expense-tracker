@@ -3,12 +3,20 @@ const path = require("path");
 const { Op } = require("sequelize");
 const { Expense, Category } = require("../models/models");
 const ApiError = require("../error/ApiError");
+const jwt = require("jsonwebtoken");
 const moment = require("moment");
+
+const generateJwt = (id, email) => {
+    return jwt.sign({ id, email }, process.env.SECRET_KEY, {
+        expiresIn: "4h",
+    });
+};
 
 class ExpenseController {
     async create(req, res, next) {
         try {
             let { date, amount, categoryId, description, userId } = req.body;
+            const token = generateJwt(req.user.id, req.user.email);
             const expense = await Expense.create({
                 userId,
                 date,
@@ -16,7 +24,7 @@ class ExpenseController {
                 categoryId,
                 description,
             });
-            return res.json(expense);
+            return res.json({ expense, token });
         } catch (e) {
             next(ApiError.badRequest(e.message));
         }
@@ -24,6 +32,7 @@ class ExpenseController {
 
     async edit(req, res) {
         const { id, categoryId, amount, date, description, userId } = req.body;
+        const token = generateJwt(req.user.id, req.user.email);
         const updatedExpense = await Expense.update(
             {
                 categoryId,
@@ -33,13 +42,14 @@ class ExpenseController {
             },
             { where: { id, userId }, returning: true }
         );
-        return res.json(updatedExpense);
+        return res.json({ updatedExpense, token });
     }
 
     async delete(req, res) {
         const { id, userId } = req.body;
+        const token = generateJwt(req.user.id, req.user.email);
         const deletedExpense = await Expense.destroy({ where: { id, userId } });
-        return res.json(deletedExpense);
+        return res.json({ deletedExpense, token });
     }
 
     async getAll(req, res) {

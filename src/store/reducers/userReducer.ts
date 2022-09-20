@@ -1,5 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+    addUserCategory,
+    deleteUserCategory,
+    editUserCategory,
+} from "../actions/categoryActions";
+import {
+    addUserExpense,
+    deleteUserExpense,
+    editUserExpense,
+} from "../actions/expenseActions";
+import {
     getUserInfo,
     userRegistration,
     userLogin,
@@ -110,6 +120,7 @@ const categoriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(editUser.fulfilled, (state, { payload }) => {
+                console.log(payload);
                 const {
                     firstName,
                     secondName,
@@ -118,6 +129,7 @@ const categoriesSlice = createSlice({
                     email,
                     userCurrency,
                 } = payload[1][0];
+                state.token = payload.token;
                 state.loading = false;
                 state.firstName = firstName;
                 state.secondName = secondName;
@@ -129,6 +141,24 @@ const categoriesSlice = createSlice({
             .addCase(editUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
+            })
+            .addCase(addUserExpense.fulfilled, (state, action) => {
+                state.token = action.payload.token;
+            })
+            .addCase(editUserExpense.fulfilled, (state, action) => {
+                state.token = action.payload.token;
+            })
+            .addCase(deleteUserExpense.fulfilled, (state, action) => {
+                state.token = action.payload.token;
+            })
+            .addCase(addUserCategory.fulfilled, (state, action) => {
+                state.token = action.payload.token;
+            })
+            .addCase(editUserCategory.fulfilled, (state, action) => {
+                state.token = action.payload.token;
+            })
+            .addCase(deleteUserCategory.fulfilled, (state, action) => {
+                state.token = action.payload.token;
             });
     },
 });

@@ -23,9 +23,15 @@ type DeleteUserCategoryData = {
 
 export const getUserCategories = createAsyncThunk(
     "category/getUserCategories",
-    async (userId: number) => {
+    async (userId: number, { getState }) => {
+        const { token } = getState().userReducer;
         const res = await fetch(
-            `http://localhost:5000/api/category?userId=${userId}`
+            `http://localhost:5000/api/category?userId=${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
         );
         return await res.json();
     }
@@ -33,15 +39,16 @@ export const getUserCategories = createAsyncThunk(
 
 export const addUserCategory = createAsyncThunk(
     "category/addUserCategory",
-    async (data: AddUserCategoryData) => {
+    async (data: AddUserCategoryData, { getState }) => {
+        const { token } = getState().userReducer;
         const res = await fetch(`http://localhost:5000/api/category`, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             redirect: "follow",
             referrerPolicy: "no-referrer",
@@ -53,15 +60,16 @@ export const addUserCategory = createAsyncThunk(
 
 export const editUserCategory = createAsyncThunk(
     "category/editUserCategory",
-    async (data: EditUserCategoryData) => {
+    async (data: EditUserCategoryData, { getState }) => {
+        const { token } = getState().userReducer;
         const res = await fetch(`http://localhost:5000/api/category`, {
             method: "PATCH",
             mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             redirect: "follow",
             referrerPolicy: "no-referrer",
@@ -73,15 +81,16 @@ export const editUserCategory = createAsyncThunk(
 
 export const deleteUserCategory = createAsyncThunk(
     "expenses/deleteUserCategory",
-    async (data: DeleteUserCategoryData) => {
+    async (data: DeleteUserCategoryData, { getState }) => {
+        const { token } = getState().userReducer;
         const res = await fetch(`http://localhost:5000/api/category`, {
             method: "DELETE",
             mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             redirect: "follow",
             referrerPolicy: "no-referrer",

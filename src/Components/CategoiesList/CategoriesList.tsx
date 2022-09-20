@@ -15,9 +15,7 @@ const CategoriesList = () => {
         useState<Array<ReactNode> | null>(null);
     const [isEditFormVisible, setIsEditFormVisible] = useState(false);
 
-    const { token, userId } = useSelector(
-        (state: RootState) => state.userReducer
-    );
+    const { userId } = useSelector((state: RootState) => state.userReducer);
 
     const { categories, loading, error, shouldUpdate } = useSelector(
         (state: RootState) => state.categoriesReducer
@@ -26,10 +24,10 @@ const CategoriesList = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
-        if (token && shouldUpdate === true) {
+        if (shouldUpdate === true) {
             dispatch(getUserCategories(userId));
         }
-    }, [token, shouldUpdate]);
+    }, [shouldUpdate]);
 
     useEffect(() => {
         if (categories) {
