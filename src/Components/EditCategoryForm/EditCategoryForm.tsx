@@ -30,8 +30,9 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     return (
         <Modal
             visible={visible}
-            title="Create a new collection"
-            okText="Create"
+            width={350}
+            title="Edit Category"
+            okText="Save"
             cancelText="Cancel"
             onCancel={onCancel}
             onOk={() => {
@@ -79,7 +80,7 @@ const EditCategoryForm: React.FC<EditCategoryFormProps> = ({
     const [visible, setVisible] = useState(false);
 
     return (
-        <div>
+        <>
             <EditFilled
                 type="primary"
                 onClick={() => {
@@ -99,7 +100,7 @@ const EditCategoryForm: React.FC<EditCategoryFormProps> = ({
                 }}
                 editedCategory={editedCategory}
             />
-        </div>
+        </>
     );
 };
 

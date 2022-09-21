@@ -4,7 +4,7 @@ import { IconList } from "./iconType";
 
 interface IconPickerItemProps {
     icon: IconList;
-    size?: number;
+    size?: string;
     color?: string;
     onClick?: (icon: IconList) => void;
 }
@@ -21,6 +21,7 @@ const IconPickerItem: React.FC<IconPickerItemProps> = ({
             onClick={() => !!onClick && onClick(icon)}
             style={{
                 fontSize: size,
+                lineHeight: size,
                 color: color,
                 padding: 2,
             }}
@@ -32,7 +33,7 @@ const IconPickerItem: React.FC<IconPickerItemProps> = ({
 
 IconPickerItem.defaultProps = {
     color: "#000",
-    size: 24,
+    size: "28px",
     onClick: (_: string) => {},
 };
 

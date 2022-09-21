@@ -8,10 +8,14 @@ import "./CategoriesListItem.css";
 import { deleteUserCategory } from "../../store/actions/categoryActions";
 import { RootState } from "../../store/store";
 import { TCategory } from "../../store/reducers/categoriesReducer";
+import { Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 type CategoriesListItemProps = {
     item: TCategory;
 };
+
+const { confirm } = Modal;
 
 const CategoriesListItem: React.FC<CategoriesListItemProps> = ({ item }) => {
     const dispatch = useDispatch<AppDispatch>();
@@ -20,6 +24,21 @@ const CategoriesListItem: React.FC<CategoriesListItemProps> = ({ item }) => {
 
     const deleteHandler = (id: number) => {
         dispatch(deleteUserCategory({ id, userId }));
+    };
+
+    const showConfirm = (itemId: number) => {
+        confirm({
+            title: "Pay attention!",
+            icon: <ExclamationCircleOutlined />,
+            content:
+                "Deleting category will delete all expenses associated with this category.",
+            okText: "Delete",
+            okButtonProps: {
+                danger: true,
+                type: "primary",
+            },
+            onOk: () => deleteHandler(itemId),
+        });
     };
 
     return (
@@ -32,7 +51,7 @@ const CategoriesListItem: React.FC<CategoriesListItemProps> = ({ item }) => {
                 <EditCategoryFormContainer editedCategory={item} />
                 <DeleteFilled
                     style={{ fontSize: "16px" }}
-                    onClick={() => deleteHandler(item.id)}
+                    onClick={() => showConfirm(item.id)}
                 />
             </div>
             <span className="categories-list-item__icon">

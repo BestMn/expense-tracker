@@ -31,7 +31,8 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     return (
         <Modal
             visible={visible}
-            title="Create a new collection"
+            width={350}
+            title="New Category"
             okText="Create"
             cancelText="Cancel"
             onCancel={() => onCancel(false)}

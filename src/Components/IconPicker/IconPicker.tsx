@@ -4,12 +4,13 @@ import { iconList } from "./iconList";
 import { useState, useEffect, useRef } from "react";
 import { IconList } from "./iconType";
 import "./IconPicker.css";
-import { Button } from "antd";
+import { Button, Form } from "antd";
 
 interface IconPickerProps {
     iconValue: IconList;
     onChange: (value: IconList) => void;
     hideSearch?: boolean;
+    color: string;
 }
 
 const IconPicker: React.FC<IconPickerProps> = ({
@@ -20,6 +21,8 @@ const IconPicker: React.FC<IconPickerProps> = ({
     const ref = useRef(null);
     const [display, changeDisplay] = useState(false);
     const [searchString, setSearchString] = useState("");
+    const form = Form.useFormInstance();
+    const color = Form.useWatch("color", form);
     useEffect(() => {
         onChange(iconValue);
         function handleClickOutside(event: any) {
@@ -38,8 +41,16 @@ const IconPicker: React.FC<IconPickerProps> = ({
         setSearchString(event.target.value);
     };
     return (
-        <div ref={ref} onClick={() => buttonClick()} className={"container"}>
-            <IconPickerItem icon={iconValue} />
+        <div
+            ref={ref}
+            onClick={() => buttonClick()}
+            style={{ backgroundColor: color }}
+            className={"container"}
+        >
+            <IconPickerItem
+                icon={iconValue}
+                color={color ? "white" : "black"}
+            />
             {display && (
                 <div
                     onClick={(e) => e.stopPropagation()}

@@ -53,8 +53,9 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     return (
         <Modal
             visible={visible}
-            title="Create a new collection"
-            okText="Create"
+            width={400}
+            title="Edit Expense"
+            okText="Save"
             cancelText="Cancel"
             onCancel={onCancel}
             onOk={() => {
@@ -113,11 +114,6 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 >
                     <Input.TextArea />
                 </Form.Item>
-                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </Form.Item>
             </Form>
         </Modal>
     );
@@ -150,6 +146,7 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = ({
         return (
             <div>
                 <Button
+                    shape="round"
                     type="primary"
                     onClick={() => {
                         setVisible(true);
@@ -175,6 +172,7 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = ({
         return (
             <Button
                 type="primary"
+                shape="round"
                 onClick={() => {
                     setVisible(true);
                 }}

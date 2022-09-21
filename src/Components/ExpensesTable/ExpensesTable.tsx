@@ -5,7 +5,7 @@ import type {
     ColumnType,
     FilterConfirmProps,
 } from "antd/es/table/interface";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import dateFormatter from "../../services/dateFormatter";
 import * as FontIcon from "react-icons/fa";
 import "./ExpensesTable.css";
@@ -182,9 +182,13 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
                                 editedExpense={record}
                                 onEdit={onEdit}
                             />
-                            <button onClick={() => onDelete(record.id)}>
+                            <Button
+                                shape="round"
+                                danger
+                                onClick={() => onDelete(record.id)}
+                            >
                                 Delete
-                            </button>
+                            </Button>
                         </Space>
                     );
                 }
