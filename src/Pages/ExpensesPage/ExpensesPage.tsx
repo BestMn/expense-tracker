@@ -9,9 +9,9 @@ import CreateExpenseFormConitaner from "../../Components/CreateExpenseForm/Creat
 const ExpensesPage: React.FC = () => {
     return (
         <>
-            <Row>
+            <Row gutter={[16, 16]}>
                 <Col
-                    span={12}
+                    span={24}
                     className={
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-24 ant-col-xxl-16"
                     }
@@ -26,29 +26,26 @@ const ExpensesPage: React.FC = () => {
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-24 ant-col-xxl-8"
                     }
                 >
-                    <div className="app-block list-block">
-                        <CategoriesList />
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col
-                    span={12}
-                    className={
-                        "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
-                    }
-                >
-                    <div className="app-block list-block">
-                        <CreateExpenseFormConitaner />
-                    </div>
-                </Col>
-                <Col
-                    span={12}
-                    className={
-                        "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
-                    }
-                >
-                    <div className="app-block list-block"></div>
+                    <Row gutter={[16, 16]}>
+                        <Col
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-12 ant-col-lg-12 ant-col-xl-12 ant-col-xxl-24"
+                            }
+                        >
+                            <div className="app-block list-block half-block">
+                                <CategoriesList />
+                            </div>
+                        </Col>
+                        <Col
+                            className={
+                                "ant-col-xs-24 ant-col-sm-24 ant-col-md-12 ant-col-lg-12 ant-col-xl-12 ant-col-xxl-24"
+                            }
+                        >
+                            <div className="app-block list-block half-block">
+                                <CreateExpenseFormConitaner />
+                            </div>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </>

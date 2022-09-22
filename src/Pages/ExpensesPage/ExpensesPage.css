@@ -1,7 +1,8 @@
 .app-block.expenses-block {
-    min-height: calc(400px + var(--dashboard-block-padding) * 2);
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .list-block {
-    min-height: calc(365px + var(--dashboard-block-padding) * 2);
+    min-height: calc(365px + var(--app-block-padding) * 2);
 }

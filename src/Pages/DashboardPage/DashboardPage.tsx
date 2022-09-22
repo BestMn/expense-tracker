@@ -12,7 +12,7 @@ import CreateExpenseFormConitaner from "../../Components/CreateExpenseForm/Creat
 const DashboardPage: React.FC = () => {
     return (
         <>
-            <Row>
+            <Row gutter={[16, 16]}>
                 <Col
                     span={12}
                     className={
@@ -33,10 +33,8 @@ const DashboardPage: React.FC = () => {
                         <ColumnsContainer />
                     </div>
                 </Col>
-            </Row>
-            <Row>
                 <Col
-                    span={12}
+                    span={8}
                     className={
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
                     }
@@ -46,7 +44,7 @@ const DashboardPage: React.FC = () => {
                     </div>
                 </Col>
                 <Col
-                    span={12}
+                    span={8}
                     className={
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
                     }
@@ -56,7 +54,7 @@ const DashboardPage: React.FC = () => {
                     </div>
                 </Col>
                 <Col
-                    span={12}
+                    span={8}
                     className={
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
                     }
