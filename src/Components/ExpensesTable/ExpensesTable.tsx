@@ -1,4 +1,12 @@
-import { Space, Table, Tag, DatePicker, Button, Input, InputRef } from "antd";
+import {
+    Space,
+    Table,
+    Tooltip,
+    DatePicker,
+    Button,
+    Input,
+    InputRef,
+} from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import type {
     ColumnsType,
@@ -125,6 +133,14 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
             title: "Date",
             dataIndex: "date",
             key: "date",
+            width: "15%",
+            render: (text) => {
+                if (text) {
+                    return (
+                        <div className={"expense-table__date-cell"}>{text}</div>
+                    );
+                }
+            },
 
             ...getColumnSearchProps("date"),
         },
@@ -132,6 +148,7 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
             title: "Category",
             dataIndex: "category",
             key: "category",
+            width: "20%",
             render: (text, record) => {
                 if (text && record) {
                     return (
@@ -160,6 +177,7 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
             title: "Amount",
             dataIndex: "amount",
             key: "amount",
+            width: "15%",
             render: (text) => {
                 if (text) {
                     return <span>{`${text} ${currency}`}</span>;
@@ -170,10 +188,21 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
             title: "Description",
             dataIndex: "description",
             key: "description",
+            ellipsis: true,
+            render: (text) => {
+                if (text) {
+                    return (
+                        <Tooltip placement="topLeft" title={text}>
+                            {text}
+                        </Tooltip>
+                    );
+                }
+            },
         },
         {
             title: "Action",
             key: "action",
+            width: "20%",
             render: (_, record, index) => {
                 if (record.id) {
                     return (

@@ -13,7 +13,7 @@ const ExpensesPage: React.FC = () => {
                 <Col
                     span={12}
                     className={
-                        "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-16"
+                        "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-24 ant-col-xxl-16"
                     }
                 >
                     <div className="app-block expenses-block">
@@ -23,7 +23,7 @@ const ExpensesPage: React.FC = () => {
                 <Col
                     span={12}
                     className={
-                        "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
+                        "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-24 ant-col-xxl-8"
                     }
                 >
                     <div className="app-block list-block">

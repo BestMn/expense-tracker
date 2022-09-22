@@ -18,3 +18,10 @@
 .expense-table__row {
     height: 70px;
 }
+
+.expense-table__description-cell {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+}
