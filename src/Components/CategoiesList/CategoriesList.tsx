@@ -1,6 +1,7 @@
 import { useState, useEffect, ReactNode } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { Spin, Empty } from "antd";
+import { Spin, Empty, Skeleton } from "antd";
+import { DotChartOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
 import CategoriesListItem from "../CategoriesListItem/CategoriesListItem";
@@ -38,28 +39,28 @@ const CategoriesList = () => {
         }
     }, [categories]);
 
-    if (loading) {
-        return <Spin />;
-    }
-
     return (
         <div className="categories-list">
             <h2>My Categories</h2>
-            <div className="categories-list__content">
-                {categoriesListItems ? categoriesListItems : <Empty />}
-                <div
-                    onClick={() => {
-                        setIsEditFormVisible(true);
-                    }}
-                    className="categories-list__add-btn"
-                >
-                    <PlusOutlined className="categories-list-item__icon" />
+            {loading ? (
+                <Skeleton active />
+            ) : (
+                <div className="categories-list__content">
+                    {categoriesListItems ? categoriesListItems : <Empty />}
+                    <div
+                        onClick={() => {
+                            setIsEditFormVisible(true);
+                        }}
+                        className="categories-list__add-btn"
+                    >
+                        <PlusOutlined className="categories-list-item__icon" />
+                    </div>
+                    <CreateCategoryForm
+                        isEditFormVisible={isEditFormVisible}
+                        setIsEditFormVisible={setIsEditFormVisible}
+                    />
                 </div>
-                <CreateCategoryForm
-                    isEditFormVisible={isEditFormVisible}
-                    setIsEditFormVisible={setIsEditFormVisible}
-                />
-            </div>
+            )}
         </div>
     );
 };

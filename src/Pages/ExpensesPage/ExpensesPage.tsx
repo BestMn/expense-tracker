@@ -9,7 +9,7 @@ import CreateExpenseFormConitaner from "../../Components/CreateExpenseForm/Creat
 const ExpensesPage: React.FC = () => {
     return (
         <>
-            <Row gutter={[16, 16]}>
+            <Row gutter={[16, 16]} type="flex">
                 <Col
                     span={24}
                     className={
@@ -26,7 +26,7 @@ const ExpensesPage: React.FC = () => {
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-24 ant-col-xxl-8"
                     }
                 >
-                    <Row gutter={[16, 16]}>
+                    <Row gutter={[16, 16]} type="flex">
                         <Col
                             className={
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-12 ant-col-lg-12 ant-col-xl-12 ant-col-xxl-24"

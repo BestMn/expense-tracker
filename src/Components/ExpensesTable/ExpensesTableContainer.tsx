@@ -1,5 +1,4 @@
-import { Spin, Pagination } from "antd";
-import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
+import { Spin, Skeleton } from "antd";
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
@@ -60,13 +59,13 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
     };
 
     useEffect(() => {
-        if (userId && shouldUpdateCategories) {
+        if (shouldUpdateCategories) {
             dispatch(getUserCategories(userId));
         }
     }, [shouldUpdateCategories]);
 
     useEffect(() => {
-        if (userId && shouldUpdateExpenses) {
+        if (shouldUpdateExpenses) {
             dispatch(getUserExpenses(userId));
         }
     }, [shouldUpdateExpenses]);
@@ -102,7 +101,7 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
         }
     }, [expenses, categories]);
 
-    if (data && !expensesLoading && !categoriesLoading) {
+    if (data) {
         return (
             <>
                 <h2>My Expenses</h2>
@@ -114,6 +113,7 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
                     onEdit={onEdit}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
+                    loading={expensesLoading}
                 />
             </>
         );

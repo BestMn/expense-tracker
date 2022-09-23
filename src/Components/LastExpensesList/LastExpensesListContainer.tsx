@@ -58,11 +58,7 @@ const LastExpensesListContainer: React.FC = () => {
         }
     }, [expenses, categories]);
 
-    if (expensesLoading || categoriesLoading) {
-        return <Spin />;
-    }
-
-    if (data && !data.length) {
+    if (data && !data?.length) {
         return (
             <>
                 <h2>Last Expenses</h2>
@@ -76,14 +72,16 @@ const LastExpensesListContainer: React.FC = () => {
         );
     }
 
-    if (data && data.length) {
-        return (
-            <React.Fragment>
-                <h2>Last Expenses</h2>
-                <LastExpensesList data={data} currency={currency} />
-            </React.Fragment>
-        );
-    }
+    return (
+        <React.Fragment>
+            <h2>Last Expenses</h2>
+            <LastExpensesList
+                data={data}
+                currency={currency}
+                loading={expensesLoading}
+            />
+        </React.Fragment>
+    );
 };
 
 export default LastExpensesListContainer;

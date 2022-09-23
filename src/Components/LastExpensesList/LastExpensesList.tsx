@@ -1,4 +1,4 @@
-import { List } from "antd";
+import { List, Skeleton } from "antd";
 import React from "react";
 import * as FontIcon from "react-icons/fa";
 import "./LastExpensesList.css";
@@ -16,11 +16,13 @@ export type LastExpensesListItem = {
 type LastExpensesListProps = {
     data: LastExpensesListItem[];
     currency: string | null;
+    loading: boolean;
 };
 
 const LastExpensesList: React.FC<LastExpensesListProps> = ({
     data,
     currency = "$",
+    loading,
 }) => {
     console.log(data);
     return (
@@ -29,7 +31,7 @@ const LastExpensesList: React.FC<LastExpensesListProps> = ({
                 itemLayout="horizontal"
                 dataSource={data}
                 renderItem={(item) => {
-                    if (!item.category) {
+                    if (!item?.category) {
                         return (
                             <List.Item
                                 key={item.key}
@@ -39,31 +41,40 @@ const LastExpensesList: React.FC<LastExpensesListProps> = ({
                     }
                     return (
                         <List.Item>
-                            <List.Item.Meta
-                                avatar={
-                                    <div className="last-expenses-list__item-category">
-                                        <div
-                                            style={{
-                                                backgroundColor: item.color,
-                                            }}
-                                            className="last-expenses-list__item-category-icon"
-                                        >
-                                            {React.createElement(
-                                                FontIcon[item.icon]
-                                            )}
-                                        </div>
-                                    </div>
-                                }
-                                title={
-                                    <a href="https://ant.design">
-                                        {item.category}
-                                    </a>
-                                }
-                                description={`${item.date}`}
-                            />
-                            <div
-                                className={"last-expenses-list__item-amount"}
-                            >{`${item.amount} ${currency}`}</div>
+                            {loading ? (
+                                <Skeleton />
+                            ) : (
+                                <>
+                                    <List.Item.Meta
+                                        avatar={
+                                            <div className="last-expenses-list__item-category">
+                                                <div
+                                                    style={{
+                                                        backgroundColor:
+                                                            item.color,
+                                                    }}
+                                                    className="last-expenses-list__item-category-icon"
+                                                >
+                                                    {React.createElement(
+                                                        FontIcon[item.icon]
+                                                    )}
+                                                </div>
+                                            </div>
+                                        }
+                                        title={
+                                            <a href="https://ant.design">
+                                                {item.category}
+                                            </a>
+                                        }
+                                        description={`${item.date}`}
+                                    />
+                                    <div
+                                        className={
+                                            "last-expenses-list__item-amount"
+                                        }
+                                    >{`${item.amount} ${currency}`}</div>
+                                </>
+                            )}
                         </List.Item>
                     );
                 }}

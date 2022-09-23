@@ -4,8 +4,8 @@ import {
     Tooltip,
     DatePicker,
     Button,
-    Input,
     InputRef,
+    Skeleton,
 } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import type {
@@ -54,6 +54,7 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
     onEdit,
     currentPage,
     setCurrentPage,
+    loading,
 }) => {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
@@ -232,7 +233,25 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
                 current: currentPage,
                 onChange: (page) => setCurrentPage(page),
             }}
-            columns={columns}
+            columns={
+                loading
+                    ? columns.map((column, index) => {
+                          return {
+                              ...column,
+                              render: function renderPlaceholder() {
+                                  return (
+                                      <Skeleton
+                                          key={index}
+                                          title={true}
+                                          paragraph={false}
+                                          active
+                                      />
+                                  );
+                              },
+                          };
+                      })
+                    : columns
+            }
             dataSource={data}
             rowKey={(record) => {
                 if (record.id) {
