@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import LastExpensesList, { LastExpensesListItem } from "./LastExpensesList";
 import dateFormatter from "../../services/dateFormatter";
 import { ReactComponent as EmptyLogo } from "../../Icons/EmptyFolderIcon.svg";
-import { Spin } from "antd";
+import { Skeleton, Spin } from "antd";
 import { RootState } from "../../store/store";
 
 const LastExpensesListContainer: React.FC = () => {
@@ -58,6 +58,10 @@ const LastExpensesListContainer: React.FC = () => {
         }
     }, [expenses, categories]);
 
+    if (expensesLoading || categoriesLoading) {
+        return <Skeleton />;
+    }
+
     if (data && !data?.length) {
         return (
             <>
@@ -72,16 +76,18 @@ const LastExpensesListContainer: React.FC = () => {
         );
     }
 
-    return (
-        <React.Fragment>
-            <h2>Last Expenses</h2>
-            <LastExpensesList
-                data={data}
-                currency={currency}
-                loading={expensesLoading}
-            />
-        </React.Fragment>
-    );
+    if (data && data?.length) {
+        return (
+            <React.Fragment>
+                <h2>Last Expenses</h2>
+                <LastExpensesList
+                    data={data}
+                    currency={currency}
+                    loading={expensesLoading}
+                />
+            </React.Fragment>
+        );
+    }
 };
 
 export default LastExpensesListContainer;
