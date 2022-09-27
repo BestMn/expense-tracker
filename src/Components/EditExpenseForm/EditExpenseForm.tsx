@@ -20,10 +20,12 @@ interface CollectionCreateFormProps {
     onCancel: () => void;
     editedExpense: TTableExpense;
     categoriesList: Array<ReactElement> | ReactElement;
+    currency: string;
 }
 
 type EditExpenseFormProps = {
     onEdit: (values: EditUserExpenseData) => void;
+    currency: string;
     editedExpense: TTableExpense;
 };
 
@@ -32,22 +34,13 @@ const layout = {
     wrapperCol: { span: 16 },
 };
 
-const config = {
-    rules: [
-        {
-            type: "object" as const,
-            required: true,
-            message: "Please select time!",
-        },
-    ],
-};
-
 const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     visible,
     onFinish,
     onCancel,
     editedExpense,
     categoriesList,
+    currency,
 }) => {
     const [form] = Form.useForm();
     return (
@@ -81,12 +74,14 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                         id: editedExpense.id,
                     });
                 }}
-                // validateMessages={validateMessages}   <<< FIX THIS
                 form={form}
             >
                 <Form.Item
                     label="Category"
                     name={["categoryId"]}
+                    rules={[
+                        { required: true, message: "Please select category!" },
+                    ]}
                     initialValue={editedExpense.categoryId}
                 >
                     <Select>{categoriesList}</Select>
@@ -94,16 +89,18 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 <Form.Item
                     name={["amount"]}
                     label="Amount"
-                    rules={[{ required: true }]}
+                    rules={[
+                        { required: true, message: "Please input amount!" },
+                    ]}
                     initialValue={editedExpense.amount}
                 >
-                    <InputNumber />
+                    <InputNumber min={0} addonAfter={`${currency}`} />
                 </Form.Item>
                 <Form.Item
                     name={["date"]}
                     label="DatePicker"
+                    rules={[{ required: true, message: "Please select date!" }]}
                     initialValue={moment.utc(editedExpense.date, "DD-MM-YYYY")}
-                    {...config}
                 >
                     <DatePicker format="DD-MM-YYYY" />
                 </Form.Item>
@@ -111,8 +108,15 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                     name={["description"]}
                     label="Description"
                     initialValue={editedExpense.description}
+                    rules={[
+                        {
+                            max: 250,
+                            message:
+                                "Description must be less than 250 characters!",
+                        },
+                    ]}
                 >
-                    <Input.TextArea />
+                    <Input.TextArea showCount maxLength={250} />
                 </Form.Item>
             </Form>
         </Modal>
@@ -121,6 +125,7 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
 
 const EditExpenseForm: React.FC<EditExpenseFormProps> = ({
     editedExpense,
+    currency,
     onEdit,
 }) => {
     const [visible, setVisible] = useState(false);
@@ -165,6 +170,7 @@ const EditExpenseForm: React.FC<EditExpenseFormProps> = ({
                     }}
                     editedExpense={editedExpense}
                     categoriesList={categoriesList}
+                    currency={currency}
                 />
             </div>
         );

@@ -1,52 +1,25 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../store/store";
 import { Button, Form, Input, Select, InputNumber, DatePicker } from "antd";
-import { addUserExpense } from "../../store/actions/expenseActions";
+import { TCategory } from "../../store/reducers/categoriesReducer";
+
+type CreateExpenseFormProps = {
+    categories: TCategory[] | null;
+    currency: string;
+    onFinish: (values: any) => void;
+};
 
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
 };
 
-/* eslint-disable no-template-curly-in-string */
-const validateMessages = {
-    required: "${label} is required!",
-    types: {
-        email: "${label} is not a valid email!",
-        number: "${label} is not a valid number!",
-    },
-    number: {
-        range: "${label} must be between ${min} and ${max}",
-    },
-};
-/* eslint-enable no-template-curly-in-string */
-
-const config = {
-    rules: [
-        {
-            type: "object" as const,
-            required: true,
-            message: "Please select time!",
-        },
-    ],
-};
-
-const CreateExpenseForm: React.FC = ({ categories }) => {
-    const dispatch = useDispatch<AppDispatch>();
-    const { userId } = useSelector((state: any) => state.userReducer);
+const CreateExpenseForm: React.FC<CreateExpenseFormProps> = ({
+    categories,
+    onFinish,
+    currency,
+}) => {
+    console.log(categories);
     const [form] = Form.useForm();
-    const onFinish = ({ expense }) => {
-        const data = {
-            userId: userId,
-            date: expense.date.toJSON(),
-            amount: expense.amount,
-            categoryId: expense.categoryId,
-            description: expense.description ? expense.description : "",
-        };
-        dispatch(addUserExpense(data));
-        form.resetFields();
-    };
 
     const categoriesList = categories ? (
         categories.map((elem) => {
@@ -67,29 +40,45 @@ const CreateExpenseForm: React.FC = ({ categories }) => {
         <Form
             {...layout}
             name="nest-messages"
-            onFinish={onFinish}
-            validateMessages={validateMessages}
+            onFinish={(values) => {
+                onFinish({ ...values, date: values.date.toJSON() });
+                form.resetFields();
+            }}
             form={form}
         >
-            <Form.Item label="Category" name={["expense", "categoryId"]}>
+            <Form.Item
+                label="Category"
+                name={["categoryId"]}
+                rules={[{ required: true, message: "Please select category!" }]}
+            >
                 <Select>{categoriesList}</Select>
             </Form.Item>
             <Form.Item
-                name={["expense", "amount"]}
+                name={["amount"]}
                 label="Amount"
-                rules={[{ required: true }]}
+                rules={[{ required: true, message: "Please input amount!" }]}
             >
-                <InputNumber />
+                <InputNumber min={0} addonAfter={`${currency}`} />
             </Form.Item>
             <Form.Item
-                name={["expense", "date"]}
+                name={["date"]}
                 label="DatePicker"
-                {...config}
+                rules={[{ required: true, message: "Please select date!" }]}
             >
                 <DatePicker format="DD-MM-YYYY" />
             </Form.Item>
-            <Form.Item name={["expense", "description"]} label="Description">
-                <Input.TextArea />
+            <Form.Item
+                name={["description"]}
+                label="Description"
+                rules={[
+                    {
+                        max: 250,
+                        message:
+                            "Description must be less than 250 characters!",
+                    },
+                ]}
+            >
+                <Input.TextArea showCount maxLength={250} />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
                 <Button type="primary" htmlType="submit">

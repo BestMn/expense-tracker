@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-type AddUserExpenseData = {
+export type AddUserExpenseData = {
     userId: number;
     categoryId: number;
     amount: number;

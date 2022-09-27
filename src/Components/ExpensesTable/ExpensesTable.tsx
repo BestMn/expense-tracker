@@ -211,6 +211,7 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
                             <EditExpenseForm
                                 editedExpense={record}
                                 onEdit={onEdit}
+                                currency={currency}
                             />
                             <Button
                                 shape="round"
