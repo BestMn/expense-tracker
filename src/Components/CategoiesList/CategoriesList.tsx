@@ -1,66 +1,82 @@
 import { useState, useEffect, ReactNode } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { Spin, Empty, Skeleton } from "antd";
-import { DotChartOutlined } from "@ant-design/icons";
-import { useSelector, useDispatch } from "react-redux";
+import { Spin, Empty, Skeleton, Button } from "antd";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
-import CategoriesListItem from "../CategoriesListItem/CategoriesListItem";
-import { AppDispatch } from "../../store/store";
 import "./CategoriesList.css";
-import { getUserCategories } from "../../store/actions/categoryActions";
-import { RootState } from "../../store/store";
 import { TCategory } from "../../store/reducers/categoriesReducer";
+import CategoriesListItemContainer from "../CategoriesListItem/CategoriesListItemContainer";
 
-const CategoriesList = () => {
-    const [categoriesListItems, setCategoriesListItems] =
-        useState<Array<ReactNode> | null>(null);
+type CategoriesListProps = {
+    categories: TCategory[] | null;
+    loading: boolean;
+};
+
+const CategoriesList: React.FC<CategoriesListProps> = ({
+    categories,
+    loading,
+}) => {
+    const [categoriesListItems, setCategoriesListItems] = useState<
+        ReactNode[] | null
+    >(null);
     const [isEditFormVisible, setIsEditFormVisible] = useState(false);
-
-    const { userId } = useSelector((state: RootState) => state.userReducer);
-
-    const { categories, loading, error, shouldUpdate } = useSelector(
-        (state: RootState) => state.categoriesReducer
-    );
-
-    const dispatch = useDispatch<AppDispatch>();
-
-    useEffect(() => {
-        if (shouldUpdate === true) {
-            dispatch(getUserCategories(userId));
-        }
-    }, [shouldUpdate]);
 
     useEffect(() => {
         if (categories) {
             const items = categories.map((item: TCategory) => {
-                return <CategoriesListItem item={item} key={item.id} />;
+                return (
+                    <CategoriesListItemContainer item={item} key={item.id} />
+                );
             });
             setCategoriesListItems(items);
         }
     }, [categories]);
 
-    return (
-        <div className="categories-list">
-            <h2>My Categories</h2>
-            {loading ? (
+    if (loading) {
+        return (
+            <div className="categories-list">
                 <Skeleton active />
-            ) : (
-                <div className="categories-list__content">
-                    {categoriesListItems ? categoriesListItems : <Empty />}
-                    <div
+            </div>
+        );
+    }
+
+    if (!categoriesListItems?.length) {
+        return (
+            <div className="categories-list">
+                <Empty description={"There are no categories yet"}>
+                    <Button
                         onClick={() => {
                             setIsEditFormVisible(true);
                         }}
-                        className="categories-list__add-btn"
+                        type="primary"
                     >
-                        <PlusOutlined className="categories-list-item__icon" />
-                    </div>
-                    <CreateCategoryForm
-                        isEditFormVisible={isEditFormVisible}
-                        setIsEditFormVisible={setIsEditFormVisible}
-                    />
+                        Create Now
+                    </Button>
+                </Empty>
+                <CreateCategoryForm
+                    isEditFormVisible={isEditFormVisible}
+                    setIsEditFormVisible={setIsEditFormVisible}
+                />
+            </div>
+        );
+    }
+
+    return (
+        <div className="categories-list">
+            <div className="categories-list__content">
+                {categoriesListItems}
+                <div
+                    onClick={() => {
+                        setIsEditFormVisible(true);
+                    }}
+                    className="categories-list__add-btn"
+                >
+                    <PlusOutlined />
                 </div>
-            )}
+                <CreateCategoryForm
+                    isEditFormVisible={isEditFormVisible}
+                    setIsEditFormVisible={setIsEditFormVisible}
+                />
+            </div>
         </div>
     );
 };

@@ -2,9 +2,9 @@ import { Col, Row } from "antd";
 import React from "react";
 import "antd/dist/antd.css";
 import "./ExpensesPage.css";
-import CategoriesList from "../../Components/CategoiesList/CategoriesList";
 import ExpensesTableContainer from "../../Components/ExpensesTable/ExpensesTableContainer";
 import CreateExpenseFormConitaner from "../../Components/CreateExpenseForm/CreateExpenseFormContainer";
+import CategoriesListContainer from "../../Components/CategoiesList/CategoriesListContainer";
 
 const ExpensesPage: React.FC = () => {
     return (
@@ -33,7 +33,8 @@ const ExpensesPage: React.FC = () => {
                             }
                         >
                             <div className="app-block list-block half-block">
-                                <CategoriesList />
+                                <h2>My Categories</h2>
+                                <CategoriesListContainer />
                             </div>
                         </Col>
                         <Col

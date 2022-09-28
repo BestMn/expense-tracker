@@ -17,13 +17,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: 32px;
 }
 
 .categories-list__add-btn:active {
     background-color: #bfbfbf;
     color: #8a8989;
-}
-
-.categories-list-item__icon {
-    font-size: 32px;
 }

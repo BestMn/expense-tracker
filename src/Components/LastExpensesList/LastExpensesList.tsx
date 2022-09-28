@@ -24,7 +24,6 @@ const LastExpensesList: React.FC<LastExpensesListProps> = ({
     currency = "$",
     loading,
 }) => {
-    console.log(data);
     return (
         <React.Fragment>
             <List

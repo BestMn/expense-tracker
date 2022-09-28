@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import LastExpensesList, { LastExpensesListItem } from "./LastExpensesList";
 import dateFormatter from "../../services/dateFormatter";
 import { ReactComponent as EmptyLogo } from "../../Icons/EmptyFolderIcon.svg";
-import { Skeleton, Spin } from "antd";
+import { Empty, Skeleton, Spin } from "antd";
 import { RootState } from "../../store/store";
 
 const LastExpensesListContainer: React.FC = () => {
@@ -20,7 +20,7 @@ const LastExpensesListContainer: React.FC = () => {
     const { currency } = useSelector((state: RootState) => state.userReducer);
 
     useEffect(() => {
-        if (expenses && categories && !expensesLoading && !categoriesLoading) {
+        if (expenses && categories && expenses.length) {
             const copied = [...expenses];
             const expensesWithCategories = copied.map((elem) => {
                 const category = categories.find(
@@ -62,32 +62,17 @@ const LastExpensesListContainer: React.FC = () => {
         return <Skeleton />;
     }
 
-    if (data && !data?.length) {
-        return (
-            <>
-                <h2>Last Expenses</h2>
-                <EmptyLogo
-                    viewBox="0 0 300 240"
-                    width="340px"
-                    height="240px"
-                    fill="rgba(0, 0, 0, 0.06)"
-                />
-            </>
-        );
+    if (!data) {
+        return <Empty description={"There are no expenses yet"} />;
     }
 
-    if (data && data?.length) {
-        return (
-            <React.Fragment>
-                <h2>Last Expenses</h2>
-                <LastExpensesList
-                    data={data}
-                    currency={currency}
-                    loading={expensesLoading}
-                />
-            </React.Fragment>
-        );
-    }
+    return (
+        <LastExpensesList
+            data={data}
+            currency={currency}
+            loading={expensesLoading}
+        />
+    );
 };
 
 export default LastExpensesListContainer;

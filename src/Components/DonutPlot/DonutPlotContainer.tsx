@@ -15,10 +15,8 @@ type DonutExpense = {
     type: number;
 };
 
-export type DonutPlotData = Array<DonutExpense>;
-
 const DonutPlotContainer = () => {
-    const [data, setData] = useState<DonutPlotData | null>(null);
+    const [data, setData] = useState<DonutExpense[] | null>(null);
 
     const { currency } = useSelector((state: RootState) => state.userReducer);
 
@@ -50,7 +48,7 @@ const DonutPlotContainer = () => {
                     category: category.name,
                 };
             });
-            const reducedExpenses: DonutPlotData = [];
+            const reducedExpenses: DonutExpense[] = [];
             donutData.forEach((elem: DonutExpense) => {
                 const existedCategoryIndex = reducedExpenses.findIndex(
                     (el) => el.categoryId == elem.categoryId
@@ -65,11 +63,11 @@ const DonutPlotContainer = () => {
         }
     }, [expenses, categories]);
 
-    if (data && data.length) {
-        return <DonutPlot data={data} currency={currency} />;
-    } else if (expensesLoading || categoriesLoading) {
+    if (expensesLoading || categoriesLoading) {
         return <Spin size="large" />;
-    } else if (!data || !data.length) {
+    }
+
+    if (!data || !data.length) {
         return (
             <div className="donut-plot__empty-container">
                 <EmptyLogo
@@ -84,6 +82,8 @@ const DonutPlotContainer = () => {
             </div>
         );
     }
+
+    return <DonutPlot data={data} currency={currency} />;
 };
 
 export default DonutPlotContainer;

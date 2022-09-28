@@ -1,31 +1,23 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../store/store";
 import EditCategoryFormContainer from "../EditCategoryForm/EditCategoryFormContainer";
 import { DeleteFilled } from "@ant-design/icons";
 import * as FontIcon from "react-icons/fa";
 import "./CategoriesListItem.css";
-import { deleteUserCategory } from "../../store/actions/categoryActions";
-import { RootState } from "../../store/store";
 import { TCategory } from "../../store/reducers/categoriesReducer";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 type CategoriesListItemProps = {
+    deleteHandler: (id: number) => void;
     item: TCategory;
 };
 
 const { confirm } = Modal;
 
-const CategoriesListItem: React.FC<CategoriesListItemProps> = ({ item }) => {
-    const dispatch = useDispatch<AppDispatch>();
-
-    const { userId } = useSelector((state: RootState) => state.userReducer);
-
-    const deleteHandler = (id: number) => {
-        dispatch(deleteUserCategory({ id, userId }));
-    };
-
+const CategoriesListItem: React.FC<CategoriesListItemProps> = ({
+    deleteHandler,
+    item,
+}) => {
     const showConfirm = (itemId: number) => {
         confirm({
             title: "Pay attention!",

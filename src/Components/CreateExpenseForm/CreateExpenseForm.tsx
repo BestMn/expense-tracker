@@ -1,5 +1,13 @@
 import React from "react";
-import { Button, Form, Input, Select, InputNumber, DatePicker } from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    Select,
+    InputNumber,
+    DatePicker,
+    Empty,
+} from "antd";
 import { TCategory } from "../../store/reducers/categoriesReducer";
 
 type CreateExpenseFormProps = {
@@ -18,22 +26,16 @@ const CreateExpenseForm: React.FC<CreateExpenseFormProps> = ({
     onFinish,
     currency,
 }) => {
-    console.log(categories);
     const [form] = Form.useForm();
 
-    const categoriesList = categories ? (
-        categories.map((elem) => {
-            return (
-                <Select.Option value={elem.id} key={elem.id}>
-                    {elem.name}
-                </Select.Option>
-            );
-        })
-    ) : (
-        <Select.Option value={"elem.id"} key={"elem.id"}>
-            Add Category
-        </Select.Option>
-    );
+    const categoriesList = categories?.map((elem) => {
+        return (
+            <Select.Option value={elem.id} key={elem.id}>
+                {elem.name}
+            </Select.Option>
+        );
+    });
+
     // FIX THIS ^^^^^^^^^^^^^^
 
     return (

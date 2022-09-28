@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-    DesktopOutlined,
+    DollarOutlined,
     PieChartOutlined,
     LogoutOutlined,
     UserOutlined,
@@ -55,7 +55,7 @@ const SideMenu: React.FC = () => {
         getItem(
             <NavLink to="/expenses">Expenses</NavLink>,
             "/expenses",
-            <DesktopOutlined />
+            <DollarOutlined />
         ),
         getItem(
             <NavLink to="/user">

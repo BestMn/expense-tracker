@@ -50,6 +50,7 @@ const DashboardPage: React.FC = () => {
                     }
                 >
                     <div className="app-block list-block">
+                        <h2>Last Expenses</h2>
                         <LastExpensesListContainer />
                     </div>
                 </Col>

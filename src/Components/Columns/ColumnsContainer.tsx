@@ -95,53 +95,48 @@ const ColumnsPlotContainer = () => {
         }
     }, [loading, period]);
 
-    if (data) {
-        return (
-            <React.Fragment>
-                <div className="columns__period-selector">
-                    <Segmented
-                        options={["Week", "Month", "Quarter", "Year"]}
-                        value={segmentPeriod}
-                        onChange={(value) => {
-                            setSegmentPeriod(value);
-                        }}
-                        className={"period-selector__period-segmented"}
-                        block={false}
-                    />
-                    <RangePicker
-                        size="small"
-                        onChange={(value) => {
-                            if (value && value[0] && value[1]) {
-                                setSegmentPeriod(null);
-                                value[0].set({
-                                    hour: 0,
-                                    minute: 0,
-                                    second: 0,
-                                });
-                                value[1].set({
-                                    hour: 23,
-                                    minute: 59,
-                                    second: 59,
-                                });
-                                setPeriod([
-                                    value[0].toJSON(),
-                                    value[1].toJSON(),
-                                ]);
-                            } else {
-                                setSegmentPeriod("Week");
-                            }
-                        }}
-                        className={"period-selector__range-picker"}
-                    />
-                </div>
-                <Columns data={data} currency={currency} />
-            </React.Fragment>
-        );
-    } else if (loading) {
+    if (loading || !data) {
         return <Spin size="large" />;
-    } else if (!data) {
-        return <Empty />;
     }
+
+    return (
+        <>
+            <div className="columns__period-selector">
+                <Segmented
+                    options={["Week", "Month", "Quarter", "Year"]}
+                    value={segmentPeriod}
+                    onChange={(value) => {
+                        setSegmentPeriod(value);
+                    }}
+                    className={"period-selector__period-segmented"}
+                    block={false}
+                />
+                <RangePicker
+                    size="small"
+                    onChange={(value) => {
+                        if (value && value[0] && value[1]) {
+                            setSegmentPeriod(null);
+                            value[0].set({
+                                hour: 0,
+                                minute: 0,
+                                second: 0,
+                            });
+                            value[1].set({
+                                hour: 23,
+                                minute: 59,
+                                second: 59,
+                            });
+                            setPeriod([value[0].toJSON(), value[1].toJSON()]);
+                        } else {
+                            setSegmentPeriod("Week");
+                        }
+                    }}
+                    className={"period-selector__range-picker"}
+                />
+            </div>
+            <Columns data={data} currency={currency} />
+        </>
+    );
 };
 
 export default ColumnsPlotContainer;
