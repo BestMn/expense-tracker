@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import { Bar } from "@ant-design/plots";
+import { TopCategoriesData } from "./TopCategoriesContainer";
 
-const TopCategories = ({ data, currency }) => {
+type TopCategoriesProps = {
+    data: TopCategoriesData[];
+    currency: string | null;
+};
+
+const TopCategories: React.FC<TopCategoriesProps> = ({ data, currency }) => {
     const config = {
         height: 322,
         data,

@@ -7,7 +7,7 @@ import { RootState } from "../../store/store";
 import { TExpense } from "../../store/reducers/expensesReducer";
 import "./DonutPlot.css";
 
-type DonutExpense = {
+export type DonutExpense = {
     amount: number;
     category: string;
     categoryId: number;

@@ -1,8 +1,8 @@
 import { Pie, measureTextWidth } from "@ant-design/plots";
-import { DonutPlotData } from "./DonutPlotContainer";
+import { DonutExpense } from "./DonutPlotContainer";
 
 type DonutPlotProps = {
-    data: DonutPlotData;
+    data: DonutExpense[];
     currency: string | null;
 };
 
