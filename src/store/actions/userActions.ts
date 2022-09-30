@@ -31,7 +31,7 @@ export type EditUserData = {
 
 export const userRegistration = createAsyncThunk(
     "user/registration",
-    async (data: UserRegistrationData) => {
+    async (data: UserRegistrationData, { rejectWithValue }) => {
         const response = await fetch(
             `http://localhost:5000/api/user/registration`,
             {
@@ -48,6 +48,9 @@ export const userRegistration = createAsyncThunk(
             }
         );
         const res = await response.json();
+        if (!response.ok) {
+            return rejectWithValue(res);
+        }
         localStorage.setItem("userData", JSON.stringify({ token: res.token }));
         return res;
     }
@@ -55,7 +58,7 @@ export const userRegistration = createAsyncThunk(
 
 export const userLogin = createAsyncThunk(
     "user/login",
-    async (data: UserLoginData) => {
+    async (data: UserLoginData, { rejectWithValue }) => {
         const response = await fetch(`http://localhost:5000/api/user/login`, {
             method: "POST",
             mode: "cors",
@@ -69,6 +72,9 @@ export const userLogin = createAsyncThunk(
             body: JSON.stringify(data),
         });
         const res = await response.json();
+        if (!response.ok) {
+            return rejectWithValue(res);
+        }
         return res;
     }
 );

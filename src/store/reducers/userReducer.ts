@@ -88,7 +88,7 @@ const categoriesSlice = createSlice({
             })
             .addCase(userRegistration.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error;
+                state.error = action.payload;
             })
             .addCase(userLogin.pending, (state) => {
                 state.loading = true;
@@ -101,7 +101,7 @@ const categoriesSlice = createSlice({
             })
             .addCase(userLogin.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error;
+                state.error = action.payload;
             })
             .addCase(checkUser.pending, (state) => {
                 state.loading = true;
@@ -120,7 +120,6 @@ const categoriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(editUser.fulfilled, (state, { payload }) => {
-                console.log(payload);
                 const {
                     firstName,
                     secondName,

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Navigate } from "react-router-dom";
-import RegistrationForm from "../../Components/RegistrationForm/RegistrationForm";
-import LoginForm from "../../Components/LoginForm/LoginForm";
+import RegistrationFormContainer from "../../Components/RegistrationForm/RegistrationFormContainer";
+import LoginFormContainer from "../../Components/LoginForm/LoginFormContainer";
 import { Button } from "antd";
 import { AuthPageProps } from "../../types";
 import "./AuthPage.css";
@@ -19,13 +19,13 @@ const AuthPage: React.FC<AuthPageProps> = ({ token }) => {
                 <div ref={authContainer} className="auth-page__auth-container">
                     <div className="auth-page__auth-form sign-in-container">
                         <h1 className="auth-page__auth-form-title">Sign in</h1>
-                        <LoginForm />
+                        <LoginFormContainer />
                     </div>
                     <div className="auth-page__auth-form sign-up-container">
                         <h1 className="auth-page__auth-form-title">
                             Create Account
                         </h1>
-                        <RegistrationForm />
+                        <RegistrationFormContainer />
                     </div>
 
                     <div className="overlay">

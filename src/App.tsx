@@ -55,7 +55,7 @@ function App() {
         }
     }, [userId]);
 
-    if (loading || !initialTokenChecked) {
+    if (!initialTokenChecked) {
         return <Spin />;
     }
 

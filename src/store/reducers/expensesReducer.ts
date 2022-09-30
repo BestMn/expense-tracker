@@ -77,7 +77,6 @@ const expensesSlice = createSlice({
             })
             .addCase(editUserExpense.rejected, (state, action) => {
                 state.loading = false;
-                console.log(action.error);
                 state.error = action.error;
             })
             .addCase(deleteUserExpense.pending, (state) => {
@@ -89,7 +88,6 @@ const expensesSlice = createSlice({
             })
             .addCase(deleteUserExpense.rejected, (state, action) => {
                 state.loading = false;
-                console.log(action.error);
                 state.error = action.error;
             })
 
@@ -102,7 +100,6 @@ const expensesSlice = createSlice({
             })
             .addCase(deleteUserCategory.rejected, (state, action) => {
                 state.loading = false;
-                console.log(action.error);
                 state.error = action.error;
             });
     },

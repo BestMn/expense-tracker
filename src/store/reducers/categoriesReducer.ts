@@ -84,7 +84,6 @@ const categoriesSlice = createSlice({
             })
             .addCase(deleteUserCategory.rejected, (state, action) => {
                 state.loading = false;
-                console.log(action.error);
                 state.error = action.error;
             });
     },
