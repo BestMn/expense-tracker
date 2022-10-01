@@ -26,7 +26,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish, error, loading }) => {
                 <Form.Item
                     label="Email"
                     name="email"
+                    validateTrigger={"onSubmit"}
                     rules={[
+                        {
+                            type: "email",
+                            message: "Please enter valid E-mail!",
+                        },
                         { required: true, message: "Please input your Email!" },
                     ]}
                 >

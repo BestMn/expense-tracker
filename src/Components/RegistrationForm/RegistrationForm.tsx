@@ -45,8 +45,16 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                 <Form.Item
                     label="Email"
                     name="email"
+                    validateTrigger={"onSubmit"}
                     rules={[
-                        { required: true, message: "Please input your Email!" },
+                        {
+                            type: "email",
+                            message: "Please enter valid E-mail!",
+                        },
+                        {
+                            required: true,
+                            message: "Please input your E-mail!",
+                        },
                     ]}
                 >
                     <Input />

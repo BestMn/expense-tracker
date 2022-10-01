@@ -14,7 +14,12 @@ const LoginFormContainer = () => {
 
     const onFinish = (values: any) => {
         setError(null);
-        dispatch(userLogin({ email: values.email, password: values.password }))
+        dispatch(
+            userLogin({
+                email: values.email.toLowerCase(),
+                password: values.password,
+            })
+        )
             .unwrap()
             .catch((rejectedValue) => {
                 setError(rejectedValue.message);

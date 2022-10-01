@@ -18,7 +18,7 @@ const RegistrationFormContainer = () => {
                 nickName: values.nickName,
                 firstName: values.firstName,
                 secondName: values.secondName,
-                email: values.email,
+                email: values.email.toLowerCase(),
                 password: values.password,
             })
         )
