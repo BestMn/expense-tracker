@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     addUserExpense,
@@ -8,14 +9,21 @@ import CreateExpenseForm from "./CreateExpenseForm";
 
 const CreateExpenseFormConitaner = () => {
     const dispatch = useDispatch<AppDispatch>();
+
+    const [error, setError] = useState(null);
+
     const { userId, currency } = useSelector(
         (state: RootState) => state.userReducer
     );
     const { categories } = useSelector(
         (state: RootState) => state.categoriesReducer
     );
+    const { loading } = useSelector(
+        (state: RootState) => state.expensesReducer
+    );
 
     const onFinish = (value: AddUserExpenseData) => {
+        setError(null);
         const data: AddUserExpenseData = {
             userId: userId,
             date: value.date,
@@ -23,18 +31,21 @@ const CreateExpenseFormConitaner = () => {
             categoryId: value.categoryId,
             description: value.description,
         };
-        dispatch(addUserExpense(data));
+        dispatch(addUserExpense(data))
+            .unwrap()
+            .catch((rejectedValue) => {
+                setError(rejectedValue.message);
+            });
     };
 
     return (
-        <>
-            <h2>Quick Add</h2>
-            <CreateExpenseForm
-                categories={categories}
-                currency={currency}
-                onFinish={onFinish}
-            />
-        </>
+        <CreateExpenseForm
+            categories={categories}
+            currency={currency}
+            onFinish={onFinish}
+            loading={loading}
+            error={error}
+        />
     );
 };
 

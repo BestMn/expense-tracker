@@ -1,13 +1,10 @@
-import { Form, Input, Modal } from "antd";
-import { Colorpicker, ColorPickerValue } from "antd-colorpicker";
+import { Alert, Button, Form, Input, Modal } from "antd";
+import { Colorpicker } from "antd-colorpicker";
 import IconPicker from "../IconPicker/IconPicker";
+import { PlusOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
-import { AppDispatch } from "../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 import { IconList } from "../IconPicker/iconType";
 import { TCategory } from "../../store/reducers/categoriesReducer";
-import { addUserCategory } from "../../store/actions/categoryActions";
 
 interface CollectionCreateFormProps {
     visible: boolean;
@@ -16,8 +13,8 @@ interface CollectionCreateFormProps {
 }
 
 type CreateCategoryFormProps = {
-    isEditFormVisible: boolean;
-    setIsEditFormVisible: (value: boolean) => void;
+    onCreate: (values: TCategory) => void;
+    empty?: boolean;
 };
 
 const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
@@ -102,29 +99,37 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
 };
 
 const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({
-    isEditFormVisible,
-    setIsEditFormVisible,
+    onCreate,
+    empty,
 }) => {
-    const dispatch = useDispatch<AppDispatch>();
-    const { userId } = useSelector((state: RootState) => state.userReducer);
-
-    const onCreate = (category: TCategory) => {
-        const newCategory = {
-            userId: userId,
-            name: category.name,
-            icon: category.icon,
-            color: category.color,
-        };
-        dispatch(addUserCategory(newCategory));
-        setIsEditFormVisible(false);
-    };
-
+    const [isEditFormVisible, setIsEditFormVisible] = useState(false);
     return (
-        <CollectionCreateForm
-            visible={isEditFormVisible}
-            onCreate={onCreate}
-            onCancel={setIsEditFormVisible}
-        />
+        <>
+            {empty ? (
+                <Button
+                    type="primary"
+                    onClick={() => {
+                        setIsEditFormVisible(true);
+                    }}
+                >
+                    Create Now
+                </Button>
+            ) : (
+                <div
+                    onClick={() => {
+                        setIsEditFormVisible(true);
+                    }}
+                    className="categories-list__add-btn"
+                >
+                    <PlusOutlined />
+                </div>
+            )}
+            <CollectionCreateForm
+                visible={isEditFormVisible}
+                onCreate={onCreate}
+                onCancel={setIsEditFormVisible}
+            />
+        </>
     );
 };
 

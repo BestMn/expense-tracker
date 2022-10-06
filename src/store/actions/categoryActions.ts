@@ -26,7 +26,7 @@ export const getUserCategories = createAsyncThunk(
     async (userId: number, { getState }) => {
         const { token } = getState().userReducer;
         const res = await fetch(
-            `http://localhost:5000/api/category?userId=${userId}`,
+            `http://localhost:5000/api/category?user!Id=${userId}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -39,9 +39,9 @@ export const getUserCategories = createAsyncThunk(
 
 export const addUserCategory = createAsyncThunk(
     "category/addUserCategory",
-    async (data: AddUserCategoryData, { getState }) => {
+    async (data: AddUserCategoryData, { getState, rejectWithValue }) => {
         const { token } = getState().userReducer;
-        const res = await fetch(`http://localhost:5000/api/category`, {
+        const response = await fetch(`http://localhost:5000/api/category`, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -54,15 +54,19 @@ export const addUserCategory = createAsyncThunk(
             referrerPolicy: "no-referrer",
             body: JSON.stringify(data),
         });
-        return await res.json();
+        const res = await response.json();
+        if (!response.ok) {
+            return rejectWithValue(res);
+        }
+        return res;
     }
 );
 
 export const editUserCategory = createAsyncThunk(
     "category/editUserCategory",
-    async (data: EditUserCategoryData, { getState }) => {
+    async (data: EditUserCategoryData, { getState, rejectWithValue }) => {
         const { token } = getState().userReducer;
-        const res = await fetch(`http://localhost:5000/api/category`, {
+        const response = await fetch(`http://localhost:5000/api/category`, {
             method: "PATCH",
             mode: "cors",
             cache: "no-cache",
@@ -75,7 +79,11 @@ export const editUserCategory = createAsyncThunk(
             referrerPolicy: "no-referrer",
             body: JSON.stringify(data),
         });
-        return await res.json();
+        const res = await response.json();
+        if (!response.ok) {
+            return rejectWithValue(res);
+        }
+        return res;
     }
 );
 

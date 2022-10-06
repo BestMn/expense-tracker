@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserCategories } from "../../store/actions/categoryActions";
@@ -7,14 +8,18 @@ import CategoriesList from "./CategoriesList";
 const CategoriesListContainer = () => {
     const { userId } = useSelector((state: RootState) => state.userReducer);
 
-    const { categories, loading, error, shouldUpdate } = useSelector(
+    const { categories, loading, shouldUpdate } = useSelector(
         (state: RootState) => state.categoriesReducer
     );
 
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         if (shouldUpdate) {
-            dispatch(getUserCategories(userId));
+            dispatch(getUserCategories(userId))
+                .unwrap()
+                .catch((rejectedValue) => {
+                    message.error(rejectedValue.message);
+                });
         }
     }, [shouldUpdate]);
 

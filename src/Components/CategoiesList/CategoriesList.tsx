@@ -1,10 +1,11 @@
 import { useState, useEffect, ReactNode } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+
 import { Spin, Empty, Skeleton, Button } from "antd";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
 import "./CategoriesList.css";
 import { TCategory } from "../../store/reducers/categoriesReducer";
 import CategoriesListItemContainer from "../CategoriesListItem/CategoriesListItemContainer";
+import CreateCategoryFormContainer from "../CreateCategoryForm/CreateCategoryFormContainer";
 
 type CategoriesListProps = {
     categories: TCategory[] | null;
@@ -18,7 +19,6 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
     const [categoriesListItems, setCategoriesListItems] = useState<
         ReactNode[] | null
     >(null);
-    const [isEditFormVisible, setIsEditFormVisible] = useState(false);
 
     useEffect(() => {
         if (categories) {
@@ -39,23 +39,12 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
         );
     }
 
-    if (!categoriesListItems?.length) {
+    if (categoriesListItems && !categoriesListItems.length) {
         return (
             <div className="categories-list">
                 <Empty description={"There are no categories yet"}>
-                    <Button
-                        onClick={() => {
-                            setIsEditFormVisible(true);
-                        }}
-                        type="primary"
-                    >
-                        Create Now
-                    </Button>
+                    <CreateCategoryFormContainer empty />
                 </Empty>
-                <CreateCategoryForm
-                    isEditFormVisible={isEditFormVisible}
-                    setIsEditFormVisible={setIsEditFormVisible}
-                />
             </div>
         );
     }
@@ -64,18 +53,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
         <div className="categories-list">
             <div className="categories-list__content">
                 {categoriesListItems}
-                <div
-                    onClick={() => {
-                        setIsEditFormVisible(true);
-                    }}
-                    className="categories-list__add-btn"
-                >
-                    <PlusOutlined />
-                </div>
-                <CreateCategoryForm
-                    isEditFormVisible={isEditFormVisible}
-                    setIsEditFormVisible={setIsEditFormVisible}
-                />
+                <CreateCategoryFormContainer />
             </div>
         </div>
     );

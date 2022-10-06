@@ -103,19 +103,16 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
 
     if (data) {
         return (
-            <>
-                <h2>My Expenses</h2>
-                <ExpensesTable
-                    data={data}
-                    categories={categories}
-                    currency={currency}
-                    onDelete={onDelete}
-                    onEdit={onEdit}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    loading={expensesLoading}
-                />
-            </>
+            <ExpensesTable
+                data={data}
+                categories={categories}
+                currency={currency}
+                onDelete={onDelete}
+                onEdit={onEdit}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                loading={expensesLoading}
+            />
         );
     } else {
         return <Spin />;

@@ -40,7 +40,7 @@ export const getUserExpenses = createAsyncThunk(
 
 export const addUserExpense = createAsyncThunk(
     "expenses/addUserExpense",
-    async (data: AddUserExpenseData, { getState }) => {
+    async (data: AddUserExpenseData, { getState, rejectWithValue }) => {
         const { token } = getState().userReducer;
         const response = await fetch(`http://localhost:5000/api/expense`, {
             method: "POST",
@@ -55,7 +55,11 @@ export const addUserExpense = createAsyncThunk(
             referrerPolicy: "no-referrer",
             body: JSON.stringify(data),
         });
-        return await response.json();
+        const res = await response.json();
+        if (!response.ok) {
+            return rejectWithValue(res);
+        }
+        return res;
     }
 );
 

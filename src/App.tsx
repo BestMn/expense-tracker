@@ -38,9 +38,12 @@ function App() {
         const localData = localStorage.getItem("userData");
         if (localData) {
             const parsedData = JSON.parse(localData);
-            dispatch(checkUser(parsedData.token));
+            dispatch(checkUser(parsedData.token)).then(() =>
+                dispatch(setInitialTokenChecked(true))
+            );
+        } else {
+            dispatch(setInitialTokenChecked(true));
         }
-        dispatch(setInitialTokenChecked(true));
     }, []);
 
     useEffect(() => {

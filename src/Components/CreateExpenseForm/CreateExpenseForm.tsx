@@ -7,13 +7,16 @@ import {
     InputNumber,
     DatePicker,
     Empty,
+    Alert,
 } from "antd";
 import { TCategory } from "../../store/reducers/categoriesReducer";
 
 type CreateExpenseFormProps = {
     categories: TCategory[] | null;
-    currency: string;
+    currency: string | null;
     onFinish: (values: any) => void;
+    loading: boolean;
+    error: string | null;
 };
 
 const layout = {
@@ -25,6 +28,8 @@ const CreateExpenseForm: React.FC<CreateExpenseFormProps> = ({
     categories,
     onFinish,
     currency,
+    loading,
+    error,
 }) => {
     const [form] = Form.useForm();
 
@@ -83,10 +88,13 @@ const CreateExpenseForm: React.FC<CreateExpenseFormProps> = ({
                 <Input.TextArea showCount maxLength={250} />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={loading}>
                     Submit
                 </Button>
             </Form.Item>
+            {error ? (
+                <Alert message={error} type="error" showIcon closable />
+            ) : null}
         </Form>
     );
 };

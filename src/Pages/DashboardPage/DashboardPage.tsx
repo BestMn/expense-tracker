@@ -40,6 +40,7 @@ const DashboardPage: React.FC = () => {
                     }
                 >
                     <div className="app-block list-block">
+                        <h2>Quick Add</h2>
                         <CreateExpenseFormConitaner />
                     </div>
                 </Col>

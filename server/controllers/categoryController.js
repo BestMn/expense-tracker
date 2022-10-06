@@ -22,9 +22,15 @@ class CategoryController {
         return res.json({ category, token });
     }
 
-    async edit(req, res) {
+    async edit(req, res, next) {
         const { id, userId, name, icon, color } = req.body;
         const token = generateJwt(req.user.id, req.user.email);
+        const candidate = await Category.findOne({ where: { name, userId } });
+        if (candidate && candidate.id !== id) {
+            return next(
+                ApiError.badRequest("Категория с таким именем уже существует")
+            );
+        }
         const updatedCategory = await Category.update(
             {
                 name: name,

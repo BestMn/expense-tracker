@@ -10,7 +10,6 @@ interface IconPickerProps {
     iconValue: IconList;
     onChange: (value: IconList) => void;
     hideSearch?: boolean;
-    color: string;
 }
 
 const IconPicker: React.FC<IconPickerProps> = ({

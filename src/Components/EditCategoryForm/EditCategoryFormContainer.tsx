@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import EditCategoryForm from "./EditCategoryForm";
@@ -24,7 +25,11 @@ const EditCategoryFormContainer: React.FC<EditCategoryFormContainerProps> = ({
             icon: category.icon,
             color: category.color,
         };
-        dispatch(editUserCategory(newCategory));
+        dispatch(editUserCategory(newCategory))
+            .unwrap()
+            .catch((rejectedValue) => {
+                message.error(rejectedValue.message);
+            });
     };
 
     return (
