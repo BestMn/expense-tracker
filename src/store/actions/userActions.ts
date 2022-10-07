@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 export type UserRegistrationData = {
     nickName: string;
@@ -29,37 +30,18 @@ export type EditUserData = {
     currency: string;
 };
 
-export const userRegistration = createAsyncThunk(
-    "user/registration",
-    async (data: UserRegistrationData, { rejectWithValue }) => {
-        const response = await fetch(
-            `http://localhost:5000/api/user/registration`,
-            {
-                method: "POST",
-                mode: "cors",
-                cache: "no-cache",
-                credentials: "same-origin",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                redirect: "follow",
-                referrerPolicy: "no-referrer",
-                body: JSON.stringify(data),
-            }
-        );
-        const res = await response.json();
-        if (!response.ok) {
-            return rejectWithValue(res);
-        }
-        localStorage.setItem("userData", JSON.stringify({ token: res.token }));
-        return res;
-    }
-);
+type ErrorWithMessage = {
+    message: string;
+};
 
-export const userLogin = createAsyncThunk(
-    "user/login",
-    async (data: UserLoginData, { rejectWithValue }) => {
-        const response = await fetch(`http://localhost:5000/api/user/login`, {
+export const userRegistration = createAsyncThunk<
+    any,
+    UserRegistrationData,
+    { rejectValue: ErrorWithMessage }
+>("user/registration", async (data, { rejectWithValue }) => {
+    const response = await fetch(
+        `http://localhost:5000/api/user/registration`,
+        {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -70,18 +52,44 @@ export const userLogin = createAsyncThunk(
             redirect: "follow",
             referrerPolicy: "no-referrer",
             body: JSON.stringify(data),
-        });
-        const res = await response.json();
-        if (!response.ok) {
-            return rejectWithValue(res);
         }
-        return res;
+    );
+    const res = await response.json();
+    if (!response.ok) {
+        return rejectWithValue(res);
     }
-);
+    localStorage.setItem("userData", JSON.stringify({ token: res.token }));
+    return res;
+});
 
-export const getUserInfo = createAsyncThunk(
+export const userLogin = createAsyncThunk<
+    any,
+    UserLoginData,
+    { rejectValue: ErrorWithMessage }
+>("user/login", async (data, { rejectWithValue }) => {
+    const response = await fetch(`http://localhost:5000/api/user/login`, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(data),
+    });
+    const res = await response.json();
+    if (!response.ok) {
+        console.log(res);
+        return rejectWithValue(res);
+    }
+    return res;
+});
+
+export const getUserInfo = createAsyncThunk<any, number, { state: RootState }>(
     "users/getUserInfo",
-    async (userId: number, { getState }) => {
+    async (userId, { getState }) => {
         const { token } = getState().userReducer;
         const res = await fetch(
             `http://localhost:5000/api/user?userId=${userId}`,
@@ -114,23 +122,24 @@ export const checkUser = createAsyncThunk(
     }
 );
 
-export const editUser = createAsyncThunk(
-    "users/editUser",
-    async (data: EditUserData, { getState }) => {
-        const { token } = getState().userReducer;
-        const res = await fetch(`http://localhost:5000/api/user/`, {
-            method: "PATCH",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        });
-        return await res.json();
-    }
-);
+export const editUser = createAsyncThunk<
+    any,
+    EditUserData,
+    { state: RootState }
+>("users/editUser", async (data, { getState }) => {
+    const { token } = getState().userReducer;
+    const res = await fetch(`http://localhost:5000/api/user/`, {
+        method: "PATCH",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(data),
+    });
+    return await res.json();
+});

@@ -51,14 +51,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish, error, loading }) => {
                     <Input.Password />
                 </Form.Item>
 
-                <Form.Item
-                    name="remember"
-                    valuePropName="checked"
-                    wrapperCol={{ offset: 4, span: 16 }}
-                >
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-
                 <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
                     <Button
                         type="primary"

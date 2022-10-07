@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
     addUserExpense,
@@ -9,8 +9,6 @@ import CreateExpenseForm from "./CreateExpenseForm";
 
 const CreateExpenseFormConitaner = () => {
     const dispatch = useDispatch<AppDispatch>();
-
-    const [error, setError] = useState(null);
 
     const { userId, currency } = useSelector(
         (state: RootState) => state.userReducer
@@ -23,7 +21,6 @@ const CreateExpenseFormConitaner = () => {
     );
 
     const onFinish = (value: AddUserExpenseData) => {
-        setError(null);
         const data: AddUserExpenseData = {
             userId: userId,
             date: value.date,
@@ -34,7 +31,7 @@ const CreateExpenseFormConitaner = () => {
         dispatch(addUserExpense(data))
             .unwrap()
             .catch((rejectedValue) => {
-                setError(rejectedValue.message);
+                message.error(rejectedValue.message);
             });
     };
 
@@ -44,7 +41,6 @@ const CreateExpenseFormConitaner = () => {
             currency={currency}
             onFinish={onFinish}
             loading={loading}
-            error={error}
         />
     );
 };

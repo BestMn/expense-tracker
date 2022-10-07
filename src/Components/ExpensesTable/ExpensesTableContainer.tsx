@@ -111,7 +111,7 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
                 onEdit={onEdit}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
-                loading={expensesLoading}
+                loading={expensesLoading || categoriesLoading}
             />
         );
     } else {

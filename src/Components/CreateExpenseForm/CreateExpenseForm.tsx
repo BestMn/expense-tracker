@@ -1,14 +1,5 @@
 import React from "react";
-import {
-    Button,
-    Form,
-    Input,
-    Select,
-    InputNumber,
-    DatePicker,
-    Empty,
-    Alert,
-} from "antd";
+import { Button, Form, Input, Select, InputNumber, DatePicker } from "antd";
 import { TCategory } from "../../store/reducers/categoriesReducer";
 
 type CreateExpenseFormProps = {
@@ -16,7 +7,6 @@ type CreateExpenseFormProps = {
     currency: string | null;
     onFinish: (values: any) => void;
     loading: boolean;
-    error: string | null;
 };
 
 const layout = {
@@ -29,7 +19,6 @@ const CreateExpenseForm: React.FC<CreateExpenseFormProps> = ({
     onFinish,
     currency,
     loading,
-    error,
 }) => {
     const [form] = Form.useForm();
 
@@ -92,9 +81,6 @@ const CreateExpenseForm: React.FC<CreateExpenseFormProps> = ({
                     Submit
                 </Button>
             </Form.Item>
-            {error ? (
-                <Alert message={error} type="error" showIcon closable />
-            ) : null}
         </Form>
     );
 };
