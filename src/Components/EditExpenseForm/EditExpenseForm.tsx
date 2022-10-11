@@ -20,12 +20,12 @@ interface CollectionCreateFormProps {
     onCancel: () => void;
     editedExpense: TTableExpense;
     categoriesList: Array<ReactElement> | ReactElement;
-    currency: string;
+    currency: string | null;
 }
 
 type EditExpenseFormProps = {
     onEdit: (values: EditUserExpenseData) => void;
-    currency: string;
+    currency: string | null;
     editedExpense: TTableExpense;
 };
 

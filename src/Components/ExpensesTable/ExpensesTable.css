@@ -1,9 +1,13 @@
-.expense-category {
+.expense-table__row {
+    height: 70px;
+}
+
+.expense-table__category-cell {
     display: flex;
     align-items: center;
 }
 
-.expense-category-icon {
+.expense-table__category-icon {
     background-color: brown;
     color: white;
     height: 34px;
@@ -11,17 +15,25 @@
     border-radius: 50%;
     margin-right: 4px;
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
 }
 
-.expense-table__row {
-    height: 70px;
+.expense-table__category-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.expense-table__description-cell {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* number of lines to show */
-    -webkit-box-orient: vertical;
+.expense-table__action-cell {
+    display: flex;
+    justify-content: start;
+}
+
+.expense-table__action-cell > * {
+    margin-right: 10px;
+}
+
+.expense-table__action-cell > *:nth-child(2) {
+    margin-right: 0;
 }

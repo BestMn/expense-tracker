@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TopCategories from "./TopCategories";
 import { useSelector } from "react-redux";
-import { Select } from "antd";
+import { Select, Spin } from "antd";
 import "./TopCategories.css";
 import { RootState } from "../../store/store";
 
@@ -66,17 +66,19 @@ const TopCategoriesContainer = () => {
         }
     }, [expenses, categories, period]);
 
-    if (data) {
-        return (
-            <>
-                <h2>
-                    Top Categories of the last{" "}
-                    <PeriodSelect handleChange={handleChange} />
-                </h2>
-                <TopCategories data={data} currency={currency} />
-            </>
-        );
+    if (!data) {
+        return <Spin />;
     }
+
+    return (
+        <>
+            <h2>
+                Top Categories of the last{" "}
+                <PeriodSelect handleChange={handleChange} />
+            </h2>
+            <TopCategories data={data} currency={currency} />
+        </>
+    );
 };
 
 type PeriodSelectProps = {

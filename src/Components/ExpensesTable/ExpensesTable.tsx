@@ -40,6 +40,7 @@ type ExpenseTableProps = {
     data: Array<TTableExpense>;
     categories: TCategory[] | null;
     currency: string | null;
+    loading: boolean;
     onDelete: (value: number) => void;
     onEdit: (value: EditUserExpenseData) => void;
     currentPage: number;
@@ -50,11 +51,11 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
     data,
     categories,
     currency = "$",
+    loading,
     onDelete,
     onEdit,
     currentPage,
     setCurrentPage,
-    loading,
 }) => {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
@@ -150,17 +151,20 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
             dataIndex: "category",
             key: "category",
             width: "20%",
+            ellipsis: true,
             render: (text, record) => {
                 if (text && record) {
                     return (
-                        <div className="expense-category">
+                        <div className="expense-table__category-cell">
                             <div
                                 style={{ backgroundColor: record.color }}
-                                className="expense-category-icon"
+                                className="expense-table__category-icon"
                             >
                                 {React.createElement(FontIcon[record.icon])}
                             </div>
-                            {` ${text}`}
+                            <span className="expense-table__category-name">
+                                {text}
+                            </span>
                         </div>
                     );
                 }
@@ -178,7 +182,7 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
             title: "Amount",
             dataIndex: "amount",
             key: "amount",
-            width: "15%",
+            width: "12%",
             render: (text) => {
                 if (text) {
                     return <span>{`${text} ${currency}`}</span>;
@@ -203,11 +207,11 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
         {
             title: "Action",
             key: "action",
-            width: "20%",
+            width: "23%",
             render: (_, record, index) => {
                 if (record.id) {
                     return (
-                        <Space size="middle">
+                        <div className="expense-table__action-cell">
                             <EditExpenseForm
                                 editedExpense={record}
                                 onEdit={onEdit}
@@ -220,7 +224,7 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
                             >
                                 Delete
                             </Button>
-                        </Space>
+                        </div>
                     );
                 }
             },
@@ -234,12 +238,15 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
                 current: currentPage,
                 onChange: (page) => setCurrentPage(page),
             }}
+            scroll={{
+                x: 700,
+            }}
             columns={
                 loading
                     ? columns.map((column, index) => {
                           return {
                               ...column,
-                              render: function renderPlaceholder() {
+                              render: () => {
                                   return (
                                       <Skeleton
                                           key={index}
@@ -261,6 +268,7 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
                     return record.key;
                 } else return "defaultKey";
             }}
+            className={"expense-table"}
             rowClassName={(record, index) => "expense-table__row"}
         />
     );
