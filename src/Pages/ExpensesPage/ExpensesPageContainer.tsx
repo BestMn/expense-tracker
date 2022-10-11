@@ -1,30 +1,41 @@
 import { useEffect } from "react";
 import ExpensesPage from "./ExpensesPage";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../store/store";
-import { getUserExpenses } from "../../store/reducers/expensesReducer";
-import { getUserCategories } from "../../store/reducers/categoriesReducer";
-
+import { AppDispatch, RootState } from "../../store/store";
+import { getUserCategories } from "../../store/actions/categoryActions";
+import { getUserExpenses } from "../../store/actions/expenseActions";
+import { message } from "antd";
 const ExpensePageContainer = () => {
-    // const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch<AppDispatch>();
 
-    // const { token, userId } = useSelector((state) => state.userReducer);
-    // const {
-    //     expenses,
-    //     loading: expensesLoading,
-    //     error,
-    // } = useSelector((state: any) => state.expensesReducer);
+    const { userId } = useSelector((state: RootState) => state.userReducer);
+    const { shouldUpdate: shouldUpdateExpenses } = useSelector(
+        (state: RootState) => state.expensesReducer
+    );
 
-    // const { categories, loading: categoriesLoading } = useSelector(
-    //     (state: any) => state.categoriesReducer
-    // );
+    const { shouldUpdate: shouldUpdateCategories } = useSelector(
+        (state: RootState) => state.categoriesReducer
+    );
 
-    // useEffect(() => {
-    //     if (token) {
-    //         dispatch(getUserCategories(userId));
-    //         dispatch(getUserExpenses(userId));
-    //     }
-    // }, [token]);
+    useEffect(() => {
+        if (shouldUpdateCategories) {
+            dispatch(getUserCategories(userId))
+                .unwrap()
+                .catch((rejectedValue) => {
+                    message.error(rejectedValue.message);
+                });
+        }
+    }, [shouldUpdateCategories]);
+
+    useEffect(() => {
+        if (shouldUpdateExpenses) {
+            dispatch(getUserExpenses(userId))
+                .unwrap()
+                .catch((rejectedValue) => {
+                    message.error(rejectedValue.message);
+                });
+        }
+    }, [shouldUpdateExpenses]);
 
     return <ExpensesPage />;
 };

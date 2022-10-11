@@ -26,17 +26,13 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
     const dispatch = useDispatch<AppDispatch>();
     const [data, setData] = useState<TTableExpense[] | null>(null);
 
-    const {
-        expenses,
-        loading: expensesLoading,
-        shouldUpdate: shouldUpdateExpenses,
-    } = useSelector((state: RootState) => state.expensesReducer);
+    const { expenses, loading: expensesLoading } = useSelector(
+        (state: RootState) => state.expensesReducer
+    );
 
-    const {
-        categories,
-        loading: categoriesLoading,
-        shouldUpdate: shouldUpdateCategories,
-    } = useSelector((state: RootState) => state.categoriesReducer);
+    const { categories, loading: categoriesLoading } = useSelector(
+        (state: RootState) => state.categoriesReducer
+    );
 
     const { userId, currency } = useSelector(
         (state: RootState) => state.userReducer
@@ -57,18 +53,6 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
         };
         dispatch(editUserExpense(newExpense));
     };
-
-    useEffect(() => {
-        if (shouldUpdateCategories) {
-            dispatch(getUserCategories(userId));
-        }
-    }, [shouldUpdateCategories]);
-
-    useEffect(() => {
-        if (shouldUpdateExpenses) {
-            dispatch(getUserExpenses(userId));
-        }
-    }, [shouldUpdateExpenses]);
 
     useEffect(() => {
         if (expenses && categories && !expensesLoading && !categoriesLoading) {

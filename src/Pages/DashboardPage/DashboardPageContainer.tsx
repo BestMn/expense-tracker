@@ -5,35 +5,39 @@ import { AppDispatch } from "../../store/store";
 import { RootState } from "../../store/store";
 import { getUserCategories } from "../../store/actions/categoryActions";
 import { getUserExpenses } from "../../store/actions/expenseActions";
+import { message } from "antd";
 
 const DashboardPageContainer = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { userId } = useSelector((state: RootState) => state.userReducer);
-    const {
-        expenses,
-        loading: expensesLoading,
-        error,
-        shouldUpdate: shouldUpdateExpenses,
-    } = useSelector((state: any) => state.expensesReducer);
+    const { shouldUpdate: shouldUpdateExpenses } = useSelector(
+        (state: RootState) => state.expensesReducer
+    );
 
-    const {
-        categories,
-        loading: categoriesLoading,
-        shouldUpdate: shouldUpdateCategories,
-    } = useSelector((state: any) => state.categoriesReducer);
+    const { shouldUpdate: shouldUpdateCategories } = useSelector(
+        (state: RootState) => state.categoriesReducer
+    );
 
     useEffect(() => {
-        if (userId && shouldUpdateCategories === true) {
-            dispatch(getUserCategories(userId));
+        if (shouldUpdateCategories) {
+            dispatch(getUserCategories(userId))
+                .unwrap()
+                .catch((rejectedValue) => {
+                    message.error(rejectedValue.message);
+                });
         }
     }, [userId, shouldUpdateCategories]);
 
     useEffect(() => {
-        if (userId && shouldUpdateExpenses === true) {
-            dispatch(getUserExpenses(userId));
+        if (shouldUpdateExpenses) {
+            dispatch(getUserExpenses(userId))
+                .unwrap()
+                .catch((rejectedValue) => {
+                    message.error(rejectedValue.message);
+                });
         }
-    }, [userId, shouldUpdateExpenses]);
+    }, [shouldUpdateExpenses]);
 
     return <DashboardPage />;
 };
