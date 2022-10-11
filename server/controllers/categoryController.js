@@ -10,55 +10,84 @@ const generateJwt = (id, email) => {
 
 class CategoryController {
     async create(req, res, next) {
-        const { userId, name, icon, color } = req.body;
-        const candidate = await Category.findOne({ where: { name, userId } });
-        if (candidate) {
-            return next(
-                ApiError.badRequest("Категория с таким именем уже существует")
-            );
+        try {
+            const { userId, name, icon, color } = req.body;
+            const candidate = await Category.findOne({
+                where: { name, userId },
+            });
+            if (candidate) {
+                return next(
+                    ApiError.badRequest(
+                        "Категория с таким именем уже существует"
+                    )
+                );
+            }
+            const token = generateJwt(req.user.id, req.user.email);
+            const category = await Category.create({
+                userId,
+                name,
+                icon,
+                color,
+            });
+            return res.json({ category, token });
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
-        const token = generateJwt(req.user.id, req.user.email);
-        const category = await Category.create({ userId, name, icon, color });
-        return res.json({ category, token });
     }
 
     async edit(req, res, next) {
-        const { id, userId, name, icon, color } = req.body;
-        const token = generateJwt(req.user.id, req.user.email);
-        const candidate = await Category.findOne({ where: { name, userId } });
-        if (candidate && candidate.id !== id) {
-            return next(
-                ApiError.badRequest("Категория с таким именем уже существует")
+        try {
+            const { id, userId, name, icon, color } = req.body;
+            const token = generateJwt(req.user.id, req.user.email);
+            const candidate = await Category.findOne({
+                where: { name, userId },
+            });
+            if (candidate && candidate.id !== id) {
+                return next(
+                    ApiError.badRequest(
+                        "Категория с таким именем уже существует"
+                    )
+                );
+            }
+            const updatedCategory = await Category.update(
+                {
+                    name: name,
+                    icon: icon,
+                    color: color,
+                },
+                { where: { id }, returning: true }
             );
+            return res.json({ updatedCategory, token });
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
-        const updatedCategory = await Category.update(
-            {
-                name: name,
-                icon: icon,
-                color: color,
-            },
-            { where: { id }, returning: true }
-        );
-        return res.json({ updatedCategory, token });
     }
 
-    async delete(req, res) {
-        const { id, userId } = req.body;
-        const token = generateJwt(req.user.id, req.user.email);
-        const deletedCategory = await Category.destroy({
-            where: { id, userId },
-        });
+    async delete(req, res, next) {
+        try {
+            const { id, userId } = req.body;
+            const token = generateJwt(req.user.id, req.user.email);
+            const deletedCategory = await Category.destroy({
+                where: { id, userId },
+            });
 
-        return res.json({ deletedCategory, token });
+            return res.json({ deletedCategory, token });
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
     }
 
-    async getAll(req, res) {
-        const { userId } = req.query;
-        const categories = await Category.findAll({
-            where: { userId },
-            order: ["createdAt"],
-        });
-        return res.json(categories);
+    async getAll(req, res, next) {
+        try {
+            const { userId } = req.query;
+            const categories = await Category.findAll({
+                where: { userId },
+                order: ["createdAt"],
+            });
+            return res.json(categories);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
     }
 }
 

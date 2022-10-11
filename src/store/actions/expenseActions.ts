@@ -73,10 +73,10 @@ export const addUserExpense = createAsyncThunk<
 export const editUserExpense = createAsyncThunk<
     any,
     EditUserExpenseData,
-    { state: RootState }
->("expenses/editUserExpense", async (data, { getState }) => {
+    { state: RootState; rejectValue: ErrorWithMessage }
+>("expenses/editUserExpense", async (data, { getState, rejectWithValue }) => {
     const { token } = getState().userReducer;
-    const res = await fetch(`http://localhost:5000/api/expense`, {
+    const response = await fetch(`http://localhost:5000/api/expense`, {
         method: "PATCH",
         mode: "cors",
         cache: "no-cache",
@@ -89,7 +89,11 @@ export const editUserExpense = createAsyncThunk<
         referrerPolicy: "no-referrer",
         body: JSON.stringify(data),
     });
-    return await res.json();
+    const res = await response.json();
+    if (!response.ok) {
+        return rejectWithValue(res);
+    }
+    return res;
 });
 
 export const deleteUserExpense = createAsyncThunk<

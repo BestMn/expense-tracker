@@ -30,51 +30,66 @@ class ExpenseController {
         }
     }
 
-    async edit(req, res) {
-        const { id, categoryId, amount, date, description, userId } = req.body;
-        const token = generateJwt(req.user.id, req.user.email);
-        const updatedExpense = await Expense.update(
-            {
-                categoryId,
-                amount,
-                date,
-                description,
-            },
-            { where: { id, userId }, returning: true }
-        );
-        return res.json({ updatedExpense, token });
+    async edit(req, res, next) {
+        try {
+            const { id, categoryId, amount, date, description, userId } =
+                req.body;
+            const token = generateJwt(req.user.id, req.user.email);
+            const updatedExpense = await Expense.update(
+                {
+                    categoryId,
+                    amount,
+                    date,
+                    description,
+                },
+                { where: { id, userId }, returning: true }
+            );
+            return res.json({ updatedExpense, token });
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
     }
 
-    async delete(req, res) {
-        const { id, userId } = req.body;
-        const token = generateJwt(req.user.id, req.user.email);
-        const deletedExpense = await Expense.destroy({ where: { id, userId } });
-        return res.json({ deletedExpense, token });
+    async delete(req, res, next) {
+        try {
+            const { id, userId } = req.body;
+            const token = generateJwt(req.user.id, req.user.email);
+            const deletedExpense = await Expense.destroy({
+                where: { id, userId },
+            });
+            return res.json({ deletedExpense, token });
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
     }
 
-    async getAll(req, res) {
-        let { userId } = req.query;
-        // let where = { userId: userId };
-        // if (date) {
-        //     const momentDate = moment(date);
-        //     where = {
-        //         userId: { [Op.eq]: userId },
-        //         date: {
-        //             [Op.between]: [
-        //                 momentDate.startOf("day").toString(),
-        //                 momentDate.endOf("day").toString(),
-        //             ],
-        //         },
-        //     };
-        // }
-        // page = page || 1;
-        // limit = limit || 10;
-        // let offset = page * limit - limit;
-        let expenses = await Expense.findAll({
-            where: { userId },
-            order: [["date", "DESC"]],
-        });
-        return res.json(expenses);
+    async getAll(req, res, next) {
+        try {
+            let { userId } = req.query;
+            // let where = { userId: userId };
+            // if (date) {
+            //     const momentDate = moment(date);
+            //     where = {
+            //         userId: { [Op.eq]: userId },
+            //         date: {
+            //             [Op.between]: [
+            //                 momentDate.startOf("day").toString(),
+            //                 momentDate.endOf("day").toString(),
+            //             ],
+            //         },
+            //     };
+            // }
+            // page = page || 1;
+            // limit = limit || 10;
+            // let offset = page * limit - limit;
+            let expenses = await Expense.findAll({
+                where: { userId },
+                order: [["date", "DESC"]],
+            });
+            return res.json(expenses);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-import { Spin, Skeleton } from "antd";
+import { Spin, Skeleton, message } from "antd";
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
@@ -51,7 +51,11 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
             date: expense.date,
             description: expense.description,
         };
-        dispatch(editUserExpense(newExpense));
+        dispatch(editUserExpense(newExpense))
+            .unwrap()
+            .catch((rejectedValue) => {
+                message.error(rejectedValue.message);
+            });
     };
 
     useEffect(() => {
