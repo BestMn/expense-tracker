@@ -1,3 +1,8 @@
+:root {
+    --categories-list-item-height: 80px;
+    --categories-list-item-width: 80px;
+}
+
 .categories-list__content {
     justify-content: center;
     display: flex;
@@ -8,8 +13,8 @@
     padding: 8px;
     background-color: white;
     color: #bfbfbf;
-    height: var(--item-height);
-    width: var(--item-width);
+    height: var(--categories-list-item-height);
+    width: var(--categories-list-item-width);
     border: 2px solid #bfbfbf;
     border-radius: 10px;
     margin: 10px;

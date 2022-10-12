@@ -1,11 +1,8 @@
 .categories-list__item {
-    --item-height: 80px;
-    --item-width: 80px;
-    padding: calc(var(--item-width) * 0.1);
-    background-color: brown;
+    padding: calc(var(--categories-list-item-width) * 0.1);
     color: white;
-    height: var(--item-height);
-    width: var(--item-width);
+    height: var(--categories-list-item-height);
+    width: var(--categories-list-item-width);
     border-radius: 10px;
     margin: 10px;
     display: flex;
@@ -19,7 +16,7 @@
 }
 .categories-list-item__buttons-container {
     transition: opacity 0.5s;
-    font-size: calc(var(--item-width) * 0.2);
+    font-size: calc(var(--categories-list-item-width) * 0.2);
     opacity: 0%;
     width: 100%;
     display: flex;
@@ -28,14 +25,14 @@
 
 .categories-list-item__icon {
     display: inline-flex;
-    font-size: calc(var(--item-width) * 0.4);
+    font-size: calc(var(--categories-list-item-width) * 0.4);
 }
 
 .categories-list-item__name {
     margin-bottom: -10px;
     padding-bottom: 10px;
     font-weight: 600;
-    font-size: calc(var(--item-width) * 0.16);
+    font-size: calc(var(--categories-list-item-width) * 0.16);
     width: 100%;
     line-height: 120%;
     text-align: center;

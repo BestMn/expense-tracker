@@ -1,16 +1,14 @@
-import { Spin, Skeleton, message } from "antd";
-import React, { useState, useEffect, useCallback } from "react";
+import { Spin, message } from "antd";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import ExpensesTable, { TTableExpense } from "./ExpensesTable";
 import dateFormatter from "../../services/dateFormatter";
 import withPagination from "../../HOC/withPagination";
-import { getUserCategories } from "../../store/actions/categoryActions";
 import {
     deleteUserExpense,
     editUserExpense,
     EditUserExpenseData,
-    getUserExpenses,
 } from "../../store/actions/expenseActions";
 import { RootState } from "../../store/store";
 
@@ -34,9 +32,11 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
         (state: RootState) => state.categoriesReducer
     );
 
-    const { userId, currency } = useSelector(
-        (state: RootState) => state.userReducer
-    );
+    const {
+        userId,
+        currency,
+        loading: userLoading,
+    } = useSelector((state: RootState) => state.userReducer);
 
     const onDelete = (id: number) => {
         dispatch(deleteUserExpense({ id, userId }));
@@ -59,7 +59,7 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
     };
 
     useEffect(() => {
-        if (expenses && categories && !expensesLoading && !categoriesLoading) {
+        if (expenses && categories) {
             // Adding category information into expense objects
             const expensesWithCategories: TTableExpense[] = expenses.map(
                 (elem) => {
@@ -89,22 +89,22 @@ const ExpensesTableContainer: React.FC<ExpensesTableContainerProps> = ({
         }
     }, [expenses, categories]);
 
-    if (data) {
-        return (
-            <ExpensesTable
-                data={data}
-                categories={categories}
-                currency={currency}
-                onDelete={onDelete}
-                onEdit={onEdit}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                loading={expensesLoading || categoriesLoading}
-            />
-        );
-    } else {
+    if (userLoading || !data) {
         return <Spin />;
     }
+
+    return (
+        <ExpensesTable
+            data={data}
+            categories={categories}
+            currency={currency}
+            onDelete={onDelete}
+            onEdit={onEdit}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            loading={expensesLoading}
+        />
+    );
 };
 
 export default withPagination(ExpensesTableContainer);

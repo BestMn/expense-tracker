@@ -57,10 +57,6 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
     currentPage,
     setCurrentPage,
 }) => {
-    const [searchText, setSearchText] = useState("");
-    const [searchedColumn, setSearchedColumn] = useState("");
-    const searchInput = useRef<InputRef>(null);
-
     const disabledDates = (current: moment.Moment) => {
         const cur = current.utc().format("DD-MM-YYYY");
         return !data.find((elem) => elem.date == cur);
@@ -72,13 +68,10 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
         dataIndex: DataIndex
     ) => {
         confirm();
-        setSearchText(selectedKeys[0]);
-        setSearchedColumn(dataIndex);
     };
 
     const handleReset = (clearFilters: () => void) => {
         clearFilters();
-        setSearchText("");
     };
 
     const getColumnSearchProps = (
@@ -122,11 +115,6 @@ const ExpensesTable: React.FC<ExpenseTableProps> = ({
                     .toLowerCase()
                     .includes((value as string).toLowerCase());
             } else return false;
-        },
-        onFilterDropdownVisibleChange: (visible: boolean) => {
-            if (visible) {
-                setTimeout(() => searchInput.current?.select(), 100);
-            }
         },
     });
 

@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { message, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
     addUserExpense,
@@ -10,13 +10,15 @@ import CreateExpenseForm from "./CreateExpenseForm";
 const CreateExpenseFormConitaner = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { userId, currency } = useSelector(
-        (state: RootState) => state.userReducer
-    );
-    const { categories } = useSelector(
+    const {
+        userId,
+        currency,
+        loading: userLoading,
+    } = useSelector((state: RootState) => state.userReducer);
+    const { categories, loading: categoriesLoading } = useSelector(
         (state: RootState) => state.categoriesReducer
     );
-    const { loading } = useSelector(
+    const { loading: expensesLoading } = useSelector(
         (state: RootState) => state.expensesReducer
     );
 
@@ -35,12 +37,16 @@ const CreateExpenseFormConitaner = () => {
             });
     };
 
+    if (categoriesLoading || userLoading) {
+        return <Spin />;
+    }
+
     return (
         <CreateExpenseForm
             categories={categories}
             currency={currency}
             onFinish={onFinish}
-            loading={loading}
+            loading={expensesLoading}
         />
     );
 };
