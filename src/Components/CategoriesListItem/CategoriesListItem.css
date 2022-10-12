@@ -32,12 +32,15 @@
 }
 
 .categories-list-item__name {
+    margin-bottom: -10px;
+    padding-bottom: 10px;
     font-weight: 600;
     font-size: calc(var(--item-width) * 0.16);
     width: 100%;
-    line-height: normal;
+    line-height: 120%;
     text-align: center;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
     white-space: nowrap;
     text-overflow: ellipsis;
 }

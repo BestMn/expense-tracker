@@ -41,10 +41,7 @@ const CategoriesListItem: React.FC<CategoriesListItemProps> = ({
         >
             <div className="categories-list-item__buttons-container">
                 <EditCategoryFormContainer editedCategory={item} />
-                <DeleteFilled
-                    style={{ fontSize: "16px" }}
-                    onClick={() => showConfirm(item.id)}
-                />
+                <DeleteFilled onClick={() => showConfirm(item.id)} />
             </div>
             <span className="categories-list-item__icon">
                 {React.createElement(FontIcon[item.icon])}
