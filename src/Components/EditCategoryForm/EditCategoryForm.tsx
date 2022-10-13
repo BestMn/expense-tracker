@@ -52,16 +52,43 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
                 name="form_in_modal"
                 initialValues={editedCategory}
             >
-                <Form.Item name={["name"]} label="Name">
+                <Form.Item
+                    name={["name"]}
+                    label="Name"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please input name of category!",
+                        },
+                    ]}
+                >
                     <Input />
                 </Form.Item>
-                <Form.Item label={"Choose color"} name={["color"]}>
+                <Form.Item
+                    label={"Choose color"}
+                    name={["color"]}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please choose color of category!",
+                        },
+                    ]}
+                >
                     <Colorpicker
                         picker={"CirclePicker"}
                         onColorResult={(color) => color.hex}
                     />
                 </Form.Item>
-                <Form.Item label={"Choose icon"} name={["icon"]}>
+                <Form.Item
+                    label={"Choose icon"}
+                    name={["icon"]}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please choose icon of category!",
+                        },
+                    ]}
+                >
                     <IconPicker
                         iconValue={iconValue}
                         onChange={(v) => setIconValue(v)}
