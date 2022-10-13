@@ -19,14 +19,12 @@ export type TCategoryState = {
     loading: boolean;
     error: any;
     categories: Array<TCategory> | null;
-    shouldUpdate: boolean;
 };
 
 const initialState: TCategoryState = {
     loading: false,
     error: null,
     categories: null,
-    shouldUpdate: true,
 };
 
 const categoriesSlice = createSlice({
@@ -40,13 +38,6 @@ const categoriesSlice = createSlice({
             })
             .addCase(getUserCategories.fulfilled, (state, action) => {
                 state.loading = false;
-                state.shouldUpdate = false;
-                if (
-                    JSON.stringify(current(state).categories) ==
-                    JSON.stringify(action.payload)
-                ) {
-                    return;
-                }
                 state.categories = action.payload;
             })
             .addCase(getUserCategories.rejected, (state, action) => {
@@ -57,8 +48,8 @@ const categoriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(addUserCategory.fulfilled, (state, action) => {
-                state.loading = false;
                 state.categories?.push(action.payload.category);
+                state.loading = false;
             })
             .addCase(addUserCategory.rejected, (state, action) => {
                 state.loading = false;
@@ -68,8 +59,12 @@ const categoriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(editUserCategory.fulfilled, (state, action) => {
+                const updatedCategoryInx = state.categories.findIndex(
+                    (el) => el.id == action.payload.updatedCategory[1][0].id
+                );
+                state.categories[updatedCategoryInx] =
+                    action.payload.updatedCategory[1][0];
                 state.loading = false;
-                state.shouldUpdate = true;
             })
             .addCase(editUserCategory.rejected, (state, action) => {
                 state.loading = false;
@@ -79,8 +74,13 @@ const categoriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(deleteUserCategory.fulfilled, (state, action) => {
+                const deletedCategoryInx = state.categories.findIndex(
+                    (el) => el.id == action.meta.arg.id
+                );
+                if (deletedCategoryInx >= 0) {
+                    state.categories.splice(deletedCategoryInx, 1);
+                }
                 state.loading = false;
-                state.shouldUpdate = true;
             })
             .addCase(deleteUserCategory.rejected, (state, action) => {
                 state.loading = false;

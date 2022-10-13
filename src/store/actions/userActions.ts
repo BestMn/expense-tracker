@@ -81,7 +81,6 @@ export const userLogin = createAsyncThunk<
     });
     const res = await response.json();
     if (!response.ok) {
-        console.log(res);
         return rejectWithValue(res);
     }
     return res;

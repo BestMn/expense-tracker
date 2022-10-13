@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUserCategory } from "../../store/actions/categoryActions";
 import { TCategory } from "../../store/reducers/categoriesReducer";
@@ -16,7 +17,11 @@ const CategoriesListItemContainer: React.FC<
     const { userId } = useSelector((state: RootState) => state.userReducer);
 
     const deleteHandler = (id: number) => {
-        dispatch(deleteUserCategory({ id, userId }));
+        dispatch(deleteUserCategory({ id, userId }))
+            .unwrap()
+            .catch((rejectedValue) => {
+                message.error(rejectedValue.message);
+            });
     };
 
     return <CategoriesListItem item={item} deleteHandler={deleteHandler} />;

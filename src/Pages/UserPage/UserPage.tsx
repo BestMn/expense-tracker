@@ -37,7 +37,7 @@ const UserPage: React.FC<UserPageProps> = ({ userData, onFinish }) => {
                             size="large"
                             icon={<EditFilled />}
                             className="profile-block__header-edit-btn"
-                            onClick={() => setEditMode(!editMode)}
+                            onClick={() => setEditMode(true)}
                         >
                             Edit
                         </Button>
@@ -45,8 +45,10 @@ const UserPage: React.FC<UserPageProps> = ({ userData, onFinish }) => {
                 </div>
                 <Form
                     form={form}
-                    onFinish={(value) => onFinish(value)}
-                    initialValues={userData}
+                    onFinish={(value) => {
+                        onFinish(value);
+                        setEditMode(false);
+                    }}
                 >
                     <div className="profile-block__info">
                         <div className="profile-block__info-item">
@@ -55,7 +57,10 @@ const UserPage: React.FC<UserPageProps> = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item name={["firstName"]}>
+                                    <Form.Item
+                                        name={"firstName"}
+                                        initialValue={userData.firstName}
+                                    >
                                         <Input
                                             placeholder="First Name"
                                             size="large"
@@ -73,7 +78,10 @@ const UserPage: React.FC<UserPageProps> = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item name={["secondName"]}>
+                                    <Form.Item
+                                        name={"secondName"}
+                                        initialValue={userData.secondName}
+                                    >
                                         <Input
                                             placeholder="Second Name"
                                             size="large"
@@ -91,7 +99,10 @@ const UserPage: React.FC<UserPageProps> = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item name={["nickName"]}>
+                                    <Form.Item
+                                        name={"nickName"}
+                                        initialValue={userData.nickName}
+                                    >
                                         <Input
                                             placeholder="Nickname"
                                             size="large"
@@ -109,7 +120,10 @@ const UserPage: React.FC<UserPageProps> = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item name={["phoneNumber"]}>
+                                    <Form.Item
+                                        name={"phoneNumber"}
+                                        initialValue={userData.phoneNumber}
+                                    >
                                         <Input
                                             placeholder="Phone Number"
                                             size="large"
@@ -127,7 +141,10 @@ const UserPage: React.FC<UserPageProps> = ({ userData, onFinish }) => {
                             </div>
                             <div className="profile-block__info-item-text">
                                 {editMode ? (
-                                    <Form.Item name={["currency"]}>
+                                    <Form.Item
+                                        name={"currency"}
+                                        initialValue={userData.currency}
+                                    >
                                         <Input
                                             placeholder="Currency"
                                             size="large"

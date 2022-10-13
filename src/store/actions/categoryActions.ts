@@ -98,21 +98,28 @@ export const editUserCategory = createAsyncThunk<
 export const deleteUserCategory = createAsyncThunk<
     any,
     DeleteUserCategoryData,
-    { state: RootState }
->("expenses/deleteUserCategory", async (data, { getState }) => {
-    const { token } = getState().userReducer;
-    const res = await fetch(`http://localhost:5000/api/category`, {
-        method: "DELETE",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify(data),
-    });
-    return await res.json();
-});
+    { state: RootState; rejectValue: ErrorWithMessage }
+>(
+    "expenses/deleteUserCategory",
+    async (data, { getState, rejectWithValue }) => {
+        const { token } = getState().userReducer;
+        const response = await fetch(`http://localhost:5000/api/category`, {
+            method: "DELETE",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+        });
+        const res = await response.json();
+        if (!response.ok) {
+            return rejectWithValue(res);
+        }
+        return res;
+    }
+);

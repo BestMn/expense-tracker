@@ -18,20 +18,20 @@ export type DonutExpense = {
 const DonutPlotContainer = () => {
     const [data, setData] = useState<DonutExpense[] | null>(null);
 
-    const { currency } = useSelector((state: RootState) => state.userReducer);
+    const { currency, loading: userLoading } = useSelector(
+        (state: RootState) => state.userReducer
+    );
 
-    const {
-        expenses,
-        loading: expensesLoading,
-        error,
-    } = useSelector((state: any) => state.expensesReducer);
+    const { expenses, loading: expensesLoading } = useSelector(
+        (state: RootState) => state.expensesReducer
+    );
 
     const { categories, loading: categoriesLoading } = useSelector(
-        (state: any) => state.categoriesReducer
+        (state: RootState) => state.categoriesReducer
     );
 
     useEffect(() => {
-        if (categories && expenses && categories?.length > 0) {
+        if (expenses?.length) {
             const todayExpenses = expenses.filter(
                 (elem: TExpense) =>
                     elem.date.slice(0, 10) == new Date().toJSON().slice(0, 10)
@@ -63,7 +63,7 @@ const DonutPlotContainer = () => {
         }
     }, [expenses, categories]);
 
-    if (expensesLoading || categoriesLoading) {
+    if (expensesLoading || categoriesLoading || userLoading) {
         return <Spin size="large" />;
     }
 

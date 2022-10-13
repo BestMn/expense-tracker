@@ -1,4 +1,4 @@
-const { Category } = require("../models/models");
+const { Category, Expense } = require("../models/models");
 const ApiError = require("../error/ApiError");
 const jwt = require("jsonwebtoken");
 
@@ -67,6 +67,16 @@ class CategoryController {
         try {
             const { id, userId } = req.body;
             const token = generateJwt(req.user.id, req.user.email);
+            const expenseWithCategory = await Expense.findOne({
+                where: { categoryId: id, userId },
+            });
+            if (expenseWithCategory) {
+                return next(
+                    ApiError.badRequest(
+                        "This category is used in your expenses"
+                    )
+                );
+            }
             const deletedCategory = await Category.destroy({
                 where: { id, userId },
             });

@@ -1,5 +1,4 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { deleteUserCategory } from "../actions/categoryActions";
 import {
     getUserExpenses,
     addUserExpense,
@@ -19,14 +18,12 @@ export type TExpensesState = {
     loading: boolean;
     error: any;
     expenses: Array<TExpense> | null;
-    shouldUpdate: boolean;
 };
 
 const initialState: TExpensesState = {
     loading: false,
     error: null,
     expenses: null,
-    shouldUpdate: true,
 };
 
 const expensesSlice = createSlice({
@@ -44,13 +41,6 @@ const expensesSlice = createSlice({
             })
             .addCase(getUserExpenses.fulfilled, (state, action) => {
                 state.loading = false;
-                state.shouldUpdate = false;
-                if (
-                    JSON.stringify(current(state).expenses) ==
-                    JSON.stringify(action.payload)
-                ) {
-                    return;
-                }
                 state.expenses = action.payload;
             })
             .addCase(getUserExpenses.rejected, (state, action) => {
@@ -61,8 +51,8 @@ const expensesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(addUserExpense.fulfilled, (state, action) => {
-                state.loading = false;
                 state.expenses?.push(action.payload.expense);
+                state.loading = false;
             })
             .addCase(addUserExpense.rejected, (state, action) => {
                 state.loading = false;
@@ -72,8 +62,12 @@ const expensesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(editUserExpense.fulfilled, (state, action) => {
+                const updatedExpenseInx = state.expenses.findIndex(
+                    (el) => el.id == action.payload.updatedExpense[1][0].id
+                );
+                state.expenses[updatedExpenseInx] =
+                    action.payload.updatedExpense[1][0];
                 state.loading = false;
-                state.shouldUpdate = true;
             })
             .addCase(editUserExpense.rejected, (state, action) => {
                 state.loading = false;
@@ -83,22 +77,15 @@ const expensesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(deleteUserExpense.fulfilled, (state, action) => {
+                const deletedExpenseInx = state.expenses.findIndex(
+                    (el) => el.id == action.meta.arg.id
+                );
+                if (deletedExpenseInx >= 0) {
+                    state.expenses.splice(deletedExpenseInx, 1);
+                }
                 state.loading = false;
-                state.shouldUpdate = true;
             })
             .addCase(deleteUserExpense.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.error;
-            })
-
-            .addCase(deleteUserCategory.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(deleteUserCategory.fulfilled, (state, action) => {
-                state.loading = false;
-                state.shouldUpdate = true;
-            })
-            .addCase(deleteUserCategory.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             });

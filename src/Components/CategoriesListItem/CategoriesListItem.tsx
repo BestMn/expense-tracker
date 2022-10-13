@@ -23,7 +23,7 @@ const CategoriesListItem: React.FC<CategoriesListItemProps> = ({
             title: "Pay attention!",
             icon: <ExclamationCircleOutlined />,
             content:
-                "Deleting category will delete all expenses associated with this category.",
+                "Category cannot be deleted if it was previously used in your expenses. You first have to delete all expenses that are using this category.",
             okText: "Delete",
             okButtonProps: {
                 danger: true,
