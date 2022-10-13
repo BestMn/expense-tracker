@@ -26,7 +26,7 @@ const TopCategories: React.FC<TopCategoriesProps> = ({ data, currency }) => {
         },
         legend: false,
     };
-    return <Bar {...config} />;
+    return <Bar style={{ minHeight: 0, height: "inherit" }} {...config} />;
 };
 
 export default TopCategories;

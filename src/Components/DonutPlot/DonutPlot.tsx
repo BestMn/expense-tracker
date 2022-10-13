@@ -48,7 +48,7 @@ const DonutPlot: React.FC<DonutPlotProps> = ({ data, currency = "$" }) => {
     const config = {
         appendPadding: 10,
         data,
-        legend: undefined,
+        legend: false,
         colorField: "color",
         angleField: "amount",
         color: (data: any) => {

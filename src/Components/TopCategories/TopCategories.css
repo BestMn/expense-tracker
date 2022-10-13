@@ -5,6 +5,10 @@
     background-color: #bfbfbf;
 }
 
+.ant-select-selection-item {
+    font-weight: 500;
+}
+
 .ant-select-single.ant-select-open.period-select .ant-select-selection-item {
     color: rgba(0, 0, 0, 0.55);
 }

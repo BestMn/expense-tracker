@@ -4,5 +4,5 @@
 }
 
 .list-block {
-    min-height: calc(365px + var(--app-block-padding) * 2);
+    height: calc(365px + var(--app-block-padding) * 2);
 }

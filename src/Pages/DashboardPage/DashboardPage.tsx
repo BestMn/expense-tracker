@@ -19,7 +19,7 @@ const DashboardPage: React.FC = () => {
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-10"
                     }
                 >
-                    <div className="app-block graph-block">
+                    <div className="app-block dashboard-block">
                         <DonutPlotContainer />
                     </div>
                 </Col>
@@ -29,7 +29,7 @@ const DashboardPage: React.FC = () => {
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-14"
                     }
                 >
-                    <div className="app-block graph-block">
+                    <div className="app-block dashboard-block">
                         <ColumnsContainer />
                     </div>
                 </Col>
@@ -39,7 +39,7 @@ const DashboardPage: React.FC = () => {
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
                     }
                 >
-                    <div className="app-block list-block">
+                    <div className="app-block dashboard-block">
                         <h2>Quick Add</h2>
                         <CreateExpenseFormConitaner />
                     </div>
@@ -50,7 +50,7 @@ const DashboardPage: React.FC = () => {
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-8"
                     }
                 >
-                    <div className="app-block list-block">
+                    <div className="app-block dashboard-block">
                         <h2>Last Expenses</h2>
                         <LastExpensesListContainer />
                     </div>
@@ -61,7 +61,7 @@ const DashboardPage: React.FC = () => {
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-8"
                     }
                 >
-                    <div className="app-block list-block">
+                    <div className="app-block dashboard-block">
                         <TopCategoriesContainer />
                     </div>
                 </Col>

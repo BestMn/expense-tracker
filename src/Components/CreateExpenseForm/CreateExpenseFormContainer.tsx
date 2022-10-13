@@ -38,7 +38,11 @@ const CreateExpenseFormConitaner = () => {
     };
 
     if (categoriesLoading || userLoading) {
-        return <Spin />;
+        return (
+            <div className="spin-container">
+                <Spin size="large" />
+            </div>
+        );
     }
 
     return (

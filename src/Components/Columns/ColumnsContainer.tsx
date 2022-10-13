@@ -96,11 +96,15 @@ const ColumnsPlotContainer = () => {
     }, [loading, period]);
 
     if (loading || !data) {
-        return <Spin size="large" />;
+        return (
+            <div className="spin-container">
+                <Spin size="large" />
+            </div>
+        );
     }
 
     return (
-        <>
+        <div className="columns__container">
             <div className="columns__period-selector">
                 <Segmented
                     options={["Week", "Month", "Quarter", "Year"]}
@@ -135,7 +139,7 @@ const ColumnsPlotContainer = () => {
                 />
             </div>
             <Columns data={data} currency={currency} />
-        </>
+        </div>
     );
 };
 

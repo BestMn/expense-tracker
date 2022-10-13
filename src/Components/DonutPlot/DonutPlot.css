@@ -1,14 +1,6 @@
-.spin-container {
-    box-sizing: content-box;
-    width: 100%;
-    height: max-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .donut-plot__empty-container {
-    min-height: 400px;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
