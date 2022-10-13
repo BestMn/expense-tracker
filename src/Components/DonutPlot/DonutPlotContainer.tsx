@@ -64,7 +64,11 @@ const DonutPlotContainer = () => {
     }, [expenses, categories]);
 
     if (expensesLoading || categoriesLoading || userLoading) {
-        return <Spin size="large" />;
+        return (
+            <div className="spin-container">
+                <Spin size="large" />
+            </div>
+        );
     }
 
     if (!data || !data.length) {
