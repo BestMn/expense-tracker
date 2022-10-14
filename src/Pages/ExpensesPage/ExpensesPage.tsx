@@ -16,7 +16,7 @@ const ExpensesPage: React.FC = () => {
                         "ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-24 ant-col-xl-24 ant-col-xxl-16"
                     }
                 >
-                    <div className="app-block expenses-block">
+                    <div className="app-block expenses-table-block">
                         <h2>My Expenses</h2>
                         <ExpensesTableContainer />
                     </div>
@@ -33,7 +33,7 @@ const ExpensesPage: React.FC = () => {
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-12 ant-col-lg-12 ant-col-xl-12 ant-col-xxl-24"
                             }
                         >
-                            <div className="app-block list-block half-block">
+                            <div className="app-block expenses-block">
                                 <h2>My Categories</h2>
                                 <CategoriesListContainer />
                             </div>
@@ -43,7 +43,7 @@ const ExpensesPage: React.FC = () => {
                                 "ant-col-xs-24 ant-col-sm-24 ant-col-md-12 ant-col-lg-12 ant-col-xl-12 ant-col-xxl-24"
                             }
                         >
-                            <div className="app-block list-block half-block">
+                            <div className="app-block expenses-block">
                                 <h2>Add Expense</h2>
                                 <CreateExpenseFormConitaner />
                             </div>

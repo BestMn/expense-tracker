@@ -56,7 +56,7 @@ const ColumnsPlotContainer = () => {
         if (segmentPeriod) {
             segment(segmentPeriod);
         }
-    }, [segmentPeriod]);
+    }, [segmentPeriod, expenses]);
 
     useEffect(() => {
         if (expenses && period) {
@@ -71,7 +71,6 @@ const ColumnsPlotContainer = () => {
             const expensesInPeriod = expenses.filter((elem) => {
                 return elem.date <= period[1] && elem.date >= period[0];
             });
-
             const datesArray = [...Array(daysInPeriod)]
                 .map((_, i) => {
                     const d = new Date(period[1]);
@@ -93,7 +92,7 @@ const ColumnsPlotContainer = () => {
             });
             setData(reducedExpenses);
         }
-    }, [loading, period]);
+    }, [expenses, period]);
 
     if (loading || !data) {
         return (

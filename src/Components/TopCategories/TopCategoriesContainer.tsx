@@ -18,11 +18,11 @@ const TopCategoriesContainer = () => {
 
     const [period, setPeriod] = useState<number>(7);
 
-    const { expenses } = useSelector(
+    const { expenses, loading: expensesLoading } = useSelector(
         (state: RootState) => state.expensesReducer
     );
 
-    const { categories } = useSelector(
+    const { categories, loading: categoriesLoading } = useSelector(
         (state: RootState) => state.categoriesReducer
     );
 
@@ -66,8 +66,12 @@ const TopCategoriesContainer = () => {
         }
     }, [expenses, categories, period]);
 
-    if (!data) {
-        return <Spin />;
+    if (expensesLoading || categoriesLoading || !data) {
+        return (
+            <div className="spin-container">
+                <Spin size="large" />
+            </div>
+        );
     }
 
     return (

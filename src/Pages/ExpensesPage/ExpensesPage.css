@@ -1,8 +1,11 @@
-.app-block.expenses-block {
+.expenses-table-block {
     height: 100%;
     box-sizing: border-box;
 }
 
-.list-block {
-    height: calc(365px + var(--app-block-padding) * 2);
+.expenses-block {
+    display: flex;
+    flex-direction: column;
+    height: calc(400px + var(--app-block-padding) * 2);
+    overflow: auto;
 }

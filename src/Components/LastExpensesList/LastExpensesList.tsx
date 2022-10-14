@@ -60,11 +60,7 @@ const LastExpensesList: React.FC<LastExpensesListProps> = ({
                                                 </div>
                                             </div>
                                         }
-                                        title={
-                                            <a href="https://ant.design">
-                                                {item.category}
-                                            </a>
-                                        }
+                                        title={<span>{item.category}</span>}
                                         description={`${item.date}`}
                                     />
                                     <div
