@@ -4,6 +4,7 @@ import { EditFilled, UserOutlined } from "@ant-design/icons";
 import "./UserPage.css";
 import { TUserState } from "../../store/reducers/userReducer";
 import { EditUserData } from "../../store/actions/userActions";
+import CurrencyPicker from "../../Components/CurrencyPicker/CurrencyPicker";
 
 type UserPageProps = {
     userData: TUserState;
@@ -145,10 +146,7 @@ const UserPage: React.FC<UserPageProps> = ({ userData, onFinish }) => {
                                         name={"currency"}
                                         initialValue={userData.currency}
                                     >
-                                        <Input
-                                            placeholder="Currency"
-                                            size="large"
-                                        />
+                                        <CurrencyPicker />
                                     </Form.Item>
                                 ) : (
                                     <span>{userData.currency}</span>
