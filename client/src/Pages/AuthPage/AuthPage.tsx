@@ -7,11 +7,11 @@ import { AuthPageProps } from "../../types";
 import "./AuthPage.css";
 
 const AuthPage: React.FC<AuthPageProps> = ({ token }) => {
+    const authContainer = useRef(null);
+    
     if (token) {
         return <Navigate to={"/dashboard"} replace />;
     }
-
-    const authContainer = useRef(null);
 
     return (
         <main>

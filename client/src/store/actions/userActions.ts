@@ -1,3 +1,4 @@
+import baseURL from "../../services/baseURL";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
@@ -39,21 +40,18 @@ export const userRegistration = createAsyncThunk<
     UserRegistrationData,
     { rejectValue: ErrorWithMessage }
 >("user/registration", async (data, { rejectWithValue }) => {
-    const response = await fetch(
-        `http://localhost:5000/api/user/registration`,
-        {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        }
-    );
+    const response = await fetch(`${baseURL}/user/registration`, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(data),
+    });
     const res = await response.json();
     if (!response.ok) {
         return rejectWithValue(res);
@@ -67,7 +65,7 @@ export const userLogin = createAsyncThunk<
     UserLoginData,
     { rejectValue: ErrorWithMessage }
 >("user/login", async (data, { rejectWithValue }) => {
-    const response = await fetch(`http://localhost:5000/api/user/login`, {
+    const response = await fetch(`${baseURL}/user/login`, {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
@@ -90,14 +88,11 @@ export const getUserInfo = createAsyncThunk<any, number, { state: RootState }>(
     "users/getUserInfo",
     async (userId, { getState }) => {
         const { token } = getState().userReducer;
-        const res = await fetch(
-            `http://localhost:5000/api/user?userId=${userId}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
+        const res = await fetch(`${baseURL}/user?userId=${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
         return await res.json();
     }
 );
@@ -105,7 +100,7 @@ export const getUserInfo = createAsyncThunk<any, number, { state: RootState }>(
 export const checkUser = createAsyncThunk(
     "users/checkUser",
     async (token: string) => {
-        const response = await fetch(`http://localhost:5000/api/user/auth`, {
+        const response = await fetch(`${baseURL}/user/auth`, {
             method: "GET",
             mode: "cors",
             cache: "no-cache",
@@ -127,7 +122,7 @@ export const editUser = createAsyncThunk<
     { state: RootState }
 >("users/editUser", async (data, { getState }) => {
     const { token } = getState().userReducer;
-    const res = await fetch(`http://localhost:5000/api/user/`, {
+    const res = await fetch(`${baseURL}/user/`, {
         method: "PATCH",
         mode: "cors",
         cache: "no-cache",

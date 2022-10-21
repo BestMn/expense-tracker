@@ -1,3 +1,4 @@
+import baseURL from "../../services/baseURL";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
@@ -33,14 +34,11 @@ export const getUserExpenses = createAsyncThunk<
     { state: RootState }
 >("expenses/getUserExpenses", async (userId, { getState }) => {
     const { token } = getState().userReducer;
-    const res = await fetch(
-        `http://localhost:5000/api/expense?userId=${userId}`,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-    );
+    const res = await fetch(`${baseURL}/expense?userId=${userId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
     return await res.json();
 });
 
@@ -50,7 +48,7 @@ export const addUserExpense = createAsyncThunk<
     { state: RootState; rejectValue: ErrorWithMessage }
 >("expenses/addUserExpense", async (data, { getState, rejectWithValue }) => {
     const { token } = getState().userReducer;
-    const response = await fetch(`http://localhost:5000/api/expense`, {
+    const response = await fetch(`${baseURL}/expense`, {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
@@ -76,7 +74,7 @@ export const editUserExpense = createAsyncThunk<
     { state: RootState; rejectValue: ErrorWithMessage }
 >("expenses/editUserExpense", async (data, { getState, rejectWithValue }) => {
     const { token } = getState().userReducer;
-    const response = await fetch(`http://localhost:5000/api/expense`, {
+    const response = await fetch(`${baseURL}/expense`, {
         method: "PATCH",
         mode: "cors",
         cache: "no-cache",
@@ -102,7 +100,7 @@ export const deleteUserExpense = createAsyncThunk<
     { state: RootState; rejectValue: ErrorWithMessage }
 >("expenses/deleteUserExpense", async (data, { getState, rejectWithValue }) => {
     const { token } = getState().userReducer;
-    const response = await fetch(`http://localhost:5000/api/expense`, {
+    const response = await fetch(`${baseURL}/expense`, {
         method: "DELETE",
         mode: "cors",
         cache: "no-cache",

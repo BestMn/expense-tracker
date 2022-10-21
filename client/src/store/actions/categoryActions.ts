@@ -1,3 +1,4 @@
+import baseURL from "../../services/baseURL";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IconList } from "../../Components/IconPicker/iconType";
 import { RootState } from "../store";
@@ -32,14 +33,11 @@ export const getUserCategories = createAsyncThunk<
     { state: RootState }
 >("category/getUserCategories", async (userId, { getState }) => {
     const { token } = getState().userReducer;
-    const res = await fetch(
-        `http://localhost:5000/api/category?userId=${userId}`,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-    );
+    const res = await fetch(`${baseURL}/category?userId=${userId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
     return await res.json();
 });
 
@@ -49,7 +47,7 @@ export const addUserCategory = createAsyncThunk<
     { state: RootState; rejectValue: ErrorWithMessage }
 >("category/addUserCategory", async (data, { getState, rejectWithValue }) => {
     const { token } = getState().userReducer;
-    const response = await fetch(`http://localhost:5000/api/category`, {
+    const response = await fetch(`${baseURL}/category`, {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
@@ -75,7 +73,7 @@ export const editUserCategory = createAsyncThunk<
     { state: RootState; rejectValue: ErrorWithMessage }
 >("category/editUserCategory", async (data, { getState, rejectWithValue }) => {
     const { token } = getState().userReducer;
-    const response = await fetch(`http://localhost:5000/api/category`, {
+    const response = await fetch(`${baseURL}/category`, {
         method: "PATCH",
         mode: "cors",
         cache: "no-cache",
@@ -103,7 +101,7 @@ export const deleteUserCategory = createAsyncThunk<
     "expenses/deleteUserCategory",
     async (data, { getState, rejectWithValue }) => {
         const { token } = getState().userReducer;
-        const response = await fetch(`http://localhost:5000/api/category`, {
+        const response = await fetch(`${baseURL}/category`, {
             method: "DELETE",
             mode: "cors",
             cache: "no-cache",
